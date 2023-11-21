@@ -7,13 +7,13 @@ const UserAuthCheck = ({ children }) => {
     const navigate = useNavigate()
     const { userToken } = useSelector((state) => state.user)
     useEffect(() => {
-        // if (!userToken) {
-        //     navigate("/signin", { replace: true })
-        // }
+        if (!userToken) {
+            navigate("/signin", { replace: true })
+        }
     })
-    // if(!userToken){
-    //     return <Navigate to="/signin" replace={true} />
-    // }
+    if(!userToken){
+        return <Navigate to="/signin" replace={true} />
+    }
     return (
         <>{children}</>
     )

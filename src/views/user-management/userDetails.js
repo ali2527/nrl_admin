@@ -2,69 +2,30 @@ import React, { useEffect, useState } from "react";
 import {
   Col,
   Row,
-  Typography,
-  List,
-  Form,
-  Input,
-  Button,
-  Popover,
-  Layout,
-  Avatar,
-  Tabs,
-  Table,
-  Select,
+  Typography, Layout,
+  Avatar, Select,
   Image,
   Modal,
   Skeleton,
+  Button
 } from "antd";
-import dayjs from "dayjs";
-import { UserOutlined, InfoCircleOutlined } from "@ant-design/icons";
-import { FaCaretDown, FaFilter, FaArrowLeft } from "react-icons/fa";
+import { UserOutlined } from "@ant-design/icons";
+import { FaCaretDown, FaArrowLeft } from "react-icons/fa";
 import { Get } from "../../config/api/get";
 import { UPLOADS_URL, USERS } from "../../config/constants";
 import { useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
+import dayjs from "dayjs";
+import swal from "sweetalert";
 
 function UserDetails() {
   const navigate = useNavigate();
   const token = useSelector((state) => state.user.userToken);
   const [modalOpen, setModalOpen] = useState(false);
+  const [modal2Open, setModal2Open] = useState(false);
   const [loading, setLoading] = useState(false);
   const { id } = useParams();
   const [user, setUser] = useState({});
-  const [users, setUsers] = useState([
-    {
-      id: 1,
-      fullname: "John Doe",
-      email: "huamj@email.com",
-      phone: "+1234567890",
-      isActive: true,
-      gender: "male",
-      registered: "12/24/1997",
-      bio: "Lorem ipsum",
-    },
-    {
-      id: 2,
-      fullname: "Jane Smith",
-      email: "huamj@email.com",
-      phone: "+1234567890",
-      isActive: false,
-      gender: "male",
-      registered: "12/24/1997",
-      bio: "Lorem ipsum",
-    },
-    {
-      id: 3,
-      fullname: "Bob Johnson",
-      email: "huamj@email.com",
-      phone: "+1234567890",
-      isActive: false,
-      gender: "male",
-      registered: "12/24/1997",
-      bio: "Lorem ipsum",
-    },
-    // Add more user objects as needed
-  ]);
 
   useEffect(() => {
     getUser();
@@ -74,28 +35,38 @@ function UserDetails() {
 
   const getUser = async () => {
     setLoading(true);
-    // const user = await Get(`${USERS.getOne}${id}`, token);
-    // setUser(user);
-
-    let _user = users.find((item) => item.id == id);
-
-    console.log("_user", _user);
-    setUser(_user);
+    const response = await Get(`${USERS.getOne}${id}`, token);
+    setUser(response.data);
     setLoading(false);
   };
 
   const handleStatus = async () => {
     try {
+      const response = await Get(USERS.toggleStatus + "/" + user._id , token,{});
+      const _user = {...user};
+
+      _user.status = _user.status == "ACTIVE" ? "INACTIVE" : "ACTIVE";
+      setModalOpen(false);
+      setUser(_user);
+    } catch (error) {
+      console.log(error.message);
+    }  
+    
+  }; 
+  
+
+  const handleDelete = async () => {
+    try {
       const response = await Get(
-        USERS.toggleStatus + "/" + user._id,
+        USERS.deleteUser + user._id,
         token,
         {}
       );
-      const newUser = { ...user };
 
-      newUser.isActive = !user.isActive;
-      setModalOpen(false);
-      setUser(newUser);
+      if(response.status){
+        swal("Success" , "User Deleted Successfully",'success')
+        navigate(-1)
+      }
     } catch (error) {
       console.log(error.message);
     }
@@ -130,9 +101,9 @@ function UserDetails() {
           >
             {user && (
               <Select
-                className={user?.isActive ? "greenSelect" : "redSelect"}
+                className={user?.status == "ACTIVE" ? "greenSelect" : "redSelect"}
                 suffixIcon={<FaCaretDown style={{ fontSize: "16px" }} />}
-                value={user?.isActive ? "active" : "inactive"}
+                value={user?.status}
                 onChange={() => setModalOpen(true)}
                 style={{
                   fontSize: 16,
@@ -140,11 +111,11 @@ function UserDetails() {
                 bordered={false}
                 options={[
                   {
-                    value: "active",
+                    value: "ACTIVE",
                     label: "Active",
                   },
                   {
-                    value: "inactive",
+                    value: "INACTIVE",
                     label: "Inactive",
                   },
                 ]}
@@ -198,22 +169,6 @@ function UserDetails() {
                   {}
                 </h1>
               </Col>
-              {/* <Col
-                xs={24}
-                md={12}
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "flex-end",
-                  textAlign: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <h1 className="pageTitle" style={{ margin: 0 }}>
-                  {user?.followers || 0}{" "}
-                </h1>
-                <p>Followers</p>
-              </Col> */}
             </Row>
             <Row style={{ padding: "20px" }}>
               <Col xs={24} md={16}>
@@ -233,9 +188,10 @@ function UserDetails() {
                         display: "block",
                         fontSize: 16,
                         color: "#7a7e7f",
+                        marginTop:"10px"
                       }}
                     >
-                      {user?.fullname}
+                      {user?.firstName + " " + user?.lastName}
                     </h5>
                   </Col>
                   <Col xs={24} md={12}>
@@ -253,6 +209,7 @@ function UserDetails() {
                         display: "inline",
                         fontSize: 16,
                         color: "#7a7e7f",
+                        marginTop:"10px"
                       }}
                     >
                       {user?.email}
@@ -275,6 +232,7 @@ function UserDetails() {
                         display: "block",
                         fontSize: 16,
                         color: "#7a7e7f",
+                        marginTop:"10px"
                       }}
                     >
                       {user?.phone}
@@ -295,128 +253,75 @@ function UserDetails() {
                         display: "inline",
                         fontSize: 16,
                         color: "#7a7e7f",
+                        marginTop:"10px"
                       }}
                     >
-                      {user?.registered}
+                      {dayjs(user?.createdAt).format("M/D/YYYY")}
                     </h5>
                   </Col>
+                  
+                </Row>
+                <Row style={{ padding: "10px" }}>
+                  <Col xs={24} md={12}>
+                    <h5
+                      style={{
+                        display: "inline",
+                        fontSize: 16,
+                        fontWeight: "bold",
+                      }}
+                    >
+                      Gender{" "}
+                    </h5>
+                    <h5
+                      style={{
+                        display: "block",
+                        fontSize: 16,
+                        color: "#7a7e7f",
+                        marginTop:"10px"
+                      }}
+                    >
+                      {user?.gender}
+                    </h5>
+                  </Col>
+                  <Col xs={24} md={12}>
+                    <h5
+                      style={{
+                        display: "block",
+                        fontSize: 16,
+                        fontWeight: "bold",
+                      }}
+                    >
+                      Is Member{" "}
+                    </h5>
+                    <h5
+                      style={{
+                        display: "inline",
+                        fontSize: 16,
+                        color: "#7a7e7f",
+                        marginTop:"10px"
+                      }}
+                    >
+                      {user?.isMember ? "True" : "False"}
+                    </h5>
+                  </Col>
+                  
                 </Row>
               </Col>
             </Row>
-            {/* {user?.experiances?.length > 0 &&
-        <>
-        <Row style={{ padding: "10px 20px" }}>
-          <Col
-            xs={24}
-            md={12}
-            style={{ display: "flex", alignItems: "center" }}
-          >
-            <h1 className="pageTitle" style={{ margin: 0 }}>
-              Experiance
-            </h1>
-          </Col>
-        </Row>
+            <Row style={{padding:'10px 20px'}}>
+            <Button
+                        type="primary"
 
-        <Row style={{ padding: "20px" }}>
-          <Col xs={24} md={16}>
-            {user?.experiances.map((item, index) => {
-                return (
-                  <Row style={{ padding: "10px" }}>
-                    <Col xs={24} md={12}>
-                      <h5
-                        style={{
-                          display: "inline",
-                          fontSize: 16,
-                          fontWeight: "bold",
-                        }}
+                        size={"large"}
+                        style={{ padding: "12px 40px", height: "auto" , background:'#d01b24' }}
+                        className="mainButton"
+                        onClick={() => setModal2Open(true)}
+                       
                       >
-                        {item?.jobTitle}
-                      </h5>
-                    </Col>
-                    <Col xs={24} md={12}>
-                      <h5 style={{ fontSize: 16, color: "#7a7e7f" }}>
-                        ABC Technologies (Pvt) Ltd
-                      </h5>
-                      <h5 style={{ fontSize: 16, color: "#7a7e7f" }}>
-                        Sep 2021 - Present · 1 yr 5 mos
-                      </h5>
-                    </Col>
-                  </Row>
-                );
-              })}
-          </Col>
-        </Row>
-        </>}
-        
-
-        <Row style={{ padding: "10px 20px" }}>
-          <Col
-            xs={24}
-            md={12}
-            style={{ display: "flex", alignItems: "center" }}
-          >
-            <h1 className="pageTitle" style={{ margin: 0 }}>
-              Availability
-            </h1>
-          </Col>
-        </Row>
-
-        <Row style={{ padding: "10px 20px" }}>
-          <Col
-            xs={24}
-            md={12}
-            style={{ display: "flex", alignItems: "center" }}
-          >
-            <table
-              className="table"
-              style={{ border: "1px solid #dee2e6", width: "100%" }}
-            >
-              <thead
-                style={{
-                  backgroundColor: "#b78a39",
-                  color: "white",
-                  textAlign: "center",
-                  fontSize: "20px",
-                }}
-              >
-                <tr>
-                  <th>Days</th>
-                  <th>From</th>
-                  <th>To</th>
-                </tr>
-              </thead>
-              <tbody
-                style={{
-                  color: "#a49a92",
-                  textAlign: "center",
-                  fontSize: "14px",
-                }}
-              >
-                <tr>
-                  <td>Monday</td>
-                  <td>9:00 am</td>
-                  <td>5:00 pm</td>
-                </tr>
-                <tr>
-                  <td>Tuesday</td>
-                  <td>9:00 am</td>
-                  <td>5:00 pm</td>
-                </tr>
-                <tr>
-                  <td>Thursday</td>
-                  <td>9:00 am</td>
-                  <td>5:00 pm</td>
-                </tr>
-                <tr>
-                  <td>Friday</td>
-                  <td>9:00 am</td>
-                  <td>5:00 pm</td>
-                </tr>
-              </tbody>
-            </table>
-          </Col>
-        </Row> */}
-          </>
+                        Delete User
+                      </Button>
+            </Row>
+         </>
         )}
 
         <br />
@@ -425,6 +330,7 @@ function UserDetails() {
 
       <Modal
         open={modalOpen}
+        centered
         onOk={() => handleStatus()}
         onCancel={() => setModalOpen(false)}
         okText="Yes"
@@ -439,8 +345,8 @@ function UserDetails() {
         cancelText="No"
         cancelButtonProps={{
           style: {
-            border: "2px solid #b78a39",
-            color: "#b78a39",
+            border: "2px solid #000000",
+            color: "#000000",
             height: "auto",
             padding: "6px 35px",
             borderRadius: "50px",
@@ -450,14 +356,14 @@ function UserDetails() {
         }}
         okButtonProps={{
           style: {
-            backgroundColor: "#b78a39",
+            backgroundColor: "#000000",
             color: "white",
             marginTop: "15px",
             height: "auto",
             padding: "5px 35px",
             borderRadius: "50px",
             fontSize: "16px",
-            border: "2px solid #b78a39",
+            border: "2px solid #000000",
           },
         }}
       >
@@ -468,10 +374,63 @@ function UserDetails() {
           height={120}
         />
         <Typography.Title level={4} style={{ fontSize: "25px" }}>
-          {user?.isActive ? "Deactivate" : "Activate"}
+          {user?.status == "ACTIVE" ? "Deactivate" : "Activate"}
         </Typography.Title>
         <Typography.Text style={{ fontSize: 16 }}>
-          Do You Want To {user?.isActive ? "Deactivate" : "Activate"} This User?
+          Do You Want To {user?.status == "ACTIVE" ? "Deactivate" : "Activate"} This User?
+        </Typography.Text>
+      </Modal>
+
+      <Modal
+        open={modal2Open}
+        onOk={() => handleDelete()}
+        onCancel={() => setModal2Open(false)}
+        okText="Yes"
+        centered
+        className="StyledModal"
+        style={{
+          left: 0,
+          right: 0,
+          marginLeft: "auto",
+          marginRight: "auto",
+          textAlign: "center",
+        }}
+        cancelText="No"
+        cancelButtonProps={{
+          style: {
+            border: "2px solid #000000",
+            color: "#000000",
+            height: "auto",
+            padding: "6px 35px",
+            borderRadius: "50px",
+            fontSize: "16px",
+            marginTop: "15px",
+          },
+        }}
+        okButtonProps={{
+          style: {
+            backgroundColor: "#000000",
+            color: "white",
+            marginTop: "15px",
+            height: "auto",
+            padding: "5px 35px",
+            borderRadius: "50px",
+            fontSize: "16px",
+            border: "2px solid #000000",
+          },
+        }}
+      >
+        <Image
+          src="../images/question.png"
+          preview={false}
+          width={100}
+          height={120}
+        />
+        <Typography.Title level={4} style={{ fontSize: "25px" }}>
+          Delete
+        </Typography.Title>
+        <Typography.Text style={{ fontSize: 16 }}>
+          Are you Sure! You Want To Delete This User?
         </Typography.Text>
       </Modal>
 

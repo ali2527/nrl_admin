@@ -17,13 +17,13 @@ import {
   Divider,
 } from "antd";
 import Link from "antd/es/typography/Link";
-import { useNavigate,useLocation } from "react-router";
+import { useNavigate, useLocation } from "react-router";
 import { Post } from "../../config/api/post";
 import { AUTH } from "../../config/constants";
 import swal from "sweetalert";
 
 function ForgetPassword() {
-  const {state} = useLocation();
+  const { state } = useLocation();
   const navigate = useNavigate();
   const [loading, setLoading] = React.useState(false);
 
@@ -33,9 +33,9 @@ function ForgetPassword() {
 
     let data = {
       password: values.password,
-      confirmPassword:values.confirmPassword,
-      email:state.email,
-      code:state.code
+      confirmPassword: values.confirmPassword,
+      email: state.email,
+      code: state.code,
     };
     Post(AUTH.resetPassword, data)
       .then((response) => {
@@ -44,17 +44,21 @@ function ForgetPassword() {
           swal("Success", response?.data?.message, "success");
           navigate("/signin", { replace: true });
         } else {
-          swal("Oops!", response?.data?.message || response?.response?.data?.message, "error");
+          swal(
+            "Oops!",
+            response?.data?.message || response?.response?.data?.message,
+            "error"
+          );
         }
       })
       .catch((e) => {
-        swal("Oops!","internal server error", "error");
+        swal("Oops!", "internal server error", "error");
       });
   };
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
   };
- 
+
   return (
     <AuthLayout
       head={{ title: "User Management", description: "Some Description." }}
@@ -63,13 +67,18 @@ function ForgetPassword() {
         <Row
           style={{
             minHeight: "100vh",
-            padding: "30px",
+            padding: window.innerWidth < 500 ? "10px" : "100px",
             justifyContent: "center",
           }}
         >
-          <Col xs={24} md={10} className="formMainWrap">
+          <Col
+            xs={24}
+            md={10}
+            style={{ background: "#040404" }}
+            className="formMainWrap"
+          >
             <Row style={{ width: "100%", justifyContent: "center" }}>
-              <Col xs={20} md={20} className="formWrap">
+              <Col xs={24} md={20} className="formWrap">
                 <Row style={{ width: "100%", textAlign: "center" }}>
                   <Col xs={24} md={0}>
                     <Image
@@ -82,7 +91,7 @@ function ForgetPassword() {
                 </Row>
 
                 <h2 class="authFormHeading">Reset Password</h2>
-                <p>Enter New Password</p>
+                <p style={{ color: "white" }}>Enter New Password</p>
                 <br />
                 <Form
                   layout="vertical"
@@ -101,6 +110,7 @@ function ForgetPassword() {
                   autoComplete="off"
                 >
                   <Form.Item
+                    className="authInput"
                     label="New Password"
                     name="password"
                     rules={[
@@ -127,6 +137,7 @@ function ForgetPassword() {
                   </Form.Item>
 
                   <Form.Item
+                    className="authInput"
                     label="Confirm Password*"
                     name="confirmPassword"
                     rules={[
@@ -158,7 +169,6 @@ function ForgetPassword() {
                       <Button
                         type="primary"
                         htmlType="submit"
-                  
                         style={{
                           fontSize: "16px",
                           minWidth: "300px",
@@ -174,7 +184,14 @@ function ForgetPassword() {
                     </Form.Item>
                   </Row>
                   <Row justify="center">
-                  <span style={{textDecoration:"underlined",fontWeight:"bold",cursor:'pointer'}} onClick={()=>  navigate("/signin")}>
+                    <span
+                      style={{
+                        textDecoration: "underlined",
+                        fontWeight: "bold",
+                        cursor: "pointer",
+                      }}
+                      onClick={() => navigate("/signin")}
+                    >
                       Back to login
                     </span>
                   </Row>
@@ -182,15 +199,16 @@ function ForgetPassword() {
               </Col>
             </Row>
           </Col>
-          <Col xs={0} sm={0} md={10}>
+          <Col xs={0} sm={0} md={8}>
             <div
               className="loginScreenContentWrapper"
               style={{ position: "relative" }}
             >
               <div class="loginScreenContent">
                 <Image
-                  src={"/images/right-logo.jpg"}
+                  src={"/images/logo.png"}
                   alt=""
+                  style={{ width: "300px" }}
                   preview={false}
                   className="right-logo"
                 />

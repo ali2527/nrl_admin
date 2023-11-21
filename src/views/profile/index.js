@@ -86,7 +86,7 @@ function Profile() {
                   <Row
                     style={{ justifyContent: "center", textAlign: "center" }}
                   >
-                    <Col xs={24} md={20} lg={11}>
+                    <Col xs={24} md={12} >
                       <Form
                         layout="vertical"
                         name="basic"
@@ -162,13 +162,14 @@ function Profile() {
                             padding: "10px",
                             justifyContent: "space-between",
                           }}
+                          gutter={[20,20]}
                         >
-                          <Col xs={24} md={11}>
+                          <Col xs={24} md={8}>
                             {editMode ? (
                               <Form.Item
-                                label="Full Name"
-                                name="fullName"
-                                initialValue={user?.fullName}
+                                label="First Name"
+                                name="firstName"
+                                initialValue={user?.firstName}
                                 rules={[
                                   {
                                     type: "text",
@@ -176,7 +177,7 @@ function Profile() {
                                   },
                                   {
                                     required: true,
-                                    message: "Please input name!",
+                                    message: "Please input firstName!",
                                   },
                                 ]}
                               >
@@ -201,21 +202,76 @@ function Profile() {
                                     fontWeight: "bold",
                                   }}
                                 >
-                                  Full Name{" "}
+                                  First Name{" "}
                                 </h5>
                                 <h5
                                   style={{
                                     display: "block",
                                     fontSize: 16,
                                     color: "#7a7e7f",
+                                    marginBottom:"20px"
                                   }}
                                 >
-                                  {user?.fullName}
+                                  {user?.firstName}
                                 </h5>
                               </>
                             )}
                           </Col>
-                          <Col xs={24} md={11}>
+                          <Col xs={24} md={8}>
+                            {editMode ? (
+                              <Form.Item
+                                label="Last Name"
+                                name="lastName"
+                                initialValue={user?.lastName}
+                                rules={[
+                                  {
+                                    type: "text",
+                                    // warningOnly: true,
+                                  },
+                                  {
+                                    required: true,
+                                    message: "Please input lastName!",
+                                  },
+                                ]}
+                              >
+                                <Input
+                                  size="large"
+                                  placeholder="Bella"
+                                  style={{
+                                    borderRadius: "5px",
+                                    background: "white",
+                                    fontSize: "14px",
+                                    padding: "10px 20px",
+                                  }}
+                                />
+                              </Form.Item>
+                            ) : (
+                              <>
+                                {" "}
+                                <h5
+                                  style={{
+                                    display: "inline",
+                                    fontSize: 16,
+                                    fontWeight: "bold",
+                                  }}
+                                >
+                                  Last Name{" "}
+                                </h5>
+                                <h5
+                                  style={{
+                                    display: "block",
+                                    fontSize: 16,
+                                    color: "#7a7e7f",
+                                    marginBottom:"20px"
+
+                                  }}
+                                >
+                                  {user?.lastName}
+                                </h5>
+                              </>
+                            )}
+                          </Col>
+                          <Col xs={24} md={8}>
                             {editMode ? (
                               <Form.Item
                                 label="Email Address"
@@ -261,6 +317,7 @@ function Profile() {
                                     display: "inline",
                                     fontSize: 16,
                                     color: "#7a7e7f",
+                                    marginBottom:"20px"
                                   }}
                                 >
                                   {user?.email}

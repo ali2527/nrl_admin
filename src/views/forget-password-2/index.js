@@ -67,13 +67,13 @@ function ForgetPassword() {
       <Row
         style={{
           minHeight: "100vh",
-          padding: "30px",
+          padding: window.innerWidth < 500 ? "10px" :"100px" ,
           justifyContent: "center",
         }}
       >
-        <Col xs={24} md={10} className="formMainWrap">
+                <Col xs={24} md={10} style={{background:'#040404'}} className="formMainWrap">
           <Row style={{ width: "100%", justifyContent: "center" }}>
-            <Col xs={20} md={20} className="formWrap">
+            <Col xs={24} md={20} className="formWrap">
               <Row style={{ width: "100%", textAlign: "center" }}>
                 <Col xs={24} md={0}>
                   <Image
@@ -86,7 +86,7 @@ function ForgetPassword() {
               </Row>
 
               <h2 class="authFormHeading">Forgot Password</h2>
-              <p>An Email Has Been Sent To You With A Verification Code. Please Enter It Here.</p>
+              <p style={{color:'white'}}>An Email Has Been Sent To You With A Verification Code. Please Enter It Here.</p>
               <br />
               <Form
                 layout="vertical"
@@ -105,6 +105,7 @@ function ForgetPassword() {
                 autoComplete="off"
               >
                 <Form.Item
+                 className="authInput"
                   label="Verification Code"
                   name="code"
                   rules={[
@@ -156,18 +157,19 @@ function ForgetPassword() {
             </Col>
           </Row>
         </Col>
-        <Col xs={0} sm={0} md={10}>
+        <Col xs={0} sm={0} md={8}>
           <div
             className="loginScreenContentWrapper"
             style={{ position: "relative" }}
           >
             <div class="loginScreenContent">
-              <Image
-                src={"/images/right-logo.jpg"}
-                alt=""
-                preview={false}
-                className="right-logo"
-              />
+            <Image
+                  src={"/images/logo.png"}
+                  alt=""
+                  style={{width:"300px"}}
+                  preview={false}
+                  className="right-logo"
+                />
               <h2 class="authHeading">National Reparations League</h2>
               <p class="text-white p-text">
                 Now we can avoid the loss of secrets by locking under the key

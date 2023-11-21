@@ -1,101 +1,39 @@
-import React, { useEffect, useState } from "react";
-import {
-  Col,
-  Row,
-  Typography,
-  List,
-  Form,
-  Input,
-  Button,
-  Popover,
-  Layout,
-  Avatar,
-  Tabs,
-  Table,
-  Select,
-  Image,
-  Modal,
-  Skeleton,
-} from "antd";
-import dayjs from "dayjs";
-import { UserOutlined, InfoCircleOutlined } from "@ant-design/icons";
-import { FaCaretDown, FaFilter, FaArrowLeft } from "react-icons/fa";
-import { Get } from "../../config/api/get";
-import { UPLOADS_URL, USERS } from "../../config/constants";
+import { useState,useEffect } from "react";
+import { Col, Row, Layout, Upload,Avatar, Form, Button,Input } from "antd";
+import { UserOutlined } from "@ant-design/icons";
 import { useNavigate, useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
-
-import { UploadOutlined } from "@ant-design/icons";
-import { message, Upload } from "antd";
+import { useSelector, useDispatch } from "react-redux";
+import {USER , UPLOADS_URL} from "../../config/constants"
+import { CONTENT_TYPE } from "../../config/constants";
+import swal from "sweetalert";
+import { Post } from "../../config/api/post";
+import { addUser, removeUser } from "../../redux/slice/authSlice";
+import avatar from "../../assets/avatar.png"
+import { FaArrowLeft } from "react-icons/fa";
 
 function ChangePass() {
   const navigate = useNavigate();
   const token = useSelector((state) => state.user.userToken);
-  const [modalOpen, setModalOpen] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const { id } = useParams();
-  const [user, setUser] = useState({});
-  const [users, setUsers] = useState([
-    {
-      id: 1,
-      fullname: "John Doe",
-      bookPrice: "$50",
-      hardcopy: "$60",
-    },
-    {
-      id: 2,
-      fullname: "Jane Smith",
-      fullname: "John Doe",
-      bookPrice: "$50",
-      hardcopy: "$60",
-    },
-    {
-      id: 3,
-      fullname: "Bob Johnson",
-      fullname: "John Doe",
-      bookPrice: "$50",
-      hardcopy: "$60",
-    },
-    // Add more user objects as needed
-  ]);
 
-  useEffect(() => {
-    getUser();
-  }, []);
 
-  console.log("JJJJJ", window.location);
+  const onFinish = (values) => {
+    Post(USER.changePassword,values,token)
+      .then((response) => {
+        console.log(response)
+        if (!response?.data?.status && !response?.response?.data?.status)  {
+          swal("Oops!", response?.response?.data?.message ||response?.data?.message , "error");
+        } else {
+          swal("Success!", "Password Updated Successfully", "success");
+          navigate("/")
+        }
+      })
+      .catch((e) => {
 
-  const getUser = async () => {
-    setLoading(true);
-    // const user = await Get(`${USERS.getOne}${id}`, token);
-    // setUser(user);
-
-    let _user = users.find((item) => item.id == id);
-
-    console.log("_user", _user);
-    setUser(_user);
-    setLoading(false);
+       console.log(e)
+      });
   };
 
-  const handleStatus = async () => {
-    try {
-      const response = await Get(
-        USERS.toggleStatus + "/" + user._id,
-        token,
-        {}
-      );
-      const newUser = { ...user };
 
-      newUser.isActive = !user.isActive;
-      setModalOpen(false);
-      setUser(newUser);
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
-  const handleDeleteButtonClick = () => {
-    setModalOpen(true);
-  };
 
   return (
     <Layout className="configuration">
@@ -131,10 +69,11 @@ function ChangePass() {
                   initialValues={{
                     remember: true,
                   }}
+                  onFinish={onFinish}
                 >
                   <Form.Item
                     label="Old Password"
-                    name="password"
+                    name="old_password"
                     rules={[
                       {
                         required: true,
@@ -159,7 +98,7 @@ function ChangePass() {
                   </Form.Item>
                   <Form.Item
                     label="New Password"
-                    name="New Password"
+                    name="new_password"
                     rules={[
                       {
                         required: true,
@@ -184,7 +123,7 @@ function ChangePass() {
                   </Form.Item>
                   <Form.Item
                     label="Confirm Password"
-                    name="Confirm Password"
+                    name="confirmPassword"
                     rules={[
                       {
                         required: true,
@@ -212,13 +151,14 @@ function ChangePass() {
                   <Row justify="center">
                     <Form.Item>
                       <Button
-                        type="button"
+                         type="primary"
+                         htmlType="submit"
                         size={"large"}
                         style={{ padding: "12px 40px", height: "auto" }}
                         className="mainButton graden-bg"
-                        onClick={handleDeleteButtonClick}
+                       
                       >
-                        Save
+                        Update Password
                       </Button>
                     </Form.Item>
                   </Row>
@@ -229,45 +169,6 @@ function ChangePass() {
         <br />
         <br />
 
-        <Modal
-          open={modalOpen}
-          onOk={() => handleStatus()}
-          onCancel={() => setModalOpen(false)}
-          footer={[
-            <Button
-              key="submit"
-              type="primary"
-              loading={loading}
-              className="yes-btn"
-            >
-              Okay
-            </Button>,
-          ]}
-          cancelButtonProps={false}
-          okText="Yes"
-          className="StyledModal"
-          style={{
-            left: 0,
-            right: 0,
-            marginLeft: "auto",
-            marginRight: "auto",
-            textAlign: "center",
-          }}
-          okButtonProps={{}}
-        >
-          <Image
-            src="../images/done.png"
-            preview={false}
-            width={74}
-            height={74}
-          />
-          <Typography.Title level={4} style={{ fontSize: "25px" }}>
-            System Message!
-          </Typography.Title>
-          <Typography.Text style={{ fontSize: 16 }}>
-            Book Has Been Added Successfully!
-          </Typography.Text>
-        </Modal>
       </div>
     </Layout>
   );

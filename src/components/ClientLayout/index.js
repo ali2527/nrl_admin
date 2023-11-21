@@ -195,7 +195,7 @@ const content = (
                 padding: "10px 10px 10px 10px",
                 width: "35px",
                 display: "flex",
-                backgroundColor: "#b78a39",
+                backgroundColor: "#000000",
                 borderRadius: "5px",
               }}
             >
@@ -223,7 +223,7 @@ const content = (
                 padding: "10px 10px 10px 10px",
                 width: "35px",
                 display: "flex",
-                backgroundColor: "#b78a39",
+                backgroundColor: "#000000",
                 borderRadius: "5px",
               }}
             >
@@ -251,7 +251,7 @@ const content = (
                 padding: "10px 10px 10px 10px",
                 width: "35px",
                 display: "flex",
-                backgroundColor: "#b78a39",
+                backgroundColor: "#000000",
                 borderRadius: "5px",
               }}
             >
@@ -401,7 +401,7 @@ const ClientLayout = ({ children, head, }) => {
                 <Col xs={24} md={0}>
                   <div
                     style={{
-                      backgroundColor: "#b78a39",
+                      backgroundColor: "#000000",
                       padding: "20px",
                       display: "flex",
                       justifyContent: "flex-end",
@@ -421,7 +421,7 @@ const ClientLayout = ({ children, head, }) => {
                         arrow={false}
                         className="headerPopover"
                       >
-                        <Badge count={5} style={{ backgroundColor: "#b78a39" }}>
+                        <Badge count={5} style={{ backgroundColor: "#000000" }}>
                           <FiBell
                             style={{ fontSize: "25px", color: "white" }}
                           />

@@ -226,30 +226,6 @@ function EventsManagement() {
         render: (item) => <span>{dayjs(item).format("M/D/YYYY")}</span>,
       },
     {
-      title: "Status",
-      dataIndex: "status",
-      key: "status",
-      render: (value, item, index) => (
-        <Select
-          className={value == "ACTIVE" ? "greenSelect" : "redSelect"}
-          suffixIcon={<FaCaretDown style={{ fontSize: "16px" }} />}
-          value={value}
-          bordered={false}
-          onChange={() => {setModalOpen(true); setSelectedEvent(events[index])}}
-          options={[
-            {
-              value: "active",
-              label: "Active",
-            },
-            {
-              value: "inactive",
-              label: "Inactive",
-            },
-          ]}
-        />
-      ),
-    },
-    {
       title: "Action",
       dataIndex: "_id",
       key: "_id",
@@ -504,8 +480,8 @@ function EventsManagement() {
         cancelText="No"
         cancelButtonProps={{
           style: {
-            border: "2px solid #b78a39",
-            color: "#b78a39",
+            border: "2px solid #000000",
+            color: "#000000",
             height: "auto",
             padding: "6px 35px",
             borderRadius: "50px",
@@ -515,14 +491,14 @@ function EventsManagement() {
         }}
         okButtonProps={{
           style: {
-            backgroundColor: "#b78a39",
+            backgroundColor: "#000000",
             color: "white",
             marginTop: "15px",
             height: "auto",
             padding: "5px 35px",
             borderRadius: "50px",
             fontSize: "16px",
-            border: "2px solid #b78a39",
+            border: "2px solid #000000",
           },
         }}
       >

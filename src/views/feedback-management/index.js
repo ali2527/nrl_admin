@@ -231,7 +231,7 @@ function FeedbackManagement() {
       key: "id",
       render: (item) => (
         <FaEye
-          style={{ fontSize: "16px", color: "#b78a39",  cursor: "pointer" }}
+          style={{ fontSize: "16px", color: "#000000",  cursor: "pointer" }}
              onClick={() => navigate("/feedback-management/" + item )}
         />
       ),
@@ -448,8 +448,8 @@ function FeedbackManagement() {
         cancelText="No"
         cancelButtonProps={{
           style: {
-            border: "2px solid #b78a39",
-            color: "#b78a39",
+            border: "2px solid #000000",
+            color: "#000000",
             height: "auto",
             padding: "6px 35px",
             borderRadius: "50px",
@@ -459,14 +459,14 @@ function FeedbackManagement() {
         }}
         okButtonProps={{
           style: {
-            backgroundColor: "#b78a39",
+            backgroundColor: "#000000",
             color: "white",
             marginTop: "15px",
             height: "auto",
             padding: "5px 35px",
             borderRadius: "50px",
             fontSize: "16px",
-            border: "2px solid #b78a39",
+            border: "2px solid #000000",
           },
         }}
       >

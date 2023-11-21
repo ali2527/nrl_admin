@@ -12,15 +12,17 @@ export const UPLOADS_URL2 = "https://secure.demo243.webhostlabs.net:3003/"
 
 
 export const AUTH = {
-  signin: "/auth/signin",
+  signin: "/admin/auth/signin",
   signup:"/auth/signup",
-  emailCode:"/auth/emailVerificationCode",
-  verifyCode:"/auth/verifyRecoverCode",
-  resetPassword:"/auth/resetPassword",
+  emailCode:"/admin/auth/emailVerificationCode",
+  verifyCode:"/admin/auth/verifyRecoverCode",
+  resetPassword:"/admin/auth/resetPassword",
 }
 
 export const USER = {
   updateProfile : "/profile/updateProfile",
+  changePassword:"/profile/changePassword"
+
 }
 
 export const POST = {
@@ -65,8 +67,9 @@ export const BOOK = {
   export const USERS = {
     get: "/users/admin",
     getAllUsers:"/admin/user/getAllUsers",
-    getOne: "/users/getById/",
+    getOne: "/admin/user/getUserById/",
     toggleStatus: "/admin/user/toggleStatus",
+    deleteUser:"/admin/user/deleteUser/"
   };
 
   export const SERVICE_PROVIDERS = {

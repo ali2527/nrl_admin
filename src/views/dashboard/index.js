@@ -28,7 +28,11 @@ import {
 import { Line } from "react-chartjs-2";
 
 import ClientLayout from "../../components/ClientLayout";
-import { AiFillApple } from "react-icons/ai";
+import { ImUsers } from "react-icons/im";
+import { BiSolidDonateHeart } from "react-icons/bi";
+import { RiMoneyDollarCircleFill } from "react-icons/ri";
+import { FaBoxOpen } from "react-icons/fa";
+
 import { FaCode, FaChartLine } from "react-icons/fa";
 import styles from "../../styles/Home.module.css";
 import { render } from "react-dom";
@@ -54,7 +58,7 @@ const data = {
       data: [30000, 20000, 30000, 25000, 35000, 49000, 40000],
       fill: true,
       backgroundColor: "rgba(157,98,245,0.2)",
-      borderColor: "#9D62F5",
+      borderColor: "#000",
       pointRadius: 3,
     },
   ],
@@ -88,105 +92,7 @@ const options = {
   },
 };
 
-const data2 = {
-  labels: [
-    "Nov 2015",
-    "March 2016",
-    "July 2017",
-    "August 2018",
-    "Sep 2019",
-    "Oct 2020",
-    "July 2021",
-  ],
-  datasets: [
-    {
-      label: "Users",
-      data: [30000, 48000, 30000, 25000, 35000, 40000, 15000],
-      fill: true,
-      backgroundColor: "rgba(157,98,245,0.2)",
-      borderColor: "#4fc068",
-      pointRadius: 3,
-    },
-  ],
-};
 
-const options2 = {
-  maintainAspectRatio: false,
-  responsive: true,
-  scales: {
-    y: {
-      title: {
-        display: true,
-        text: "Service Providers",
-        color: "#000000",
-      },
-      min: 0,
-      max: 50000,
-    },
-    x: {
-      title: {
-        display: true,
-        text: "Months",
-        color: "#000000",
-      },
-    },
-  },
-  plugins: {
-    legend: {
-      display: false,
-    },
-  },
-};
-
-const data3 = {
-  labels: [
-    "Nov 2015",
-    "March 2016",
-    "July 2017",
-    "August 2018",
-    "Sep 2019",
-    "Oct 2020",
-    "July 2021",
-  ],
-  datasets: [
-    {
-      label: "Users",
-      data: [30000, 50000, 30000, 35000, 35000, 40000, 45000],
-      fill: true,
-      backgroundColor: "rgba(157,98,245,0.2)",
-      borderColor: "#2299db",
-      pointRadius: 3,
-    },
-  ],
-};
-
-const options3 = {
-  maintainAspectRatio: false,
-  responsive: true,
-  scales: {
-    y: {
-      title: {
-        display: true,
-        text: "Service Providers",
-        color: "#000000",
-      },
-      min: 0,
-      max: 50000,
-    },
-    x: {
-      title: {
-        display: true,
-        text: "Months",
-        color: "#000000",
-      },
-    },
-  },
-  plugins: {
-    legend: {
-      display: false,
-    },
-  },
-};
 
 export default function Home() {
   return (
@@ -200,11 +106,7 @@ export default function Home() {
             >
               <Col xs={7} md={8}>
                 <div class="analyticsIcon">
-                  <Image
-                    src={"/images/d-1.png"}
-                    alt="Analytics Image"
-                    preview={false}
-                  />
+                <ImUsers style={{fontSize:"60px"}} />
                 </div>
               </Col>
               <Col xs={15} md={16}>
@@ -212,7 +114,7 @@ export default function Home() {
                   1375K
                 </h6>
                 <h6 class="gray analyticsTextSmall" style={{ margin: 0 }}>
-                  Users
+                Total Users
                 </h6>
               </Col>
             </Row>
@@ -225,11 +127,7 @@ export default function Home() {
             >
               <Col xs={7} md={8}>
                 <div class="analyticsIcon">
-                  <Image
-                    src={"/images/d-1.png"}
-                    alt="Analytics Image"
-                    preview={false}
-                  />
+                  <FaBoxOpen style={{fontSize:"60px"}} />
                 </div>
               </Col>
               <Col xs={15} md={16}>
@@ -237,7 +135,7 @@ export default function Home() {
                 1375
                 </h6>
                 <h6 class="gray analyticsTextSmall" style={{ margin: 0 }}>
-                Active Subscribers
+                Total Products
                 </h6>
               </Col>
             </Row>
@@ -250,16 +148,12 @@ export default function Home() {
             >
               <Col xs={7} md={8}>
                 <div class="analyticsIcon">
-                  <Image
-                    src={"/images/d-1.png"}
-                    alt="Analytics Image"
-                    preview={false}
-                  />
+                  <RiMoneyDollarCircleFill style={{fontSize:"60px"}} />
                 </div>
               </Col>
               <Col xs={15} md={16}>
                 <h6 class="analyticsText" style={{ margin: 0 }}>
-                1375
+               $ 1375
                 </h6>
                 <h6 class="gray analyticsTextSmall" style={{ margin: 0 }}>
                 Total Sales
@@ -275,19 +169,15 @@ export default function Home() {
             >
               <Col xs={7} md={8}>
                 <div class="analyticsIcon">
-                  <Image
-                    src={"/images/d-1.png"}
-                    alt="Analytics Image"
-                    preview={false}
-                  />
+                  <BiSolidDonateHeart style={{fontSize:"60px"}} />
                 </div>
               </Col>
               <Col xs={15} md={16}>
                 <h6 class="analyticsText" style={{ margin: 0 }}>
-                  1375
+                  $ 1375
                 </h6>
                 <h6 class="gray analyticsTextSmall" style={{ margin: 0 }}>
-                Total Feedbacks
+                Total Donations
                 </h6>
               </Col>
             </Row>

@@ -62,13 +62,13 @@ function ForgetPassword() {
         <Row
           style={{
             minHeight: "100vh",
-            padding: "30px",
+            padding: window.innerWidth < 500 ? "10px" :"100px" ,
             justifyContent: "center",
           }}
         >
-          <Col xs={24} md={10} className="formMainWrap">
+                  <Col xs={24} md={10} style={{background:'#040404'}} className="formMainWrap">
             <Row style={{ width: "100%", justifyContent: "center" }}>
-              <Col xs={20} md={20} className="formWrap">
+              <Col xs={24} md={20} className="formWrap">
                 <Row style={{ width: "100%", textAlign: "center" }}>
                   <Col xs={24} md={0}>
                     <Image
@@ -81,7 +81,7 @@ function ForgetPassword() {
                 </Row>
 
                 <h2 class="authFormHeading">Forgot Password</h2>
-                <p>Enter Your Email Address To Receive A Verification Code</p>
+                <p style={{ color: "white" }}>Enter Your Email Address To Receive A Verification Code</p>
                 <br />
                 <Form
                   layout="vertical"
@@ -100,6 +100,7 @@ function ForgetPassword() {
                   autoComplete="off"
                 >
                   <Form.Item
+                  className="authInput"
                     label="Email Address"
                     name="email"
                     rules={[
@@ -156,15 +157,16 @@ function ForgetPassword() {
               </Col>
             </Row>
           </Col>
-          <Col xs={0} sm={0} md={10}>
+          <Col xs={0} sm={0} md={8}>
             <div
               className="loginScreenContentWrapper"
               style={{ position: "relative" }}
             >
               <div class="loginScreenContent">
-                <Image
-                  src={"/images/right-logo.jpg"}
+              <Image
+                  src={"/images/logo.png"}
                   alt=""
+                  style={{width:"300px"}}
                   preview={false}
                   className="right-logo"
                 />

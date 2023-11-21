@@ -176,7 +176,7 @@ const content = (
                 padding: "10px 10px 10px 10px",
                 width: "35px",
                 display: "flex",
-                backgroundColor: "#b78a39",
+                backgroundColor: "#000000",
                 borderRadius: "5px",
               }}
             >
@@ -204,7 +204,7 @@ const content = (
                 padding: "10px 10px 10px 10px",
                 width: "35px",
                 display: "flex",
-                backgroundColor: "#b78a39",
+                backgroundColor: "#000000",
                 borderRadius: "5px",
               }}
             >
@@ -232,7 +232,7 @@ const content = (
                 padding: "10px 10px 10px 10px",
                 width: "35px",
                 display: "flex",
-                backgroundColor: "#b78a39",
+                backgroundColor: "#000000",
                 borderRadius: "5px",
               }}
             >
