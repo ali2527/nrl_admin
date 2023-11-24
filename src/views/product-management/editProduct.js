@@ -425,8 +425,8 @@ function ProductAdd() {
                       ghost
                       style={{
                         padding: "12px 40px",
-                        color: "#d5af68",
-                        borderColor: "#d5af68",
+                        color: "#000",
+                        borderColor: "#000",
                         height: "auto",
                         marginTop:"0px"
                       }}

@@ -127,22 +127,6 @@ function UserManagement() {
     getUsers(1, pageSize);
   };
 
-  // const handleStatus = async () => {
-  //   try {
-  //     const index = users.findIndex((user) => user.id == selectedUser.id);
-  //     const newUsers = [...users];
-
-  //     console.log(index)
-
-  //     newUsers[index].isActive = !selectedUser.isActive;
-  //     setModalOpen(false);
-  //     setUsers(newUsers);
-  //   } catch (error) {
-  //     console.log(error.message);
-  //   }  
-    
-  // };
-
   const handleStatus = async () => {
     try {
       const index = users.findIndex((user) => user._id == selectedUser._id);
@@ -419,7 +403,7 @@ function UserManagement() {
                 style={{
                   padding: "10px 15px",
                   height: "auto",
-                  // backgroundColor: "#3c5a92",
+                  backgroundColor: "#000",
                 }}
                 className="fltr-btn"
               >

@@ -25,19 +25,18 @@ import { UserOutlined, InfoCircleOutlined } from "@ant-design/icons";
 import { FaSearch, FaFilter, FaCaretDown, FaEye } from "react-icons/fa";
 import ClientLayout from "../../components/ClientLayout";
 import { Get } from "../../config/api/get";
-import { EVENT } from "../../config/constants";
+import { POSITIONS, UPLOADS_URL } from "../../config/constants";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
- 
-function EventsManagement() {
+function PositionManagement() {
   const token = useSelector((state) => state.user.userToken);
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(null);
-  const [selectedEvent, setSelectedEvent] = useState(null);
-  const [events, setEvents] = useState([]);
+  const [selectedUser, setSelectedUser] = useState(null);
+  const [positions, setPositions] = useState([]);
   const [paginationConfig, setPaginationConfig] = useState({
     pageNumber: 1,
     limit: 10,
@@ -62,7 +61,7 @@ function EventsManagement() {
   const message = `Showing records ${endIndex} of ${paginationConfig.totalDocs}`;
 
   useEffect(() => {
-    getEvents();
+    getAllPositions();
   }, []);
 
   
@@ -73,7 +72,7 @@ function EventsManagement() {
       pageNumber: pageNumber,
     });
 
-    getEvents(pageNumber);
+    getAllPositions(pageNumber);
   };
 
   const handleSearch = (value) => {
@@ -97,7 +96,7 @@ function EventsManagement() {
       from: null,
       to: null,
     });
-    getEvents(paginationConfig.pageNumber, paginationConfig.limit, "", true);
+    getAllPositions(paginationConfig.pageNumber, paginationConfig.limit, "", true);
   };
 
   const handleOpenChange = (newOpen) => {
@@ -125,34 +124,14 @@ function EventsManagement() {
       current: 1,
     });
 
-    getEvents(1, pageSize);
+    getAllPositions(1, pageSize);
   };
 
-  const handleStatus = async () => {
-    try {
-      const index = events.findIndex((user) => user._id == selectedEvent._id);
 
-      console.log(index)
-      const response = await Get(EVENT.toggleStatus + "/" + selectedEvent._id , token,{});
-      const newEvent = [...events];
-      
-      console.log(">>>>",newEvent[index].isActive)
-      console.log(">>>>",selectedEvent.isActive)
-      newEvent[index].status = newEvent[index].status == "ACTIVE" ? "INACTIVE" : "ACTIVE";
-      setModalOpen(false);
-      setEvents(newEvent);
-    } catch (error) {
-      console.log(error.message);
-    }  
-    
-  }; 
-
-
-
-  const getEvents = async (pageNumber, pageSize, search, reset = false) => {
+  const getAllPositions = async (pageNumber, pageSize, search, reset = false) => {
     setLoading(true);
     try {
-      const response = await Get(EVENT.getAllEvents, token, {
+      const response = await Get(POSITIONS.getAllPositions, token, {
         page: pageNumber
           ? pageNumber.toString()
           : paginationConfig.pageNumber.toString(),
@@ -165,9 +144,9 @@ function EventsManagement() {
         to: reset ? "" : filter?.to ? filter?.to.toISOString() : "",
       });
       setLoading(false);
-      console.log("response", response);
+      console.log("csss", response);
       if (response?.status) {
-        setEvents(response?.data?.docs);
+        setPositions(response?.data?.docs);
         setPaginationConfig({
           pageNumber: response?.data?.page,
           limit: response?.data?.limit,
@@ -198,42 +177,28 @@ function EventsManagement() {
 
   const columns = [
     {
-      title: "C-ID	",
+      title: "S. No.	",
       dataIndex: "key",
-      key: "key",
-      width: 100,
+      key: "key", 
       render: (value, item, index) => (index < 10 && "0") + (index + 1),
     },
     {
-      title: "Title",
-      dataIndex: "title",
-      key: "title",
+      title: "Position",
+      dataIndex: "type",
+      key: "type",
     },
     {
-        title: "Location",
-        dataIndex: "location",
-        key: "location",
-      },
-    {
-        title: "Address",
-        dataIndex: "address",
-        key: "address",
-      },
-      {
-        title: "Event Date",
-        dataIndex: "date",
-        key: "date",
-        render: (item) => <span>{dayjs(item).format("M/D/YYYY")}</span>,
-      },
+      title: "Register On",
+      dataIndex: "createdAt",
+      key: "createdAt",
+      render: (item) => <span>{dayjs(item).format("M/D/YYYY")}</span>,
+    },
     {
       title: "Action",
       dataIndex: "_id",
       key: "_id",
       render: (item) => (
-        <FaEye
-          style={{ fontSize: "16px", color: "#000",  cursor: "pointer" }}
-             onClick={() => navigate("/events/" + item )}
-        />
+        <div className="view-link" onClick={() => navigate("/positions/" + item )}><FaEye style={{fontSize:"16px" , color:"black"}}/></div>
       ),
     },
   ];
@@ -260,25 +225,6 @@ function EventsManagement() {
           onChange={(e) => handleTo(e)}
         />
 
-        <p className="mainLabel">Filter by Status:</p>
-
-        <Select
-          size={"large"}
-          className="filterSelectBox"
-          placeholder="Select Status"
-          value={filter.status}
-          onChange={(e) => handleStatusChange(e)}
-          style={{
-            width: "100%",
-            marginBottom: "10px",
-            textAlign: "left",
-          }}
-          options={[
-            { value: "active", label: "Active" },
-            { value: "inactive", label: "Inactive" },
-          ]}
-        />
-
         <Button
           type="primary"
           shape="round"
@@ -286,7 +232,7 @@ function EventsManagement() {
           size={"large"}
           style={{ marginBottom: "10px" }}
           className="mainButton primaryButton"
-          onClick={() => getEvents()}
+          onClick={() => getAllPositions()}
         >
           Apply
         </Button>
@@ -313,7 +259,7 @@ function EventsManagement() {
             md={12}
             style={{ display: "flex", alignItems: "center" }}
           >
-           <h1 className="pageTitle">Events Management</h1>
+           <h1 className="pageTitle">Positions</h1>
           </Col>
           <Col
             xs={24}
@@ -331,9 +277,9 @@ function EventsManagement() {
               size={"large"}
               style={{padding: "12px 40px", height:'auto'}}
               className="mainButton primaryButton"
-              onClick={() => navigate("/events/addNewEvent")}
+              onClick={() => navigate("/positions/addPosition")}
             >
-              Add Event
+              Add Position
             </Button>
 
 
@@ -388,12 +334,12 @@ function EventsManagement() {
                     cursor: "pointer",
                   }}
                   onClick={() =>
-                    getEvents(1, paginationConfig.limit, filter.keyword)
+                    getAllPositions(1, paginationConfig.limit, filter.keyword)
                   }
                 />
               }
               onPressEnter={(e) =>
-                getEvents(1, paginationConfig.limit, filter.keyword)
+                getAllPositions(1, paginationConfig.limit, filter.keyword)
               }
             />
             &emsp;
@@ -409,7 +355,7 @@ function EventsManagement() {
                 style={{
                   padding: "10px 15px",
                   height: "auto",
-                  backgroundColor: "#000",
+                  backgroundColor: "black",
                 }}
                 className="fltr-btn"
               >
@@ -435,7 +381,7 @@ function EventsManagement() {
           ) : (
             <Table
               className="styledTable"
-              dataSource={events}
+              dataSource={positions}
               columns={columns}
               pagination={false}
             />
@@ -464,59 +410,9 @@ function EventsManagement() {
       </div>
       <br />
       <br />
-      <Modal
-        visible={modalOpen}
-        onOk={() => handleStatus()}
-        onCancel={() => setModalOpen(false)}
-        okText="Yes"
-        className="StyledModal"
-        style={{
-          left: 0,
-          right: 0,
-          marginLeft: "auto",
-          marginRight: "auto",
-          textAlign: "center",
-        }}
-        cancelText="No"
-        cancelButtonProps={{
-          style: {
-            border: "2px solid #000000",
-            color: "#000000",
-            height: "auto",
-            padding: "6px 35px",
-            borderRadius: "50px",
-            fontSize: "16px",
-            marginTop: "15px",
-          },
-        }}
-        okButtonProps={{
-          style: {
-            backgroundColor: "#000000",
-            color: "white",
-            marginTop: "15px",
-            height: "auto",
-            padding: "5px 35px",
-            borderRadius: "50px",
-            fontSize: "16px",
-            border: "2px solid #000000",
-          },
-        }}
-      >
-        <Image
-          src="./images/question.png"
-          preview={false}
-          width={100}
-          height={120}
-        />
-        <Typography.Title level={4} style={{ fontSize: "25px" }}>
-          {selectedEvent?.status == "ACTIVE" ? "Deactivate" : "Activate"}
-        </Typography.Title>
-        <Typography.Text style={{ fontSize: 16 }}>
-        Do You Want To  {selectedEvent?.status == "ACTIVE" ? "Deactivate" : "Activate"} This Event?
-        </Typography.Text>
-      </Modal>
+     
     </Layout>
   );
 }
 
-export default EventsManagement;
+export default PositionManagement;

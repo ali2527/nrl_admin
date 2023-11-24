@@ -102,7 +102,7 @@ function AdvertiseBusiness() {
                             size={"large"}
                             style={{ padding: "12px 40px", height: "auto" }}
                             className="mainButton primaryButton"
-                            // onClick={() => navigate("/inventory-management/editProduct")}
+                            // onClick={() => navigate("/product-management/editProduct")}
                           >
                             Approve
                           </Button>

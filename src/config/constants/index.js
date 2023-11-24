@@ -19,6 +19,35 @@ export const AUTH = {
   resetPassword:"/admin/auth/resetPassword",
 }
 
+export const STATES = {
+  addState : "/state/addState",
+  getAllStates : "/state/getAllStates",
+  getStateById : "/state/getStateById/",
+  updateState : "/state/updateState/",
+  deleteState : "/state/deleteState/",
+}
+
+export const POSITIONS = {
+  addPosition : "/position/addPosition",
+  getAllPositions : "/position/getAllPositions",
+  getPositionById : "/position/getPositionById/",
+  updatePosition : "/position/updatePosition/",
+  deletePosition : "/position/deletePosition/",
+}
+
+export const REPRESENTATIVE = {
+  addRepresentative : "/representative/addRepresentative",
+  getAllRepresentatives : "/representative/getAllRepresentatives",
+  getRepresentativeById : "/representative/getRepresentativeById/",
+  updateRepresentative : "/representative/updateRepresentative/",
+  deleteRepresentative : "/representative/deleteRepresentative/",
+}
+
+
+
+
+
+
 export const USER = {
   updateProfile : "/profile/updateProfile",
   changePassword:"/profile/changePassword"

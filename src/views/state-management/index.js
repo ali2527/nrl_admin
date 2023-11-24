@@ -2,48 +2,36 @@ import React, { useEffect, useState } from "react";
 import {
   Col,
   Row,
-  Typography,
-  List,
-  Form,
-  Input,
+  Typography, Input,
   Modal,
   Button,
   Popover,
-  Layout,
-  Checkbox,
-  Skeleton,
-  Table,
-  Spin,
-  Select,
+  Layout, Skeleton,
+  Table, Select,
   Image,
   Pagination,
-  DatePicker,
-  message,
+  DatePicker
 } from "antd";
-import dayjs from "dayjs";
-import { UserOutlined, InfoCircleOutlined } from "@ant-design/icons";
-import { FaSearch, FaFilter, FaCaretDown, FaEye } from "react-icons/fa";
-import ClientLayout from "../../components/ClientLayout";
+import { FaSearch, FaFilter, FaEye } from "react-icons/fa";
 import { Get } from "../../config/api/get";
-import { PRODUCT } from "../../config/constants";
+import { STATES, UPLOADS_URL } from "../../config/constants";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-function InventoryManagement() {
+function StateManagement() {
+  const navigate = useNavigate();
   const token = useSelector((state) => state.user.userToken);
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
-  const [selectedIndex, setSelectedIndex] = useState(null);
-  const [selectedService, setSelectedService] = useState(null);
-  const [procucts, setProducts] = useState([]);
+  const [selectedUser, setSelectedUser] = useState(null);
+  const [states, setStates] = useState([]);
   const [paginationConfig, setPaginationConfig] = useState({
     pageNumber: 1,
     limit: 10,
     totalDocs: 0,
     totalPages: 0,
   });
-  const navigate = useNavigate();
 
   const [filter, setFilter] = useState({
     status: null,
@@ -61,7 +49,7 @@ function InventoryManagement() {
   const message = `Showing records ${endIndex} of ${paginationConfig.totalDocs}`;
 
   useEffect(() => {
-    getProducts();
+    getAllStates();
   }, []);
 
   
@@ -72,7 +60,7 @@ function InventoryManagement() {
       pageNumber: pageNumber,
     });
 
-    getProducts(pageNumber);
+    getAllStates(pageNumber);
   };
 
   const handleSearch = (value) => {
@@ -96,7 +84,7 @@ function InventoryManagement() {
       from: null,
       to: null,
     });
-    getProducts(paginationConfig.pageNumber, paginationConfig.limit, "", true);
+    getAllStates(paginationConfig.pageNumber, paginationConfig.limit, "", true);
   };
 
   const handleOpenChange = (newOpen) => {
@@ -124,34 +112,35 @@ function InventoryManagement() {
       current: 1,
     });
 
-    getProducts(1, pageSize);
+    getAllStates(1, pageSize);
   };
 
   const handleStatus = async () => {
     try {
-      const index = procucts.findIndex((user) => user._id == selectedService._id);
+      const index = states.findIndex((user) => user._id == selectedUser._id);
 
       console.log(index)
-      const response = await Get(PRODUCT.toggleStatus + "/" + selectedService._id , token,{});
-      const newService = [...procucts];
+      const response = await Get(STATES.toggleStatus + "/" + selectedUser._id , token,{});
+      const newUsers = [...states];
       
-      console.log(">>>>",newService[index].isActive)
-      console.log(">>>>",selectedService.isActive)
-      newService[index].status = newService[index].status == "ACTIVE" ? "INACTIVE" : "ACTIVE";
+      console.log(">>>>",newUsers[index].isActive)
+      console.log(">>>>",selectedUser.isActive)
+      newUsers[index].isActive = !selectedUser.isActive;
       setModalOpen(false);
-      setProducts(newService);
+      setStates(newUsers);
     } catch (error) {
       console.log(error.message);
     }  
     
-  }; 
+  };
+  
 
 
 
-  const getProducts = async (pageNumber, pageSize, search, reset = false) => {
+  const getAllStates = async (pageNumber, pageSize, search, reset = false) => {
     setLoading(true);
     try {
-      const response = await Get(PRODUCT.getAllProducts, token, {
+      const response = await Get(STATES.getAllStates, token, {
         page: pageNumber
           ? pageNumber.toString()
           : paginationConfig.pageNumber.toString(),
@@ -164,9 +153,9 @@ function InventoryManagement() {
         to: reset ? "" : filter?.to ? filter?.to.toISOString() : "",
       });
       setLoading(false);
-      console.log("response", response);
+      console.log("csss", response);
       if (response?.status) {
-        setProducts(response?.data?.docs);
+        setStates(response?.data?.docs);
         setPaginationConfig({
           pageNumber: response?.data?.page,
           limit: response?.data?.limit,
@@ -196,53 +185,38 @@ function InventoryManagement() {
   };
 
   const columns = [
-        {
-          title: "C-ID	",
-          dataIndex: "key",
-          key: "key",
-          width: 100,
-          render: (value, item, index) => (index < 10 && "0") + (index + 1),
-        },
-        {
-          title: "Sku",
-          dataIndex: "sku",
-          key: "sku",
-        },
-        {
-            title: "Product Name",
-            dataIndex: "title",
-            key: "title",
-          },
-     
-        {
-            title: "Price",
-            dataIndex: "price",
-            key: "price",
-          },
-          {
-            title: "Qty",
-            dataIndex: "stock",
-            key: "stock",
-          },
-        {
-          title: "Variations",
-          dataIndex: "variations",
-          key: "variations",
-          render: (value, item, index) => value.map((item,index) => {return(<>{index > 0 && ","} {item.title} </>)}),
-        },
-        {
-          title: "Action",
-          dataIndex: "_id",
-          key: "_id",
-          render: (item) => (
-            <FaEye
-              style={{ fontSize: "16px", color: "#C90000",  cursor: "pointer" }}
-                 onClick={() => navigate("/inventory-management/" + item )}
-            />
-          ),
-        },
-      ];
-    
+    {
+      title: "State No",
+      dataIndex: "stateNo",
+      width: 150,
+      key: "stateNo",
+    },
+    {
+      title: "Flag",
+      dataIndex: "flag",
+      key: "flag",
+   
+      render: (value, item, index) => <Image style={{border:'1px solid #dadada'}} preview={false} width={50} src={UPLOADS_URL + "/" + value} />,
+    },
+    {
+      title: "Name",
+      dataIndex: "name",
+      key: "name",
+    },
+    {
+        title: "Abbreviation",
+        dataIndex: "abbreviation",
+        key: "abbreviation",
+      },
+    {
+      title: "Action",
+      dataIndex: "_id",
+      key: "_id",
+      render: (item) => (
+        <div className="view-link" onClick={() => navigate("/states/" + item )}><FaEye style={{fontSize:"16px" , color:"black"}}/></div>
+      ),
+    },
+  ];
 
   const filterContent = (
     <div className="filterDropdown">
@@ -292,7 +266,7 @@ function InventoryManagement() {
           size={"large"}
           style={{ marginBottom: "10px" }}
           className="mainButton primaryButton"
-          onClick={() => getProducts()}
+          onClick={() => getAllStates()}
         >
           Apply
         </Button>
@@ -319,7 +293,7 @@ function InventoryManagement() {
             md={12}
             style={{ display: "flex", alignItems: "center" }}
           >
-           <h1 className="pageTitle">Inventory Management</h1>
+           <h1 className="pageTitle">States</h1>
           </Col>
           <Col
             xs={24}
@@ -331,14 +305,15 @@ function InventoryManagement() {
             }}
           >
             <Button
+
               type="primary"
               shape="round"
               size={"large"}
               style={{padding: "12px 40px", height:'auto'}}
               className="mainButton primaryButton"
-              onClick={() => navigate("/inventory-management/addNewProduct")}
+              onClick={() => navigate("/states/addState")}
             >
-              Create Product
+              Add State
             </Button>
 
 
@@ -393,12 +368,12 @@ function InventoryManagement() {
                     cursor: "pointer",
                   }}
                   onClick={() =>
-                    getProducts(1, paginationConfig.limit, filter.keyword)
+                    getAllStates(1, paginationConfig.limit, filter.keyword)
                   }
                 />
               }
               onPressEnter={(e) =>
-                getProducts(1, paginationConfig.limit, filter.keyword)
+                getAllStates(1, paginationConfig.limit, filter.keyword)
               }
             />
             &emsp;
@@ -414,7 +389,7 @@ function InventoryManagement() {
                 style={{
                   padding: "10px 15px",
                   height: "auto",
-                  // backgroundColor: "#3c5a92",
+                  backgroundColor: "#000",
                 }}
                 className="fltr-btn"
               >
@@ -440,7 +415,7 @@ function InventoryManagement() {
           ) : (
             <Table
               className="styledTable"
-              dataSource={procucts}
+              dataSource={states}
               columns={columns}
               pagination={false}
             />
@@ -514,16 +489,14 @@ function InventoryManagement() {
           height={120}
         />
         <Typography.Title level={4} style={{ fontSize: "25px" }}>
-          {selectedService?.status == "ACTIVE" ? "Deactivate" : "Activate"}
+          {selectedUser?.isActive ? "Deactivate" : "Activate"}
         </Typography.Title>
         <Typography.Text style={{ fontSize: 16 }}>
-        Do You Want To  {selectedService?.status == "ACTIVE" ? "Deactivate" : "Activate"} This Service?
+        Do You Want To  {selectedUser?.isActive ? "Deactivate" : "Activate"} This Service Provider?
         </Typography.Text>
       </Modal>
     </Layout>
   );
 }
 
-export default InventoryManagement;
-
-
+export default StateManagement;

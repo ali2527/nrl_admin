@@ -2881,15 +2881,17 @@ select.mainInput {
   color: white !important;
   border: none;
   border-left: 1px solid #e6e9ec !important;
-  background: black;
+  background: linear-gradient(180deg, #bfbfbf 0%, #a8a6a7 100%) !important;
+
 }
 .styledPagination .ant-pagination-item a {
   color: white;
 }
 
 .styledPagination .ant-pagination-item-active {
-  background: #a8a6a7 !important;
-  background: linear-gradient(180deg, #bfbfbf 0%, #a8a6a7 100%) !important;
+  /* background: #a8a6a7 !important; */
+  /* background: linear-gradient(180deg, #bfbfbf 0%, #a8a6a7 100%) !important; */
+  background: black!important;
   color: #fff !important;
   border: 1px solid #a8a6a7 !important;
 }
@@ -2984,18 +2986,19 @@ select.mainInput {
 }
 
 .yes-btn {
-  background-color: #d5af68;
+  background-color: #000;
   color: #fff;
   margin-top: 15px;
   height: auto;
   padding: 8px 50px;
   border-radius: 8px;
   font-size: 16px;
-  border: 2px solid #d5af68;
+  border: 2px solid #000;
 }
 
 .yes-btn:hover {
-  background-color: #b99758 !important;
+  background-color: grey !important;
+  border: 2px solid grey;
 }
 
 .no-btn {
@@ -3008,6 +3011,12 @@ select.mainInput {
   font-size: 16px;
   margin-top: 15px;
 }
+
+.no-btn:hover {
+  background-color: black !important;
+  border: 2px solid black!important;
+}
+
 
 .dotted-border {
   border: 2px solid #0b8ef2;

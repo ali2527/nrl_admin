@@ -184,7 +184,8 @@ filter: invert(1)
 }
 .fltr-btn{
   background: rgb(213,175,104);
-  background: linear-gradient(rgb(172,172,172) 10%, rgb(190, 192, 194) 100%);
+  color:black!important;
+  /* background: linear-gradient(rgb(172,172,172) 10%, rgb(190, 192, 194) 100%); */
 }
 
 .mainSider li.ant-menu-item{

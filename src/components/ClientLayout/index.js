@@ -18,113 +18,100 @@ import { FiBell } from "react-icons/fi";
 import { SITE_NAME } from "../../config/constants";
 import "../../styles/Home.module.css";
 import ClientHeader from "./ClientHeader";
+import { RxDashboard } from "react-icons/rx";
+import { MdOutlineEventNote } from "react-icons/md";
+import { FaFlagUsa } from "react-icons/fa";
+import { MdOutlineLeaderboard } from "react-icons/md";
+import { BiDonateHeart } from "react-icons/bi";
+import { FaRegUser } from "react-icons/fa6";
+import { BiCategory } from "react-icons/bi";
+import { BsBox } from "react-icons/bs";
+import { LiaCashRegisterSolid } from "react-icons/lia";
+import { IoCashOutline } from "react-icons/io5";
+import { IoNewspaperOutline } from "react-icons/io5";
+import { MdOndemandVideo } from "react-icons/md";
+import { BsQuestionSquare } from "react-icons/bs";
+
+
 
 const { Header, Content, Sider } = Layout;
 
 
 const sideNavItems = [
-  { key: 1, icon: "/images/dside-icon/1.png", label: "Dashboard", path: "/" },
+  { key: 1, icon: <RxDashboard style={{fontSize:"18px"}}/>, label: "Dashboard", path: "/" },
   {
     key: 2,
-    icon: "/images/dside-icon/2.png",
-    label: "User Management",
-    path: "/user-management",
+    icon: <FaFlagUsa style={{fontSize:"18px"}}/>,
+    label: "States",
+    path: "/states",
   },
   {
     key: 3,
-    icon: "/images/dside-icon/3.png",
-    label: "Library",
-    path: "/library",
+    icon: <MdOutlineLeaderboard style={{fontSize:"18px"}}/>,
+    label: "Positions",
+    path: "/positions",
   },
-  // {
-  //   key: 4,
-  //   icon: "/images/dside-icon/4.png",
-  //   label: "Payment Logs",
-  //   path: "/payment-logs",
-  // },
-  
+  {
+    key: 4,
+    icon: <FaRegUser style={{fontSize:"18px"}}/>,
+    label: "Representatives",
+    path: "/representatives",
+  },
   {
     key: 5,
-    icon: "/images/dside-icon/14.png",
-    label: "Masonic Community",
-    path: "/masonic-community",
+    icon: <BiDonateHeart style={{fontSize:"18px"}}/>,
+    label: "Dontaions",
+    path: "/Donations",
   },
   {
     key: 6,
-    icon:  "/images/dside-icon/15.png",
-    label: "Non Masonic Community",
-    path: "/non-masonic-community",
+    icon: <BiCategory style={{fontSize:"18px"}}/>,
+    label: "Categories",
+    path: "/category-management",
   },
-  
-  // {
-  //   key: 7,
-  //   icon: "/images/dside-icon/7.png",
-  //   label: "Feedbacks",
-  //   path: "/feedback-management",
-  // },
-  // {
-  //   key: 8,
-  //   icon: "/images/dside-icon/8.png",
-  //   label: "Live Streaming",
-  //   path: "/live-streaming",
-  // },
-  // {
-  //   key: 9,
-  //   icon: "/images/dside-icon/12.png",
-  //   label: "Category Management",
-  //   path: "/category-management",
-  // },
+  {
+    key: 7,
+    icon: <BsBox style={{fontSize:"18px"}}/>,
+    label: "Products",
+    path: "/product-management",
+  },
+  {
+    key: 8,
+    icon: <LiaCashRegisterSolid style={{fontSize:"20px"}}/>,
+    label: "Orders",
+    path: "/orders",
+  },
+  {
+    key: 9,
+    icon: <IoCashOutline style={{fontSize:"18px"}}/>,
+    label: "Payments",
+    path: "/payments",
+  },
   {
     key: 10,
-    icon: "/images/dside-icon/10.png",
-    label: "Inventory Management",
-    path: "/inventory-management",
-  },
-  // {
-  //   key: 11,
-  //   icon: "/images/dside-icon/11.png",
-  //   label: "Order Management",
-  //   path: "/order-management",
-  // },
-  // {
-  //   key: 12,
-  //   icon: "/images/dside-icon/13.png",
-  //   label: "Ads Management",
-  //   path: "/ads-management",
-  // },
-  {
-    key: 13,
-    icon: "/images/dside-icon/7.png",
-    label: "Online Services",
-    path: "/online-services",
+    icon: <IoNewspaperOutline style={{fontSize:"18px"}}/>,
+    label: "News",
+    path: "/news",
   },
   {
-    key: 14,
-    icon: "/images/dside-icon/8.png",
+    key: 11,
+    icon: <MdOndemandVideo style={{fontSize:"18px"}}/>,
+    label: "Histories",
+    path: "/histories",
+  },
+  {
+    key: 12,
+    icon: <MdOutlineEventNote style={{fontSize:"20px"}}/>,
     label: "Events",
     path: "/events",
   },
-  // {
-  //   key: 14,
-  //   icon: "/images/dside-icon/16.png",
-  //   label: "Religious Articles",
-  //   path: "/religious-articles",
-  // },
-].map((item, index) => {
-  return {
-    key: item.key,
-    icon: (
-      <Image
-        src={item.icon}
-        alt="Picture of the author"
-        preview={false}
-        style={{paddingRight:"10px"}}
-      />
-    ),
-    label: item.label,
-    path: item.path,
-  };
-});
+  {
+    key: 13,
+    icon: <BsQuestionSquare style={{fontSize:"18px"}}/>,
+    label: "Queries",
+    path: "/queries",
+  },
+]
 
 const items = [
   {
@@ -165,7 +152,7 @@ const content = (
   <div style={{ width: "350px" }}>
     <div
       style={{
-        padding: "10px 20px",
+        padding: "10px 18px",
         display: "flex",
         justifyContent: "space-between",
         alignItems: "center",
@@ -283,7 +270,7 @@ const content = (
 
     <div
       style={{
-        padding: "10px 20px",
+        padding: "10px 18px",
         display: "flex",
         justifyContent: "flex-end",
         alignItems: "center",
@@ -402,7 +389,7 @@ const ClientLayout = ({ children, head, }) => {
                   <div
                     style={{
                       backgroundColor: "#000000",
-                      padding: "20px",
+                      padding: "18px",
                       display: "flex",
                       justifyContent: "flex-end",
                       transition: "all 0.5s ease-in-out",

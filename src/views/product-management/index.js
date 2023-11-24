@@ -25,19 +25,18 @@ import { UserOutlined, InfoCircleOutlined } from "@ant-design/icons";
 import { FaSearch, FaFilter, FaCaretDown, FaEye } from "react-icons/fa";
 import ClientLayout from "../../components/ClientLayout";
 import { Get } from "../../config/api/get";
-import { EVENT } from "../../config/constants";
+import { PRODUCT } from "../../config/constants";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
- 
-function EventsManagement() {
+function InventoryManagement() {
   const token = useSelector((state) => state.user.userToken);
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(null);
-  const [selectedEvent, setSelectedEvent] = useState(null);
-  const [events, setEvents] = useState([]);
+  const [selectedService, setSelectedService] = useState(null);
+  const [procucts, setProducts] = useState([]);
   const [paginationConfig, setPaginationConfig] = useState({
     pageNumber: 1,
     limit: 10,
@@ -62,7 +61,7 @@ function EventsManagement() {
   const message = `Showing records ${endIndex} of ${paginationConfig.totalDocs}`;
 
   useEffect(() => {
-    getEvents();
+    getProducts();
   }, []);
 
   
@@ -73,7 +72,7 @@ function EventsManagement() {
       pageNumber: pageNumber,
     });
 
-    getEvents(pageNumber);
+    getProducts(pageNumber);
   };
 
   const handleSearch = (value) => {
@@ -97,7 +96,7 @@ function EventsManagement() {
       from: null,
       to: null,
     });
-    getEvents(paginationConfig.pageNumber, paginationConfig.limit, "", true);
+    getProducts(paginationConfig.pageNumber, paginationConfig.limit, "", true);
   };
 
   const handleOpenChange = (newOpen) => {
@@ -125,22 +124,22 @@ function EventsManagement() {
       current: 1,
     });
 
-    getEvents(1, pageSize);
+    getProducts(1, pageSize);
   };
 
   const handleStatus = async () => {
     try {
-      const index = events.findIndex((user) => user._id == selectedEvent._id);
+      const index = procucts.findIndex((user) => user._id == selectedService._id);
 
       console.log(index)
-      const response = await Get(EVENT.toggleStatus + "/" + selectedEvent._id , token,{});
-      const newEvent = [...events];
+      const response = await Get(PRODUCT.toggleStatus + "/" + selectedService._id , token,{});
+      const newService = [...procucts];
       
-      console.log(">>>>",newEvent[index].isActive)
-      console.log(">>>>",selectedEvent.isActive)
-      newEvent[index].status = newEvent[index].status == "ACTIVE" ? "INACTIVE" : "ACTIVE";
+      console.log(">>>>",newService[index].isActive)
+      console.log(">>>>",selectedService.isActive)
+      newService[index].status = newService[index].status == "ACTIVE" ? "INACTIVE" : "ACTIVE";
       setModalOpen(false);
-      setEvents(newEvent);
+      setProducts(newService);
     } catch (error) {
       console.log(error.message);
     }  
@@ -149,10 +148,10 @@ function EventsManagement() {
 
 
 
-  const getEvents = async (pageNumber, pageSize, search, reset = false) => {
+  const getProducts = async (pageNumber, pageSize, search, reset = false) => {
     setLoading(true);
     try {
-      const response = await Get(EVENT.getAllEvents, token, {
+      const response = await Get(PRODUCT.getAllProducts, token, {
         page: pageNumber
           ? pageNumber.toString()
           : paginationConfig.pageNumber.toString(),
@@ -167,7 +166,7 @@ function EventsManagement() {
       setLoading(false);
       console.log("response", response);
       if (response?.status) {
-        setEvents(response?.data?.docs);
+        setProducts(response?.data?.docs);
         setPaginationConfig({
           pageNumber: response?.data?.page,
           limit: response?.data?.limit,
@@ -197,46 +196,53 @@ function EventsManagement() {
   };
 
   const columns = [
-    {
-      title: "C-ID	",
-      dataIndex: "key",
-      key: "key",
-      width: 100,
-      render: (value, item, index) => (index < 10 && "0") + (index + 1),
-    },
-    {
-      title: "Title",
-      dataIndex: "title",
-      key: "title",
-    },
-    {
-        title: "Location",
-        dataIndex: "location",
-        key: "location",
-      },
-    {
-        title: "Address",
-        dataIndex: "address",
-        key: "address",
-      },
-      {
-        title: "Event Date",
-        dataIndex: "date",
-        key: "date",
-        render: (item) => <span>{dayjs(item).format("M/D/YYYY")}</span>,
-      },
-    {
-      title: "Action",
-      dataIndex: "_id",
-      key: "_id",
-      render: (item) => (
-        <FaEye
-          style={{ fontSize: "16px", color: "#000",  cursor: "pointer" }}
-             onClick={() => navigate("/events/" + item )}
-        />
-      ),
-    },
-  ];
+        {
+          title: "C-ID	",
+          dataIndex: "key",
+          key: "key",
+          width: 100,
+          render: (value, item, index) => (index < 10 && "0") + (index + 1),
+        },
+        {
+          title: "Sku",
+          dataIndex: "sku",
+          key: "sku",
+        },
+        {
+            title: "Product Name",
+            dataIndex: "title",
+            key: "title",
+          },
+     
+        {
+            title: "Price",
+            dataIndex: "price",
+            key: "price",
+          },
+          {
+            title: "Qty",
+            dataIndex: "stock",
+            key: "stock",
+          },
+        {
+          title: "Variations",
+          dataIndex: "variations",
+          key: "variations",
+          render: (value, item, index) => value.map((item,index) => {return(<>{index > 0 && ","} {item.title} </>)}),
+        },
+        {
+          title: "Action",
+          dataIndex: "_id",
+          key: "_id",
+          render: (item) => (
+            <FaEye
+              style={{ fontSize: "16px", color: "#C90000",  cursor: "pointer" }}
+                 onClick={() => navigate("/product-management/" + item )}
+            />
+          ),
+        },
+      ];
+    
 
   const filterContent = (
     <div className="filterDropdown">
@@ -286,7 +292,7 @@ function EventsManagement() {
           size={"large"}
           style={{ marginBottom: "10px" }}
           className="mainButton primaryButton"
-          onClick={() => getEvents()}
+          onClick={() => getProducts()}
         >
           Apply
         </Button>
@@ -313,7 +319,7 @@ function EventsManagement() {
             md={12}
             style={{ display: "flex", alignItems: "center" }}
           >
-           <h1 className="pageTitle">Events Management</h1>
+           <h1 className="pageTitle">Inventory Management</h1>
           </Col>
           <Col
             xs={24}
@@ -325,15 +331,14 @@ function EventsManagement() {
             }}
           >
             <Button
-
               type="primary"
               shape="round"
               size={"large"}
               style={{padding: "12px 40px", height:'auto'}}
               className="mainButton primaryButton"
-              onClick={() => navigate("/events/addNewEvent")}
+              onClick={() => navigate("/product-management/addNewProduct")}
             >
-              Add Event
+              Create Product
             </Button>
 
 
@@ -388,12 +393,12 @@ function EventsManagement() {
                     cursor: "pointer",
                   }}
                   onClick={() =>
-                    getEvents(1, paginationConfig.limit, filter.keyword)
+                    getProducts(1, paginationConfig.limit, filter.keyword)
                   }
                 />
               }
               onPressEnter={(e) =>
-                getEvents(1, paginationConfig.limit, filter.keyword)
+                getProducts(1, paginationConfig.limit, filter.keyword)
               }
             />
             &emsp;
@@ -435,7 +440,7 @@ function EventsManagement() {
           ) : (
             <Table
               className="styledTable"
-              dataSource={events}
+              dataSource={procucts}
               columns={columns}
               pagination={false}
             />
@@ -509,14 +514,16 @@ function EventsManagement() {
           height={120}
         />
         <Typography.Title level={4} style={{ fontSize: "25px" }}>
-          {selectedEvent?.status == "ACTIVE" ? "Deactivate" : "Activate"}
+          {selectedService?.status == "ACTIVE" ? "Deactivate" : "Activate"}
         </Typography.Title>
         <Typography.Text style={{ fontSize: 16 }}>
-        Do You Want To  {selectedEvent?.status == "ACTIVE" ? "Deactivate" : "Activate"} This Event?
+        Do You Want To  {selectedService?.status == "ACTIVE" ? "Deactivate" : "Activate"} This Service?
         </Typography.Text>
       </Modal>
     </Layout>
   );
 }
 
-export default EventsManagement;
+export default InventoryManagement;
+
+

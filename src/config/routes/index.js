@@ -27,11 +27,11 @@ import ReligiousArticles from "../../views/religious-articles";
 import FeedbackManagement from "../../views/feedback-management";
 import FeedbackDetails from "../../views/feedback-management/feedbackDetails";
 import LiveStreaming from "../../views/live-streaming";
-import InventoryManagement from "../../views/inventory-management";
+import InventoryManagement from "../../views/product-management";
 import OnlineServices from "../../views/online-services"
-import ViewProduct from "../../views/inventory-management/viewProduct";
-import Productadd from "../../views/inventory-management/addNewProduct";
-import EditProduct from "../../views/inventory-management/editProduct";
+import ViewProduct from "../../views/product-management/viewProduct";
+import Productadd from "../../views/product-management/addNewProduct";
+import EditProduct from "../../views/product-management/editProduct";
 import OrderManagement from "../../views/order-management";
 import OrderDetails from "../../views/order-management/orderDetail";
 import CategoryManagement from "../../views/category-management";
@@ -48,7 +48,15 @@ import AddEvent from "../../views/events/addNewEvent";
 import EditEvent from "../../views/events/editEvent";
 import AddCategory from "../../views/category-management/addNewCategory";
 import ViewCategory from "../../views/category-management/viewCategory";
-
+import States from "../../views/state-management";
+import StateDetails from "../../views/state-management/stateDetails";
+import AddState from "../../views/state-management/addNewState";
+import Positions from "../../views/position-management";
+import PositionDetails from "../../views/position-management/positionDetails";
+import AddPosition from "../../views/position-management/addNewPosition";
+import Representatives from "../../views/representative-management";
+import RepresentativeDetails from "../../views/representative-management/representativeDetails";
+import AddRepresentative from "../../views/representative-management/addNewRepresentative";
 //components imports
 import UserAuthCheck from "../../components/AuthCheck/UserAuthCheck";
 // import AdminAuthCheck from "../../components/AuthCheck/AdminAuthCheck";
@@ -110,6 +118,174 @@ const MyRouter = () => {
             </UserAuthCheck>
           }
         />
+
+<Route
+          path="/states"
+          activeTab="state"
+          index
+          element={
+            <UserAuthCheck>
+              <ClientLayout
+                head={{
+                  title: "States",
+                  description: "Some Description.",
+                }}
+              >
+                <States />
+              </ClientLayout>
+            </UserAuthCheck>
+          }
+        />
+
+<Route
+          path="/states/:id"
+          activeTab="state"
+          index
+          element={
+            <UserAuthCheck>
+              <ClientLayout
+                head={{
+                  title: "Edit State",
+                  description: "Some Description.",
+                }}
+              >
+                <StateDetails />
+              </ClientLayout>
+            </UserAuthCheck>
+          }
+        />
+
+
+<Route
+          path="/states/addState"
+          activeTab="state"
+          index
+          element={
+            <UserAuthCheck>
+              <ClientLayout
+                head={{
+                  title: "Add State",
+                  description: "Some Description.",
+                }}
+              >
+                <AddState />
+              </ClientLayout>
+            </UserAuthCheck>
+          }
+        />
+
+
+<Route
+          path="/representatives"
+          activeTab="representatives"
+          index
+          element={
+            <UserAuthCheck>
+              <ClientLayout
+                head={{
+                  title: "Representatives",
+                  description: "Some Description.",
+                }}
+              >
+                <Representatives />
+              </ClientLayout>
+            </UserAuthCheck>
+          }
+        />
+
+<Route
+          path="/representatives/:id"
+          activeTab="representatives"
+          index
+          element={
+            <UserAuthCheck>
+              <ClientLayout
+                head={{
+                  title: "Edit Representatives",
+                  description: "Some Description.",
+                }}
+              >
+                <RepresentativeDetails />
+              </ClientLayout>
+            </UserAuthCheck>
+          }
+        />
+
+
+<Route
+          path="/representatives/addRepresentative"
+          activeTab="representatives"
+          index
+          element={
+            <UserAuthCheck>
+              <ClientLayout
+                head={{
+                  title: "Add Representative",
+                  description: "Some Description.",
+                }}
+              >
+                <AddRepresentative />
+              </ClientLayout>
+            </UserAuthCheck>
+          }
+        />
+
+<Route
+          path="/positions"
+          activeTab="positions"
+          index
+          element={
+            <UserAuthCheck>
+              <ClientLayout
+                head={{
+                  title: "Positions",
+                  description: "Some Description.",
+                }}
+              >
+                <Positions />
+              </ClientLayout>
+            </UserAuthCheck>
+          }
+        />
+
+<Route
+          path="/positions/:id"
+          activeTab="positions"
+          index
+          element={
+            <UserAuthCheck>
+              <ClientLayout
+                head={{
+                  title: "Edit Position",
+                  description: "Some Description.",
+                }}
+              >
+                <PositionDetails />
+              </ClientLayout>
+            </UserAuthCheck>
+          }
+        />
+
+
+<Route
+          path="/positions/addPosition"
+          activeTab="positions"
+          index
+          element={
+            <UserAuthCheck>
+              <ClientLayout
+                head={{
+                  title: "Add Position",
+                  description: "Some Description.",
+                }}
+              >
+                <AddPosition />
+              </ClientLayout>
+            </UserAuthCheck>
+          }
+        />
+
+
         <Route
           path="/library"
           index
@@ -375,7 +551,7 @@ const MyRouter = () => {
           }
         />
         <Route
-          path="/inventory-management"
+          path="/product-management"
           index
           element={
             <UserAuthCheck>
@@ -533,7 +709,7 @@ const MyRouter = () => {
 
 
         <Route
-          path="/inventory-management/:id"
+          path="/product-management/:id"
           index
           element={
             <UserAuthCheck>
@@ -549,7 +725,7 @@ const MyRouter = () => {
           }
         />
         <Route
-          path="/inventory-management/addNewProduct"
+          path="/product-management/addNewProduct"
           index
           element={
             <UserAuthCheck>
@@ -565,7 +741,7 @@ const MyRouter = () => {
           }
         />
         <Route
-          path="/inventory-management/editProduct/:id"
+          path="/product-management/editProduct/:id"
           index
           element={
             <UserAuthCheck>
