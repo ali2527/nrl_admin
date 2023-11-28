@@ -46,6 +46,12 @@ code {
   
 }
 
+
+.skeleteonImage{
+width: 100%!important;
+}
+
+
 .reportCardTable th{
   background-color: #ffc10b;
   font-family: 'Montserrat', sans-serif!important;

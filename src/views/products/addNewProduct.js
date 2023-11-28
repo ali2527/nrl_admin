@@ -1,20 +1,21 @@
-import React, { useEffect, useState } from "react";
+import React, { useState,useEffect } from "react";
 import {
   Col,
   Row, Form,
   Input,
   InputNumber,
   Select,
-  Button, Layout,message,Tag
+  message,
+  Button, Layout,DatePicker,Tag
 } from "antd";
 import { FaArrowLeft } from "react-icons/fa";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { UploadOutlined } from "@ant-design/icons";
 import { AiFillDelete } from "react-icons/ai";
 import { useSelector, useDispatch } from "react-redux";
 import { Post } from "../../config/api/post";
 import { Get } from "../../config/api/get";
-import { CONTENT_TYPE,PRODUCT, UPLOADS_URL } from "../../config/constants";
+import { CONTENT_TYPE,PRODUCT,CATEGORIES } from "../../config/constants";
 import { Upload } from "antd";
 import { PlusOutlined } from '@ant-design/icons';
 
@@ -24,43 +25,38 @@ const { TextArea } = Input;
 function ProductAdd() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const {id} = useParams()
   const user = useSelector((state) => state.user.userData);
-  const [product, setProduct] = useState(null);
   const token = useSelector((state) => state.user.userToken);
   const [variations, setVariations] = React.useState([]);
   const [loading, setLoading] = React.useState(false);
   const [inputValue, setInputValue] = useState('');
+  const [categories, setCategories] = useState([]);
 
-  const [fileList, setFileList] = useState([])
 
-
-  
   useEffect(() => {
-    getProduct();
+    getAllCategories();
   }, []);
 
-  const getProduct = async (pageNumber, pageSize, search, reset = false) => {
-    setLoading(true);
+  const getAllCategories = async (pageNumber, pageSize, search, reset = false) => {
     try {
-      const response = await Get(PRODUCT.getProductById + id, token);
-      setLoading(false);
+      const response = await Get(CATEGORIES.getAllCategories, token, {
+        page: "1",
+        limit: "100"
+      });
       console.log("response", response);
       if (response?.status) {
-        setProduct(response?.data?.product);
-        setVariations(response?.data?.product?.variations)
-       
+        setCategories(response?.data?.docs);
       } else {
         message.error("Something went wrong!");
         console.log("error====>", response);
       }
     } catch (error) {
       console.log(error.message);
-      setLoading(false);
     }
   };
 
 
+  // const [fileList, setFileList] = useState([])
 
   const onFinish = (values) => {
     console.log("Success:", values);
@@ -70,6 +66,7 @@ function ProductAdd() {
       price: values.price,
       stock: values.stock,
       title: values.title,
+      category:values.category,
       description: values.description,
     };
 
@@ -84,16 +81,10 @@ function ProductAdd() {
 
     formObject.append("variations", JSON.stringify(variations));
 
-    if(values?.gallery?.fileList){
     values.gallery.fileList.map((item) => {
       formObject.append("gallery",item.originFileObj);
     })
-  }
-
-    console.log(values.gallery)
-
-
-    return;
+    
 
 
     Post(PRODUCT.addProduct, formObject,token,null,CONTENT_TYPE.FORM_DATA)
@@ -112,9 +103,6 @@ function ProductAdd() {
         setLoading(false);
       });
   };
-
-
-  const handleChange = ({ fileList: newFileList }) => setFileList(newFileList);
 
 
   const addVariations = () => {
@@ -202,7 +190,7 @@ function ProductAdd() {
             />
             &emsp;
             <h1 className="pageTitle" style={{ margin: 0 }}>
-              Edit Product
+              Add New Product
             </h1>
           </Col>
         </Row>
@@ -211,7 +199,7 @@ function ProductAdd() {
           <Col xs={24} md={16}>
             <Row style={{ padding: "10px" }}>
               <Col xs={24} md={11}>
-                {product && <Form
+                <Form
                   layout="vertical"
                   name="basic"
                   labelCol={{
@@ -220,7 +208,9 @@ function ProductAdd() {
                   wrapperCol={{
                     span: 24,
                   }}
-                  initialValues={product}
+                  initialValues={{
+                    remember: true,
+                  }}
                   onFinish={onFinish}
                   onKeyDown={(e) => { e.key === 'Enter' && e.preventDefault() }}
                 >
@@ -228,12 +218,10 @@ function ProductAdd() {
 <Form.Item label="Product Images" name="gallery">
                     <Upload
                       multiple
-                      fileList={product.gallery.map(item => {return({"url":UPLOADS_URL + "/" + item})})}
                       listType="picture-card"
                       beforeUpload={(file) => {
                         return false;
                       }}
-                      onChange={handleChange}
                     >
                       <div>
                         <PlusOutlined />
@@ -292,6 +280,31 @@ function ProductAdd() {
                       }}
                     />
                   </Form.Item>
+
+
+
+                  <Form.Item
+                    label="Product Category"
+                    name="category"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Please select product category!",
+                      },
+                    ]}
+                  >
+                      <Select
+                            className="FormSelect"
+                            size="large"
+                            style={{width:"100%", marginBottom:"0px"}}
+                            placeholder="Select product category"
+                          >
+                            {categories.length > 0 && categories.map(item => {
+                              return(<Select.Option value={item._id}>{item.title}</Select.Option>)
+                            })}
+                          </Select>
+                  </Form.Item>
+
 
                   <Form.Item
                     label="Price"
@@ -448,11 +461,11 @@ function ProductAdd() {
                         style={{ padding: "12px 40px", height: "auto" }}
                         className="mainButton graden-bg"
                       >
-                        Add Product
+                        {loading ? "Loading...." : "Add Product"}
                       </Button>
                     </Form.Item>
                   </Row>
-                </Form>}
+                </Form>
               </Col>
             </Row>
           </Col>

@@ -169,6 +169,17 @@ function ViewEvent() {
                           >
                             Edit Event
                           </Button>
+                          &emsp;
+                          <Button
+                            type="button"
+                            htmlType="button"
+                            size={"large"}
+                            style={{ padding: "8px 40px", height: "auto", background:"#b2001b", color:'white' }}
+                          
+                            onClick={() => handleDeleteButtonClick()}
+                          >
+                            Delete Event
+                          </Button>
                         </div>
                       </Col>
                     </Row>}

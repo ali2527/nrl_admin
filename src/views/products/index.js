@@ -25,23 +25,18 @@ import { UserOutlined, InfoCircleOutlined } from "@ant-design/icons";
 import { FaSearch, FaFilter, FaCaretDown, FaEye } from "react-icons/fa";
 import ClientLayout from "../../components/ClientLayout";
 import { Get } from "../../config/api/get";
-import { SERVICE_PROVIDERS } from "../../config/constants";
+import { PRODUCT } from "../../config/constants";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-function ContentManagement() {
+function Products() {
   const token = useSelector((state) => state.user.userToken);
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(null);
-  const [selectedUser, setSelectedUser] = useState(null);
-  const [serviceProviders, setServiceProviders] = useState([
-    { id: 1, pageName: 'Homepage', shortDescription: 'Lorem ipsum dolor sit amet, consectetur', },
-    { id: 2, pageName: 'About Us', shortDescription: 'Lorem ipsum dolor sit amet, consectetur',  },
-    { id: 3, pageName: 'Terms & Conditions', shortDescription: 'Lorem ipsum dolor sit amet, consectetur', },
-    // Add more user objects as needed
-  ]);
+  const [selectedService, setSelectedService] = useState(null);
+  const [procucts, setProducts] = useState([]);
   const [paginationConfig, setPaginationConfig] = useState({
     pageNumber: 1,
     limit: 10,
@@ -66,7 +61,7 @@ function ContentManagement() {
   const message = `Showing records ${endIndex} of ${paginationConfig.totalDocs}`;
 
   useEffect(() => {
-    getServiceProviders();
+    getAllProducts();
   }, []);
 
   
@@ -77,7 +72,7 @@ function ContentManagement() {
       pageNumber: pageNumber,
     });
 
-    getServiceProviders(pageNumber);
+    getAllProducts(pageNumber);
   };
 
   const handleSearch = (value) => {
@@ -101,7 +96,7 @@ function ContentManagement() {
       from: null,
       to: null,
     });
-    getServiceProviders(paginationConfig.pageNumber, paginationConfig.limit, "", true);
+    getAllProducts(paginationConfig.pageNumber, paginationConfig.limit, "", true);
   };
 
   const handleOpenChange = (newOpen) => {
@@ -129,35 +124,34 @@ function ContentManagement() {
       current: 1,
     });
 
-    getServiceProviders(1, pageSize);
+    getAllProducts(1, pageSize);
   };
 
   const handleStatus = async () => {
     try {
-      const index = serviceProviders.findIndex((user) => user._id == selectedUser._id);
+      const index = procucts.findIndex((user) => user._id == selectedService._id);
 
       console.log(index)
-      const response = await Get(SERVICE_PROVIDERS.toggleStatus + "/" + selectedUser._id , token,{});
-      const newUsers = [...serviceProviders];
+      const response = await Get(PRODUCT.toggleStatus + "/" + selectedService._id , token,{});
+      const newService = [...procucts];
       
-      console.log(">>>>",newUsers[index].isActive)
-      console.log(">>>>",selectedUser.isActive)
-      newUsers[index].isActive = !selectedUser.isActive;
+      console.log(">>>>",newService[index].isActive)
+      console.log(">>>>",selectedService.isActive)
+      newService[index].status = newService[index].status == "ACTIVE" ? "INACTIVE" : "ACTIVE";
       setModalOpen(false);
-      setServiceProviders(newUsers);
+      setProducts(newService);
     } catch (error) {
       console.log(error.message);
     }  
     
-  };
-  
+  }; 
 
 
 
-  const getServiceProviders = async (pageNumber, pageSize, search, reset = false) => {
+  const getAllProducts = async (pageNumber, pageSize, search, reset = false) => {
     setLoading(true);
     try {
-      const response = await Get(SERVICE_PROVIDERS.get, token, {
+      const response = await Get(PRODUCT.getAllProducts, token, {
         page: pageNumber
           ? pageNumber.toString()
           : paginationConfig.pageNumber.toString(),
@@ -171,13 +165,13 @@ function ContentManagement() {
       });
       setLoading(false);
       console.log("response", response);
-      if (response?.docs) {
-        setServiceProviders(response?.docs);
+      if (response?.status) {
+        setProducts(response?.data?.docs);
         setPaginationConfig({
-          pageNumber: response?.page,
-          limit: response?.limit,
-          totalDocs: response?.totalDocs,
-          totalPages: response?.totalPages,
+          pageNumber: response?.data?.page,
+          limit: response?.data?.limit,
+          totalDocs: response?.data?.totalDocs,
+          totalPages: response?.data?.totalPages,
         });
       } else {
         message.error("Something went wrong!");
@@ -202,38 +196,59 @@ function ContentManagement() {
   };
 
   const columns = [
-    {
-      title: "C-ID	",
-      dataIndex: "key",
-      key: "key",
-      width: 100,
-      render: (value, item, index) => (index < 10 && "0") + (index + 1),
-    },
-    {
-      title: "Name Of Page",
-      dataIndex: "pageName",
-      key: "pageName",
-    },
-    {
-        title: "Short Description",
-        dataIndex: "shortDescription",
-        key: "shortDescription",
-      },
-    // {
-    //   title: "Uploaded On",
-    //   dataIndex: "createdAt",
-    //   key: "createdAt",
-    //   render: (item) => <span>{dayjs(item).format("M/D/YYYY")}</span>,
-    // },
-    {
-      title: "Action",
-      dataIndex: "id",
-      key: "id",
-      render: (item) => (
-        <div className="view-link" onClick={() => navigate("/content-management/" + item )}>edit</div>
-      ),
-    },
-  ];
+        {
+          title: "C-ID	",
+          dataIndex: "key",
+          key: "key",
+          width: 100,
+          render: (value, item, index) => (index < 10 && "0") + (index + 1),
+        },
+        {
+          title: "Sku",
+          dataIndex: "sku",
+          key: "sku",
+        },
+        {
+            title: "Title",
+            dataIndex: "title",
+            key: "title",
+          },
+          {
+            title: "Category",
+            dataIndex: "category",
+            key: "category",
+            render: (value, item, index) => <>{value.title}</>,
+          },
+        {
+            title: "Price",
+            dataIndex: "price",
+            key: "price",
+            render: (value, item, index) => <>$ {value}</>,
+          },
+          {
+            title: "Qty",
+            dataIndex: "stock",
+            key: "stock",
+          },
+        {
+          title: "Variations",
+          dataIndex: "variations",
+          key: "variations",
+          render: (value, item, index) => value.map((item,index) => {return(<>{index > 0 && ","} {item.title} </>)}),
+        },
+        {
+          title: "Action",
+          dataIndex: "_id",
+          key: "_id",
+          render: (item) => (
+            <FaEye
+              style={{ fontSize: "16px", color: "#000",  cursor: "pointer" }}
+                 onClick={() => navigate("/product-management/" + item )}
+            />
+          ),
+        },
+      ];
+    
 
   const filterContent = (
     <div className="filterDropdown">
@@ -283,7 +298,7 @@ function ContentManagement() {
           size={"large"}
           style={{ marginBottom: "10px" }}
           className="mainButton primaryButton"
-          onClick={() => getServiceProviders()}
+          onClick={() => getAllProducts()}
         >
           Apply
         </Button>
@@ -310,7 +325,7 @@ function ContentManagement() {
             md={12}
             style={{ display: "flex", alignItems: "center" }}
           >
-           <h1 className="pageTitle">Category Management</h1>
+           <h1 className="pageTitle">Products</h1>
           </Col>
           <Col
             xs={24}
@@ -322,15 +337,14 @@ function ContentManagement() {
             }}
           >
             <Button
-
               type="primary"
               shape="round"
               size={"large"}
               style={{padding: "12px 40px", height:'auto'}}
               className="mainButton primaryButton"
-              onClick={() => navigate("/category-management/addNewCategory")}
+              onClick={() => navigate("/product-management/addNewProduct")}
             >
-              Add Category
+              Create Product
             </Button>
 
 
@@ -385,12 +399,12 @@ function ContentManagement() {
                     cursor: "pointer",
                   }}
                   onClick={() =>
-                    getServiceProviders(1, paginationConfig.limit, filter.keyword)
+                    getAllProducts(1, paginationConfig.limit, filter.keyword)
                   }
                 />
               }
               onPressEnter={(e) =>
-                getServiceProviders(1, paginationConfig.limit, filter.keyword)
+                getAllProducts(1, paginationConfig.limit, filter.keyword)
               }
             />
             &emsp;
@@ -432,7 +446,7 @@ function ContentManagement() {
           ) : (
             <Table
               className="styledTable"
-              dataSource={serviceProviders}
+              dataSource={procucts}
               columns={columns}
               pagination={false}
             />
@@ -506,14 +520,16 @@ function ContentManagement() {
           height={120}
         />
         <Typography.Title level={4} style={{ fontSize: "25px" }}>
-          {selectedUser?.isActive ? "Deactivate" : "Activate"}
+          {selectedService?.status == "ACTIVE" ? "Deactivate" : "Activate"}
         </Typography.Title>
         <Typography.Text style={{ fontSize: 16 }}>
-        Do You Want To  {selectedUser?.isActive ? "Deactivate" : "Activate"} This Service Provider?
+        Do You Want To  {selectedService?.status == "ACTIVE" ? "Deactivate" : "Activate"} This Service?
         </Typography.Text>
       </Modal>
     </Layout>
   );
 }
 
-export default ContentManagement;
+export default Products;
+
+

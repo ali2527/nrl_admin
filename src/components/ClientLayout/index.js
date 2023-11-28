@@ -67,7 +67,7 @@ const sideNavItems = [
     key: 6,
     icon: <BiCategory style={{fontSize:"18px"}}/>,
     label: "Categories",
-    path: "/category-management",
+    path: "/categories",
   },
   {
     key: 7,

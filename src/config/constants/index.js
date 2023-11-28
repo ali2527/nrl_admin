@@ -43,6 +43,19 @@ export const REPRESENTATIVE = {
   deleteRepresentative : "/representative/deleteRepresentative/",
 }
 
+export const DONATIONS = {
+  getAllDonations : "/donation/getAllDonations",
+}
+
+
+export const CATEGORIES = {
+  addCategory:"/category/addCategory",
+  getAllCategories: "/category/getAllCategories",
+  getCategoryById: "/category/getCategoryById/",
+  toggleStatus: "/category/toggleActiveInActive",
+  updateCategory:"/category/updateCategory/",
+  deleteCategory:"/category/deleteCategory/",
+};
 
 
 
@@ -81,7 +94,9 @@ export const EVENT = {
 export const PRODUCT = {
   addProduct: "/product/addProduct",
   getAllProducts:"/product/getAllProducts",
-  getProductById:"/product/getProductById/"
+  getProductById:"/product/getProductById/",
+  deleteProduct:"/product/deleteProduct/",
+  updateProduct:"/product/updateProduct/"
 };
 export const BOOK = {
   addBook: "/book/addBook",
@@ -107,12 +122,6 @@ export const BOOK = {
     toggleStatus: "/users/toggleActiveInActive",
   };
 
-  export const CATEGORIES = {
-    get: "/category/GetAllCategoriesNew",
-    getOne: "/category/admin/",
-    toggleStatus: "/category/toggleActiveInActive",
-    edit:"/category/edit/",
-  };
 
   export const FEEDBACK = {
     get: "/contact",

@@ -7,31 +7,19 @@ import ImageGrid from "../../components/imagegrid";
 import { AiFillDelete } from "react-icons/ai";
 import { PRODUCT } from "../../config/constants";
 import { Get } from "../../config/api/get";
+import { Post } from "../../config/api/post";
+import swal from "sweetalert";
 
 
 
-function AdvertiseBusiness() {
+function ProductDetails() {
   const token = useSelector((state) => state.user.userToken);
   const [modalOpen, setModalOpen] = useState(false);
   const [product, setProduct] = useState({});
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
   const {id} = useParams()
-  const [onlineService, setOnlineServices] = useState([
-    {
-      key: 1,
-      title: "Men's Ruby Masonic Ring",
-      text: "Lorem Ipsum is simply dummy text of the printing  and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
-      bottomTitle: "Product Specification",
-      images: [
-        "../images/productPic.png",
-        "../images/productPic2.png",
-        "../images/productPic3.png",
-      ],
-      sizeTitle: "Select Size",
-      sizes: ["16mm", "15mm", "14mm", "13mm"],
-    },
-  ]);
+
 
   useEffect(() => {
     getProduct();
@@ -43,7 +31,7 @@ function AdvertiseBusiness() {
   };
   
   const getProduct = async (pageNumber, pageSize, search, reset = false) => {
-    setLoading(true);
+    // setLoading(true);
     try {
       const response = await Get(PRODUCT.getProductById + id, token);
       setLoading(false);
@@ -60,6 +48,27 @@ function AdvertiseBusiness() {
       setLoading(false);
     }
   };
+
+  const handleDelete = () => {
+    Post(PRODUCT.deleteProduct + id, {}, token)
+    .then((response) => {
+      setLoading(false);
+      if (response?.data?.status) {
+        swal("Success", "Product deleted successfully", "success");
+        navigate(-1);
+      } else {
+        swal(
+          "Oops!",
+          response?.data?.message || response?.response?.data?.message,
+          "error"
+        );
+      }
+    })
+    .catch((e) => {
+      console.log(":::;", e);
+      setLoading(false);
+    });
+  }
 
 
   
@@ -88,6 +97,56 @@ function AdvertiseBusiness() {
 
           <Row justify="center" className="whitebg" style={{padding:"20px"}}>
             <Col xs={24} md={24} xl={24}>
+
+            {loading &&
+          <div >
+            <Row  gutter={50}>
+              <Col xs={24} md={12}>
+              <Row gutter={20}>
+        <Col span={6}>
+        <Row gutter={[0, 25]} style={{maxHeight:"500px",overflow:"auto"}}>
+          
+            <Col span={24} style={{flexDirection:'column'}} >
+              <Row>
+                <Skeleton.Image style={{height:"150px",borderRadius:"20px"}} active className="skeleteonImage" />
+              </Row>
+              <br/>
+
+              <Row>
+                <Skeleton.Image style={{height:"150px",borderRadius:"20px"}} active className="skeleteonImage" />
+              </Row>
+              <br/>
+              <Row>
+                <Skeleton.Image style={{height:"150px",borderRadius:"20px"}}  active className="skeleteonImage" />
+              </Row> 
+            
+            </Col>
+          
+        </Row>
+      </Col>
+      <Col span={18}>
+      <Skeleton.Image style={{height:"490px",borderRadius:"20px"}} active className="skeleteonImage"/>
+      </Col>
+      
+    </Row>
+              </Col>
+
+              <Col xs={24} md={12}>
+              <Skeleton active /> <br />
+              <Skeleton active /> <br />
+              <Skeleton active /> <br />
+              <Skeleton.Button active /> &nbsp;
+              <Skeleton.Button active />
+              </Col>
+            </Row>
+          </div>}
+
+
+
+
+
+
+          
               {!loading && product &&
                <Row
                justify="space-between"
@@ -101,11 +160,11 @@ function AdvertiseBusiness() {
                 }
                </Col>
                <Col xs={22} md={22} lg={12}>
-                 <Button
+                 {/* <Button
                    className="delete-icn"
                    icon={<AiFillDelete />}
                    onClick={handleDeleteButtonClick}
-                 ></Button>
+                 ></Button> */}
 
                  <h3 className="product-tital">{product.title}</h3>
                  <h5 className="product-bottomtitle">
@@ -125,7 +184,8 @@ function AdvertiseBusiness() {
                  })}
                    </>);
                  }) }
-           
+           <br/>
+           <br/>
                  
                  
                  <div>
@@ -139,6 +199,17 @@ function AdvertiseBusiness() {
                    >
                      Edit Product
                    </Button>
+                   &emsp;
+                          <Button
+                            type="button"
+                            htmlType="button"
+                            size={"large"}
+                            style={{ padding: "8px 40px", height: "auto", background:"#b2001b", color:'white' }}
+                          
+                            onClick={() => handleDeleteButtonClick()}
+                          >
+                            Delete Product
+                          </Button>
                  </div>
                </Col>
              </Row>
@@ -152,7 +223,7 @@ function AdvertiseBusiness() {
       
       <Modal
         open={modalOpen}
-        // onOk={() => handleStatus()}
+        onOk={() => handleDelete()}
         onCancel={() => setModalOpen(false)}
         okText="Yes"
         className="StyledModal"
@@ -189,4 +260,4 @@ function AdvertiseBusiness() {
   );
 }
 
-export default AdvertiseBusiness;
+export default ProductDetails;

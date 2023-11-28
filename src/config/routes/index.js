@@ -12,7 +12,7 @@ import Library from "../../views/books";
 import ViewLibrary from "../../views/books/viewBook";
 import AddLibrary from "../../views/books/addNewBook";
 import EditLibrary from "../../views/books/editBook";
-
+import Donations from "../../views/donations"
 
 import Profile from "../../views/profile";
 import ChangePass from "../../views/profile/changePass";
@@ -27,15 +27,14 @@ import ReligiousArticles from "../../views/religious-articles";
 import FeedbackManagement from "../../views/feedback-management";
 import FeedbackDetails from "../../views/feedback-management/feedbackDetails";
 import LiveStreaming from "../../views/live-streaming";
-import InventoryManagement from "../../views/product-management";
+import InventoryManagement from "../../views/products";
 import OnlineServices from "../../views/online-services"
-import ViewProduct from "../../views/product-management/viewProduct";
-import Productadd from "../../views/product-management/addNewProduct";
-import EditProduct from "../../views/product-management/editProduct";
+import ViewProduct from "../../views/products/viewProduct";
+import Productadd from "../../views/products/addNewProduct";
+import EditProduct from "../../views/products/editProduct";
 import OrderManagement from "../../views/order-management";
 import OrderDetails from "../../views/order-management/orderDetail";
-import CategoryManagement from "../../views/category-management";
-import EditCategory from "../../views/category-management/editCategory";
+import Categories from "../../views/categories";
 import AdsManagement from "../../views/ads-management";
 import AdDetails from "../../views/ads-management/adDetails";
 import Notifications from "../../views/notifications";
@@ -46,8 +45,8 @@ import Events from "../../views/events/index";
 import ViewEvent from "../../views/events/viewEvent";
 import AddEvent from "../../views/events/addNewEvent";
 import EditEvent from "../../views/events/editEvent";
-import AddCategory from "../../views/category-management/addNewCategory";
-import ViewCategory from "../../views/category-management/viewCategory";
+import AddCategory from "../../views/categories/addNewCategory";
+// import CategoryDetails from "../../views/categories/viewCategory";
 import States from "../../views/state-management";
 import StateDetails from "../../views/state-management/stateDetails";
 import AddState from "../../views/state-management/addNewState";
@@ -61,6 +60,7 @@ import AddRepresentative from "../../views/representative-management/addNewRepre
 import UserAuthCheck from "../../components/AuthCheck/UserAuthCheck";
 // import AdminAuthCheck from "../../components/AuthCheck/AdminAuthCheck";
 import ClientLayout from "../../components/ClientLayout";
+import CategoryDetails from "../../views/categories/categoryDetails";
 
 const MyRouter = () => {
   return (
@@ -118,6 +118,25 @@ const MyRouter = () => {
             </UserAuthCheck>
           }
         />
+
+<Route
+          path="/donations"
+          activeTab="donations"
+          index
+          element={
+            <UserAuthCheck>
+              <ClientLayout
+                head={{
+                  title: "Donations",
+                  description: "Some Description.",
+                }}
+              >
+                <Donations/>
+              </ClientLayout>
+            </UserAuthCheck>
+          }
+        />
+
 
 <Route
           path="/states"
@@ -789,23 +808,23 @@ const MyRouter = () => {
           }
         />
         <Route
-          path="/category-management"
+          path="/categories"
           index
           element={
             <UserAuthCheck>
               <ClientLayout
                 head={{
-                  title: "Category Management",
+                  title: "Categories",
                   description: "Some Description.",
                 }}
               >
-                <CategoryManagement/>
+                <Categories/>
               </ClientLayout>
             </UserAuthCheck>
           }
         />
         <Route
-          path="/category-management/addNewCategory"
+          path="/categories/addNewCategory"
           index
           element={
             <UserAuthCheck>
@@ -822,17 +841,17 @@ const MyRouter = () => {
         />
 
 <Route
-          path="/category-management/:id"
+          path="/categories/:id"
           index
           element={
             <UserAuthCheck>
               <ClientLayout
                 head={{
-                  title: "View Category",
+                  title: "Category Details",
                   description: "Some Description.",
                 }}
               >
-                <ViewCategory/>
+                <CategoryDetails/>
               </ClientLayout>
             </UserAuthCheck>
           }

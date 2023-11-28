@@ -3214,21 +3214,18 @@ select.mainInput {
 }
 
 .size-box {
-  min-width: 64px;
-  height: 60px;
   border-radius: 10px;
   padding: 10px;
   background: transparent;
-  border: 1.5px solid #000;
-  box-shadow: 0px 3px 6px rgba(43, 37, 65, 0.3);
-  font-family: "Roboto", sans-serif;
+  border: 1px solid #dadada;
+  font-family: "Nunito", sans-serif !important;
   font-weight: normal;
-  font-size: 24px;
+  font-size: 14px;
   color: #000;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  margin: 15px 20px 30px 0px;
+  margin: 10px 5px;
 }
 
 .delete-icn {
