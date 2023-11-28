@@ -47,6 +47,11 @@ export const DONATIONS = {
   getAllDonations : "/donation/getAllDonations",
 }
 
+export const ORDERS = {
+  getAllOrders : "/order/getAllOrders",
+  updateOrder : "/order/updateOrder/",
+  getOrderById:"/order/getOrderById/"
+}
 
 export const CATEGORIES = {
   addCategory:"/category/addCategory",

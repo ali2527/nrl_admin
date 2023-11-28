@@ -56,6 +56,8 @@ import AddPosition from "../../views/position-management/addNewPosition";
 import Representatives from "../../views/representative-management";
 import RepresentativeDetails from "../../views/representative-management/representativeDetails";
 import AddRepresentative from "../../views/representative-management/addNewRepresentative";
+import Orders from "../../views/orders"
+import ViewOrder from "../../views/orders/orderDetails"
 //components imports
 import UserAuthCheck from "../../components/AuthCheck/UserAuthCheck";
 // import AdminAuthCheck from "../../components/AuthCheck/AdminAuthCheck";
@@ -725,6 +727,41 @@ const MyRouter = () => {
         />
 
 
+
+<Route
+          path="/orders"
+          index
+          element={
+            <UserAuthCheck>
+              <ClientLayout
+                head={{
+                  title: "Orders",
+                  description: "Some Description.",
+                }}
+              >
+                <Orders/>
+              </ClientLayout>
+            </UserAuthCheck>
+          }
+        />
+      
+
+<Route
+          path="/orders/:id"
+          index
+          element={
+            <UserAuthCheck>
+              <ClientLayout
+                head={{
+                  title: "View Order",
+                  description: "Some Description.",
+                }}
+              >
+                <ViewOrder/>
+              </ClientLayout>
+            </UserAuthCheck>
+          }
+        />
 
 
         <Route
