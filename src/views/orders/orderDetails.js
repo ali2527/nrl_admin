@@ -62,13 +62,13 @@ function OrderDetails() {
   };
 
 
-  const deleteCategory = () => {
+  const deleteOrder = () => {
 
-    Post(ORDERS.deleteCategory+id, {},token)
+    Post(ORDERS.deleteOrder+id, {},token)
       .then((response) => {
         setLoading(false);
         if (response?.data?.status) {
-          swal("Success","Category deleted successfully","success");
+          swal("Success","Order deleted successfully","success");
           navigate(-1)
         } else {
           swal("Oops!", response?.data?.message || response?.response?.data?.message, "error");
@@ -81,12 +81,12 @@ function OrderDetails() {
   };
 
   const onFinish = (values) => {
-    Post(ORDERS.updateCategory+id, values,token)
+    Post(ORDERS.updateOrder+id, values,token)
       .then((response) => {
         setLoading(false);
         console.log("response",response)
         if (response?.data?.status) {
-          swal("Success","Category updated successfully","success");
+          swal("Success","Order updated successfully","success");
           navigate(-1)
         } else {
           swal("Oops!", response?.data?.message || response?.response?.data?.message, "error");
@@ -129,7 +129,7 @@ function OrderDetails() {
               {order && <Row style={{ padding: "10px" }}>
                 <Col xs={24} md={18}>
                   
-                <Row padding={[20,20]} style={{ padding: "10px" }}>
+                <Row gutter={[20,20]} style={{ padding: "10px" }}>
                           <Col xs={24} md={12}>
                             <Typography.Title
                               level={4}
@@ -146,15 +146,15 @@ function OrderDetails() {
                               level={4}
                               style={{ fontSize: "18px" }}
                             >
-                            Total Amount
+                            Status
                             </Typography.Title>
-                            <Typography.Text style={{ fontSize: "16px" }}>
-                              $ {order?.totalAmount}
+                            <Typography.Text style={{ fontSize: "16px" }} className={order?.status == "PENDING" ? "orangeSelect" : order?.status == "PROCESSING" ? "blueSelect" : order?.status == "DISPATCHED" ? "purpleSelect" : order?.status == "COMPLETED" ? "greenSelect" : "redSelect"}>
+                              {order?.status}
                             </Typography.Text>
                           </Col>
                         </Row>
                         <br />
-                        <Row padding={[20,20]} style={{ padding: "10px" }}>
+                        <Row gutter={[20,20]} style={{ padding: "10px" }}>
                           <Col xs={24} md={12}>
                             <Typography.Title
                               level={4}
@@ -171,16 +171,28 @@ function OrderDetails() {
                               level={4}
                               style={{ fontSize: "18px" }}
                             >
-                            City
+                             Phone
+                            </Typography.Title>
+                            <Typography.Text style={{ fontSize: "16px" }}>
+                              {order?.phone}
+                            </Typography.Text>
+                          </Col>
+                         
+                        </Row>
+                        <br />
+                        <Row gutter={[20,20]} style={{ padding: "10px" }}>
+                          <Col xs={24} md={8}>
+                            <Typography.Title
+                              level={4}
+                              style={{ fontSize: "18px" }}
+                            >
+                             City
                             </Typography.Title>
                             <Typography.Text style={{ fontSize: "16px" }}>
                               {order?.city}
                             </Typography.Text>
                           </Col>
-                        </Row>
-                        <br />
-                        <Row padding={[20,20]} style={{ padding: "10px" }}>
-                          <Col xs={24} md={12}>
+                          <Col xs={24} md={8}>
                             <Typography.Title
                               level={4}
                               style={{ fontSize: "18px" }}
@@ -191,92 +203,119 @@ function OrderDetails() {
                               {order?.state}
                             </Typography.Text>
                           </Col>
-                          <Col xs={24} md={12}>
+                          <Col xs={24} md={8}>
                             <Typography.Title
                               level={4}
                               style={{ fontSize: "18px" }}
                             >
-                            Zip
+                             Zip
                             </Typography.Title>
                             <Typography.Text style={{ fontSize: "16px" }}>
                               {order?.zip}
                             </Typography.Text>
                           </Col>
+                         
                         </Row>
-                        <br />
-                        <Row padding={[20,20]} style={{ padding: "10px" }}>
-                          <Col xs={24} md={12}>
-                            <Typography.Title
-                              level={4}
-                              style={{ fontSize: "18px" }}
-                            >
-                             Phone
-                            </Typography.Title>
-                            <Typography.Text style={{ fontSize: "16px" }}>
-                              {order?.phone}
-                            </Typography.Text>
-                          </Col>
-                          <Col xs={24} md={12}>
-                            <Typography.Title
-                              level={4}
-                              style={{ fontSize: "18px" }}
-                            >
-                            Status
-                            </Typography.Title>
-                            <Typography.Text style={{ fontSize: "16px" }}>
-                              {order?.status}
-                            </Typography.Text>
-                          </Col>
-                        </Row>
-                        <br/>
-                        <hr/>
-                        <br/>
+                      
 
                         {order?.items && order?.items.length > 0 && order?.items.map((item,index) => {
-                          return(<Row padding={[20,20]} style={{ padding: "10px" }}>
-                            <Col xs={24} md={24}>
-                            <Typography.Title
-                              level={4}
-                              style={{ fontSize: "20px",fontWeight:'bold' }}
-                            >
-                             Product {index + 1}
-                            </Typography.Title>
+                          return(
+                          <>
+                            <br/>
+                        <hr/>
+                        <br/>
+                        <Row gutter={[20,20]} style={{ padding: "10px",display:'flex', justifyContent:"center",alignItems:'center' }}>
+                            <Col xs={8} md={8}>
+                            <Image src={UPLOADS_URL + "/" + item.product.gallery[0]} width={"100%"} preview={false} style={{border:'1px solid #dadada', borderRadius:"10px"}}/>
                             </Col>
-                          <Col xs={24} md={8}>
+                          <Col xs={24} md={8} justify="center">
+                            <Row>
+                              <Col>
                             <Typography.Title
                               level={4}
-                              style={{ fontSize: "18px" }}
+                              style={{ fontSize: "20px" }}
                             >
-                             sku
+                            {item?.product?.title}
                             </Typography.Title>
-                            <Typography.Text style={{ fontSize: "16px" }}>
+                            <Typography.Text style={{ fontSize: "14px" }}>
                               {item?.product?.sku}
                             </Typography.Text>
-                          </Col>
-                          <Col xs={24} md={8}>
+                            </Col>  
+                            </Row>
+                            <br/>
+                            <Row>
                             <Typography.Title
                               level={4}
                               style={{ fontSize: "18px" }}
                             >
-                            Title
+                            Quantity :
                             </Typography.Title>
+                            &nbsp;
                             <Typography.Text style={{ fontSize: "16px" }}>
-                            {item?.product?.title}
+                            {item?.quantity}
                             </Typography.Text>
-                          </Col>
-                          <Col xs={24} md={8}>
+                          </Row>
+                            {item?.variations.length > 0 && item?.variations.map(subItem => {return(
+                            
+                            <Row>
                             <Typography.Title
                               level={4}
                               style={{ fontSize: "18px" }}
                             >
-                             Price
+                            {subItem.title} :
                             </Typography.Title>
+                            &nbsp;
                             <Typography.Text style={{ fontSize: "16px" }}>
-                              {item?.product?.price}
+                            {subItem?.value}
+                            </Typography.Text>
+                          </Row>)}) }
+                            
+                          </Col>
+                          <Col xs={24} md={8} style={{textAlign:'right'}}>
+                          <Typography.Text
+                              level={4}
+                              style={{ fontSize: "18px" }}
+                            >
+                            {item?.quantity} x {item?.product?.price} &nbsp; =  
+                            </Typography.Text>
+                            &emsp;
+                            <Typography.Text
+                              level={4}
+                              style={{ fontSize: "18px" }}
+                            >
+                            $  {item?.product?.price} 
                             </Typography.Text>
                           </Col>
-                        </Row>);
+                        </Row>
+                          </>
+                          
+                          );
                         })}
+
+<br/>
+                        <hr/>
+                        <br/>
+                        <Row justify={"space-between"}>
+                          <Col xs={12}>
+                          <Typography.Title
+                              level={4}
+                              style={{ fontSize: "25px" }}
+                            >
+                          Total
+                            </Typography.Title>
+                          </Col>
+                          <Col xs={12} style={{textAlign:'right'}}>
+                          <Typography.Title
+                              level={4}
+                              style={{ fontSize: "25px" }}
+                            >
+                          $ {order.totalAmount}
+                            </Typography.Title>
+
+                          </Col>
+                        </Row>
+
+
                         <br />
                         <Row style={{ padding: "10px" }}>
                          
@@ -288,7 +327,7 @@ function OrderDetails() {
                           
                             onClick={() => handleDeleteButtonClick()}
                           >
-                            Delete Category
+                            Delete Order
                           </Button>
                         </Row>
                 </Col>
@@ -302,7 +341,7 @@ function OrderDetails() {
 
         <Modal
         open={modalOpen}
-        onOk={() => deleteCategory()}
+        onOk={() => deleteOrder()}
         onCancel={() => setModalOpen(false)}
         okText="Yes"
         className="StyledModal"
@@ -331,7 +370,7 @@ function OrderDetails() {
         System Message!
         </Typography.Title>
         <Typography.Text style={{ fontSize: 16 }}>
-        Are You Sure You Want To Delete This Category?
+        Are You Sure You Want To Delete This Order?
         </Typography.Text>
       </Modal>
       </div>

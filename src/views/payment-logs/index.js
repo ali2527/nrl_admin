@@ -158,7 +158,7 @@ function PaymentLogs() {
   const getPaymentLogs = async (pageNumber, pageSize, search, reset = false) => {
     setLoading(true);
     try {
-      const response = await Get(PAYMENT.get, token, {
+      const response = await Get(PAYMENT.getAllOrderPayments, token, {
         page: pageNumber
           ? pageNumber.toString()
           : paginationConfig.pageNumber.toString(),
@@ -172,13 +172,13 @@ function PaymentLogs() {
       });
       setLoading(false);
       console.log("response", response);
-      if (response?.docs) {
-        setUsers(response?.docs);
+      if (response?.status) {
+        setUsers(response?.data?.docs);
         setPaginationConfig({
-          pageNumber: response?.page,
-          limit: response?.limit,
-          totalDocs: response?.totalDocs,
-          totalPages: response?.totalPages,
+          pageNumber: response?.data?.page,
+          limit: response?.data?.limit,
+          totalDocs: response?.data?.totalDocs,
+          totalPages: response?.data?.totalPages,
         });
       } else {
         message.error("Something went wrong!");
@@ -210,17 +210,19 @@ function PaymentLogs() {
       render: (value, item, index) => (index < 9 && "0") + (index + 1),
     },
     {
-      title: "User",
-      dataIndex: "user123",
-      key: "user123",
+      title: "Order Id",
+      dataIndex: "order",
+      key: "order",
+      render: (value, item, index) => <>{value?.orderId} </>,
     },
     {
-      title: "Email Address",
-      dataIndex: "email",
-      key: "email",
+      title: "Products",
+      dataIndex: "order",
+      key: "order",
+      render: (value, item, index) => <>{value?.items?.length} </>
     },
     {
-      title: "Date",
+      title: "Payment Date",
       dataIndex: "date",
       key: "date",
       render: (item) => <span>{dayjs(item).format("M/D/YYYY")}</span>,
@@ -229,14 +231,8 @@ function PaymentLogs() {
       title: "Amount",
       dataIndex: "amount",
       key: "amount",
-    },
-    {
-      title: "Plan Type",
-      dataIndex: "plan",
-      key: "plan",
-    },
-
-   
+      render: (item) => <span>$ {item}</span>,
+    },   
   ];
 
   const filterContent = (
@@ -309,7 +305,7 @@ function PaymentLogs() {
     <Layout className="configuration">
       <div className="boxDetails">
         <Row style={{ padding: "10px 20px" }}>
-          <h1 className="pageTitle">Payment Logs</h1>
+          <h1 className="pageTitle">Payments</h1>
         </Row>
 
         <Row style={{ padding: "10px 20px" }}>

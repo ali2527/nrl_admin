@@ -50,7 +50,8 @@ export const DONATIONS = {
 export const ORDERS = {
   getAllOrders : "/order/getAllOrders",
   updateOrder : "/order/updateOrder/",
-  getOrderById:"/order/getOrderById/"
+  getOrderById:"/order/getOrderById/",
+  deleteOrder:"/order/deleteOrder/"
 }
 
 export const CATEGORIES = {
@@ -143,7 +144,7 @@ export const BOOK = {
 
 
   export const PAYMENT = {
-    get: "/payment",
+    getAllOrderPayments: "/payment/getAllOrderPayments",
     getOne: "/payment/",
   };
 

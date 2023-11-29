@@ -411,7 +411,7 @@ const MyRouter = () => {
         /> */}
         
         <Route
-          path="/payment-logs"
+          path="/payments"
           index
           element={
             <UserAuthCheck>

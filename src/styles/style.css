@@ -2848,13 +2848,28 @@ select.mainInput {
   background: transparent !important;
 }
 
-.greenSelect * {
+.greenSelect , .greenSelect * {
   color: #37ba00 !important;
 }
 
-.redSelect * {
+.redSelect , .redSelect * {
   color: red !important;
 }
+
+.blueSelect , .blueSelect * {
+  color: #0d6efd !important;
+}
+
+.purpleSelect , .purpleSelect * {
+  color: #9a33cc !important;
+}
+.orangeSelect , .orangeSelect  * {
+  color: #e46416 !important;
+}
+
+
+
+
 
 .styledPagination {
   width: max-content;

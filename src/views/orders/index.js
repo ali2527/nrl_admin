@@ -228,8 +228,9 @@ function Orders() {
       key: "status",
       render: (value, item, index) => (
         <Select
+        className={value == "PENDING" ? "orangeSelect" : value == "PROCESSING" ? "blueSelect" : value == "DISPATCHED" ? "purpleSelect" : value == "COMPLETED" ? "greenSelect" : "redSelect"}
           suffixIcon={<FaCaretDown style={{ fontSize: "16px" }} />}
-          value={value[0] + value.slice(1).toLowerCase()}
+          value={value}
           bordered={false}
           onChange={(e) => {setModalOpen(true); setSelectedOrder(orders[index]); setSelectedStatus(e)}}
           options={[
