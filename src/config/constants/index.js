@@ -64,6 +64,23 @@ export const CATEGORIES = {
 };
 
 
+export const NEWS = {
+  addNews:"/news/addNews",
+  getAllNews: "/news/getAllNews",
+  getNewsById: "/news/getNewsById/",
+  updateNews:"/news/updateNews/",
+  deleteNews:"/news/deleteNews/",
+};
+
+
+export const HISTORIES = {
+  addHistory:"/histories/addHistory",
+  getAllHistories: "/histories/getAllHistories",
+  getHistoryById: "/histories/getHistoryById/",
+  updateNews:"/histories/updateHistory/",
+  deleteHistory:"/histories/deleteHistory/",
+};
+
 
 
 

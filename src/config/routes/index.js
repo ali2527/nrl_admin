@@ -46,6 +46,13 @@ import ViewEvent from "../../views/events/viewEvent";
 import AddEvent from "../../views/events/addNewEvent";
 import EditEvent from "../../views/events/editEvent";
 import AddCategory from "../../views/categories/addNewCategory";
+import News from "../../views/news";
+import AddNews from "../../views/news/addNewNews";
+import NewsDetails from "../../views/news/newsDetails";
+import Histories from "../../views/histories";
+import AddHistory from "../../views/histories/addNewHistory";
+import HistoryDetails from "../../views/histories/historyDetails";
+
 // import CategoryDetails from "../../views/categories/viewCategory";
 import States from "../../views/state-management";
 import StateDetails from "../../views/state-management/stateDetails";
@@ -893,6 +900,111 @@ const MyRouter = () => {
             </UserAuthCheck>
           }
         />
+
+
+<Route
+          path="/news"
+          index
+          element={
+            <UserAuthCheck>
+              <ClientLayout
+                head={{
+                  title: "News",
+                  description: "Some Description.",
+                }}
+              >
+                <News/>
+              </ClientLayout>
+            </UserAuthCheck>
+          }
+        />
+        <Route
+          path="/news/addNewNews"
+          index
+          element={
+            <UserAuthCheck>
+              <ClientLayout
+                head={{
+                  title: "Add News",
+                  description: "Some Description.",
+                }}
+              >
+                <AddNews/>
+              </ClientLayout>
+            </UserAuthCheck>
+          }
+        />
+
+<Route
+          path="/news/:id"
+          index
+          element={
+            <UserAuthCheck>
+              <ClientLayout
+                head={{
+                  title: "News Details",
+                  description: "Some Description.",
+                }}
+              >
+                <NewsDetails/>
+              </ClientLayout>
+            </UserAuthCheck>
+          }
+        />
+
+<Route
+          path="/histories"
+          index
+          element={
+            <UserAuthCheck>
+              <ClientLayout
+                head={{
+                  title: "Histories",
+                  description: "Some Description.",
+                }}
+              >
+                <Histories/>
+              </ClientLayout>
+            </UserAuthCheck>
+          }
+        />
+        <Route
+          path="/histories/addNewHistory"
+          index
+          element={
+            <UserAuthCheck>
+              <ClientLayout
+                head={{
+                  title: "Add History",
+                  description: "Some Description.",
+                }}
+              >
+                <AddHistory/>
+              </ClientLayout>
+            </UserAuthCheck>
+          }
+        />
+
+<Route
+          path="/histories/:id"
+          index
+          element={
+            <UserAuthCheck>
+              <ClientLayout
+                head={{
+                  title: "History Details",
+                  description: "Some Description.",
+                }}
+              >
+                <HistoryDetails/>
+              </ClientLayout>
+            </UserAuthCheck>
+          }
+        />
+
+
+
+
         <Route
           path="/ads-management/"
           index
