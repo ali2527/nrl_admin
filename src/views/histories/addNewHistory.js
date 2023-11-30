@@ -10,12 +10,12 @@ import { useNavigate } from "react-router-dom";
 import { UploadOutlined } from "@ant-design/icons";
 import { useSelector, useDispatch } from "react-redux";
 import { Post } from "../../config/api/post";
-import { CONTENT_TYPE,CATE, NEWS } from "../../config/constants";
+import { CONTENT_TYPE,CATE, HISTORIES } from "../../config/constants";
 import { Upload } from "antd";
 import swal from "sweetalert";
 const { TextArea } = Input;
 
-function News() {
+function AddHistories() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const user = useSelector((state) => state.user.userData);
@@ -27,12 +27,12 @@ function News() {
     console.log("Success:", values);
     setLoading(true);
 
-    Post(NEWS.addNews, values,token)
+    Post(HISTORIES.addHistory, values,token)
       .then((response) => {
         setLoading(false);
         console.log(response)
         if (response?.data?.status) {
-          swal("Success","News added successfully","success");
+          swal("Success","History added successfully","success");
           navigate(-1)
         } else {
           swal("Oops!", response?.data?.message || response?.response?.data?.message, "error");
@@ -60,7 +60,7 @@ function News() {
             />
             &emsp;
             <h1 className="pageTitle" style={{ margin: 0 }}>
-              Add New News
+              Add New History
             </h1>
           </Col>
         </Row>
@@ -84,19 +84,19 @@ function News() {
                   onFinish={onFinish}
                 >
                   <Form.Item
-                    label="News Title"
+                    label="History Title"
                     name="title"
                     rules={[
                       
                       {
                         required: true,
-                        message: "Please input News Title!",
+                        message: "Please input History Title!",
                       },
                     ]}
                   >
                     <Input
                       size="large"
-                      placeholder="Enter News Title"
+                      placeholder="Enter History Title"
                       style={{
                         borderRadius: "5px",
                         background: "white",
@@ -113,12 +113,12 @@ function News() {
                       
                       {
                         required: true,
-                        message: "Please enter News Description!",
+                        message: "Please enter History Description!",
                       },
                     ]}
                   >
                     <TextArea
-                      placeholder="Enter News Description"
+                      placeholder="Enter History Description"
                       autoSize={{
                         minRows: 3,
                         maxRows: 5,
@@ -150,19 +150,19 @@ function News() {
                   </Form.Item>
 
                   <Form.Item
-                    label="News Date"
+                    label="History Date"
                     name="date"
                     rules={[
                       
                       {
                         required: true,
-                        message: "Please enter News Date!",
+                        message: "Please enter History Date!",
                       },
                     ]}
                   >
                    <DatePicker
                             size="large"
-                            placeholder="Enter News Date"
+                            placeholder="Enter History Date"
                             style={{
                               borderRadius: "5px",
                               background: "white",
@@ -184,7 +184,7 @@ function News() {
                         className="mainButton graden-bg"
                        
                       >
-                        Add News
+                        Add History
                       </Button>
                     </Form.Item>
                   </Row>
@@ -199,4 +199,4 @@ function News() {
     </Layout>
   );
 }
-export default News;
+export default AddHistories;

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import { Image, Badge, Avatar, Dropdown, Popover, Alert,Modal } from "antd";
 import { AiFillCaretDown } from "react-icons/ai";
 import { FaBars, FaEllipsisV, FaUser, FaSignOutAlt } from "react-icons/fa";
@@ -6,10 +6,12 @@ import { Layout, Row, Col, Button, Typography, message } from "antd";
 // import Link from "next/link";
 import avatar from "../../assets/avatar.png"
 import { FiBell } from "react-icons/fi";
-
-
+import socket from "../../config/socket"
+import {GoBellFill} from "react-icons/go"
 import { UPLOADS_URL,AUTH } from "../../config/constants";
 import { useSelector,useDispatch } from "react-redux";
+import { fetchNotifications } from '../../redux/slice/notificationSlice';
+import { incrementCount,addLatestNotification  } from "../../redux/slice/notificationSlice";
 
 import {Get} from "../../config/api/get";
 import { useNavigate } from "react-router-dom";
@@ -20,6 +22,8 @@ const { Header } = Layout;
 
 
 const ClientHeader = ({ visible, setVisible, visible2, setVisible2 }) => {
+  const latestNotifications = useSelector((state) => state.notification.latestNotifications);
+  const notificationsCount = useSelector((state) => state.notification.count);
   const [logoutModal, setLogoutModal] = useState(false);
   const [path, setPath] = useState(
     window.location.pathname.slice(1, window.location.pathname.length)
@@ -30,6 +34,45 @@ const ClientHeader = ({ visible, setVisible, visible2, setVisible2 }) => {
   console.log("user", token)
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+
+  useEffect(() => {
+    if(token){
+      
+      socket.connect();
+
+      socket.emit("setupAdmin");
+      dispatch(fetchNotifications(token));
+    }
+    return () => {
+      socket.disconnect();
+    };
+  }, [token]);
+
+
+  useEffect(() => {
+    socket.on("notification", (notification) => {
+      console.log("New Notification", notification);
+
+      // Assuming your notification object contains data to determine if you should increment the count
+      const shouldIncrement = true; // You should replace this with your logic
+
+      if (shouldIncrement) {
+        dispatch(incrementCount());
+      }
+      
+
+      dispatch(addLatestNotification(notification));
+    });
+
+    // Don't forget to remove the event listener when the component unmounts
+    return () => {
+      socket.off("notification");
+    };
+  }, [dispatch]);
+
+
+
 
   const logout = () => {
     setLogoutModal(true);
@@ -100,7 +143,7 @@ const ClientHeader = ({ visible, setVisible, visible2, setVisible2 }) => {
       >
         <h3>Notifications</h3>
         <Alert
-          message="5 New"
+          message={`${notificationsCount} New`}
           type="success"
           style={{ fontSize: "12px", padding: "2px 10px", color: "green" }}
         />
@@ -114,104 +157,50 @@ const ClientHeader = ({ visible, setVisible, visible2, setVisible2 }) => {
         }}
       />
       <div style={{ height: "250px", overflow: "auto" }}>
-        <div style={{ padding: 10 }}>
-          <Row
-            style={{ flexDirection: "row", justifyContent: "space-between" }}
-          >
-            <Col xs={3}>
-              <div
-                style={{
-                  padding: "10px 10px 10px 10px",
-                  width: "35px",
-                  display: "flex",
-                  background:
-                  "linear-gradient(rgb(172,172,172) 10%, rgb(190, 192, 194) 100%)",
-                  borderRadius: "5px",
-                }}
-              >
-                <FiBell
-                  style={{ fontSize: "16px", margin: 0, color: "white" }}
-                />
-              </div>
-            </Col>
-            <Col xs={20}>
-              <h6 class="notificationHeading">
-                Lorem Ipsum is simply dummy text
-              </h6>
-              <p class="notificationText">
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Id nam
-                veniam aperiam eveniet mollitia quos nemo! Officiis voluptates
-                illo delectus.
-              </p>
-            </Col>
-          </Row>
-        </div>
+        {latestNotifications && latestNotifications.length > 0 && latestNotifications.map(item => {
+          return(<div style={{ padding: 10,minHeight:"100px", borderBottom:"1px solid #dadada", marginBottom:"5px" }}>
+            <Row
+              style={{ flexDirection: "row", justifyContent: "space-between" }}
+            >
+              <Col xs={4}>
+                <div
+                  style={{
+                    // padding: "10px 10px 10px 10px",
+                                    
+                    display: "flex",
+                    width:'40px',
+                    justifyContent:'center',
+                    alignItems:"center",
+                    height:'40px',
+                    backgroundColor: "#385790",
+                    borderRadius: "5px",
+                  }}
+                >
+                 <GoBellFill style={{ fontSize: "20px",color:"white", }} />
+                </div>
+              </Col>
+              <Col xs={18}>
+              <Typography.Title
+                    className="fontFamily1"
+                    style={{ fontSize: "14px", color: "black",margin:0 }}
+                  >
+                   {item.title}
+                  </Typography.Title>
+  
+                  <Typography.Text
+                    className="fontFamily1"
+                    style={{ fontSize: "12px", color: "black",margin:0 }}
+                  >
+                   {item?.content?.slice(0,100)} {item.content.length > 100 && "..."}
+                  </Typography.Text>
+               
+              </Col>
+            </Row>
+          </div>);
+        }) }
+        
 
-        <div style={{ padding: 10 }}>
-          <Row
-            style={{ flexDirection: "row", justifyContent: "space-between" }}
-          >
-            <Col xs={3}>
-              <div
-                style={{
-                  padding: "10px 10px 10px 10px",
-                  width: "35px",
-                  display: "flex",
-                  background:
-                            "linear-gradient(rgb(172,172,172) 10%, rgb(190, 192, 194) 100%)",
-                  borderRadius: "5px",
-                }}
-              >
-                <FiBell
-                  style={{ fontSize: "16px", margin: 0, color: "white" }}
-                />
-              </div>
-            </Col>
-            <Col xs={20}>
-              <h6 class="notificationHeading">
-                Lorem Ipsum is simply dummy text
-              </h6>
-              <p class="notificationText">
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Id nam
-                veniam aperiam eveniet mollitia quos nemo! Officiis voluptates
-                illo delectus.
-              </p>
-            </Col>
-          </Row>
-        </div>
-
-        <div style={{ padding: 10 }}>
-          <Row
-            style={{ flexDirection: "row", justifyContent: "space-between" }}
-          >
-            <Col xs={3}>
-              <div
-                style={{
-                  padding: "10px 10px 10px 10px",
-                  width: "35px",
-                  display: "flex",
-                  background:
-                            "linear-gradient(rgb(172,172,172) 10%, rgb(190, 192, 194) 100%)",
-                  borderRadius: "5px",
-                }}
-              >
-                <FiBell
-                  style={{ fontSize: "16px", margin: 0, color: "white" }}
-                />
-              </div>
-            </Col>
-            <Col xs={20}>
-              <h6 class="notificationHeading">
-                Lorem Ipsum is simply dummy text
-              </h6>
-              <p class="notificationText">
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Id nam
-                veniam aperiam eveniet mollitia quos nemo! Officiis voluptates
-                illo delectus.
-              </p>
-            </Col>
-          </Row>
-        </div>
+       
       </div>
 
       <hr
@@ -231,7 +220,7 @@ const ClientHeader = ({ visible, setVisible, visible2, setVisible2 }) => {
           alignItems: "center",
         }}
       >
-        <Button type="link" onClick={()=> navigate('/notifications')}>View All</Button>
+        <Button onClick={()=> navigate("/notifications")} type="link">View All</Button>
       </div>
     </div>
   );
@@ -275,7 +264,7 @@ const ClientHeader = ({ visible, setVisible, visible2, setVisible2 }) => {
                 arrow={false}
                 className="headerPopover"
               >
-                <Badge count={0} style={{ backgroundColor: "#000000" }}>
+                <Badge count={notificationsCount} style={{ backgroundColor: "red" }}>
                   <FiBell style={{ fontSize: "25px",color:'silver' }} />
                 </Badge>
               </Popover>

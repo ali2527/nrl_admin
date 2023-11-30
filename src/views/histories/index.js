@@ -152,7 +152,7 @@ function Histories() {
   const getAllHistories = async (pageNumber, pageSize, search, reset = false) => {
     setLoading(true);
     try {
-      const response = await Get(HISTORIES.getAllHistories, token, {
+      const response = await Get(HISTORIES.getAllHistorys, token, {
         page: pageNumber
           ? pageNumber.toString()
           : paginationConfig.pageNumber.toString(),
@@ -334,9 +334,9 @@ function Histories() {
               size={"large"}
               style={{padding: "12px 40px", height:'auto'}}
               className="mainButton primaryButton"
-              onClick={() => navigate("/histories/addNewHistories")}
+              onClick={() => navigate("/histories/addNewHistory")}
             >
-              Add Histories
+              Add History
             </Button>
 
 

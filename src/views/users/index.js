@@ -25,23 +25,18 @@ import { UserOutlined, InfoCircleOutlined } from "@ant-design/icons";
 import { FaSearch, FaFilter, FaCaretDown, FaEye } from "react-icons/fa";
 import ClientLayout from "../../components/ClientLayout";
 import { Get } from "../../config/api/get";
-import { FEEDBACK } from "../../config/constants";
+import { USERS } from "../../config/constants";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-function FeedbackManagement() {
+function UserManagement() {
   const token = useSelector((state) => state.user.userToken);
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(null);
   const [selectedUser, setSelectedUser] = useState(null);
-  const [serviceProviders, setServiceProviders] = useState([
-    { id: 1, name: 'kuame3008', email: 'huamj@email.com' , isActive: true },
-    { id: 2, name: 'kuame3008', email: 'huamj@email.com' , isActive: false },
-    { id: 3, name: 'kuame3008', email: 'huamj@email.com' , isActive: false},
-    // Add more user objects as needed
-  ]);;
+  const [users, setUsers] = useState([]);
   const [paginationConfig, setPaginationConfig] = useState({
     pageNumber: 1,
     limit: 10,
@@ -66,7 +61,7 @@ function FeedbackManagement() {
   const message = `Showing records ${endIndex} of ${paginationConfig.totalDocs}`;
 
   useEffect(() => {
-    getServiceProviders();
+    getUsers();
   }, []);
 
   
@@ -77,7 +72,7 @@ function FeedbackManagement() {
       pageNumber: pageNumber,
     });
 
-    getServiceProviders(pageNumber);
+    getUsers(pageNumber);
   };
 
   const handleSearch = (value) => {
@@ -101,7 +96,7 @@ function FeedbackManagement() {
       from: null,
       to: null,
     });
-    getServiceProviders(paginationConfig.pageNumber, paginationConfig.limit, "", true);
+    getUsers(paginationConfig.pageNumber, paginationConfig.limit, "", true);
   };
 
   const handleOpenChange = (newOpen) => {
@@ -129,35 +124,34 @@ function FeedbackManagement() {
       current: 1,
     });
 
-    getServiceProviders(1, pageSize);
+    getUsers(1, pageSize);
   };
 
   const handleStatus = async () => {
     try {
-      const index = serviceProviders.findIndex((user) => user._id == selectedUser._id);
+      const index = users.findIndex((user) => user._id == selectedUser._id);
 
       console.log(index)
-      const response = await Get(FEEDBACK.toggleStatus + "/" + selectedUser._id , token,{});
-      const newUsers = [...serviceProviders];
-      
-      console.log(">>>>",newUsers[index].isActive)
-      console.log(">>>>",selectedUser.isActive)
-      newUsers[index].isActive = !selectedUser.isActive;
+      const response = await Get(USERS.toggleStatus + "/" + selectedUser._id , token,{});
+      const newUsers = [...users];
+
+      newUsers[index].status = newUsers[index].status == "ACTIVE" ? "INACTIVE" : "ACTIVE";
       setModalOpen(false);
-      setServiceProviders(newUsers);
+      setUsers(newUsers);
     } catch (error) {
       console.log(error.message);
     }  
     
-  };
+  }; 
   
 
+  console.log("users", users.map(item => item.isActive))
 
 
-  const getServiceProviders = async (pageNumber, pageSize, search, reset = false) => {
+  const getUsers = async (pageNumber, pageSize, search, reset = false) => {
     setLoading(true);
     try {
-      const response = await Get(FEEDBACK.get, token, {
+      const response = await Get(USERS.getAllUsers, token, {
         page: pageNumber
           ? pageNumber.toString()
           : paginationConfig.pageNumber.toString(),
@@ -171,13 +165,13 @@ function FeedbackManagement() {
       });
       setLoading(false);
       console.log("response", response);
-      if (response?.docs) {
-        setServiceProviders(response?.docs);
+      if (response?.status) {
+        setUsers(response?.data?.docs);
         setPaginationConfig({
-          pageNumber: response?.page,
-          limit: response?.limit,
-          totalDocs: response?.totalDocs,
-          totalPages: response?.totalPages,
+          pageNumber: response?.data?.page,
+          limit: response?.data?.limit,
+          totalDocs: response?.data?.totalDocs,
+          totalPages: response?.data?.totalPages,
         });
       } else {
         message.error("Something went wrong!");
@@ -201,6 +195,7 @@ function FeedbackManagement() {
     return originalElement;
   };
 
+ 
   const columns = [
     {
       title: "S. No.	",
@@ -210,9 +205,10 @@ function FeedbackManagement() {
       render: (value, item, index) => (index < 10 && "0") + (index + 1),
     },
     {
-      title: "Name",
-      dataIndex: "name",
-      key: "name",
+      title: "Full Name",
+      dataIndex: "fullName",
+      key: "fullName",
+      render: (value, item, index) => item.firstName + " " + item.lastName ,
     },
     {
       title: "Email Address",
@@ -220,19 +216,49 @@ function FeedbackManagement() {
       key: "email",
     },
     {
-      title: "Date Posted",
+      title: "Is Member",
+      dataIndex: "isMember",
+      key: "isMember",
+      render: (value, item, index) => value ? " Member" : "Non Member" ,
+    },
+    {
+      title: "Register On",
       dataIndex: "createdAt",
       key: "createdAt",
       render: (item) => <span>{dayjs(item).format("M/D/YYYY")}</span>,
     },
     {
+      title: "Status",
+      dataIndex: "status",
+      key: "status",
+      render: (value, item, index) => (
+        <Select
+          className={value == "ACTIVE" ? "greenSelect" : "redSelect"}
+          suffixIcon={<FaCaretDown style={{fontSize: "16px" }} />}
+          value={value}
+          bordered={false}
+          onChange={() => {setModalOpen(true); setSelectedUser(users[index])}}
+          options={[
+            {
+              value: "active",
+              label: "Active",
+            },
+            {
+              value: "inactive",
+              label: "Inactive",
+            },
+          ]}
+        />
+      ),
+    },
+    {
       title: "Action",
-      dataIndex: "id",
-      key: "id",
+      dataIndex: "_id",
+      key: "_id",
       render: (item) => (
         <FaEye
-          style={{ fontSize: "16px", color: "#000000",  cursor: "pointer" }}
-             onClick={() => navigate("/feedback-management/" + item )}
+          style={{ fontSize: "16px", color: "#000",  cursor: "pointer" }}
+             onClick={() => navigate("/users/" + item )}
         />
       ),
     },
@@ -286,7 +312,7 @@ function FeedbackManagement() {
           size={"large"}
           style={{ marginBottom: "10px" }}
           className="mainButton primaryButton"
-          onClick={() => getServiceProviders()}
+          onClick={() => getUsers()}
         >
           Apply
         </Button>
@@ -308,7 +334,7 @@ function FeedbackManagement() {
     <Layout className="configuration">
       <div className="boxDetails">
         <Row style={{ padding: "10px 20px" }}>
-          <h1 className="pageTitle">Feedbacks</h1>
+          <h1 className="pageTitle">Users</h1>
         </Row>
 
         <Row style={{ padding: "10px 20px" }}>
@@ -356,12 +382,12 @@ function FeedbackManagement() {
                     cursor: "pointer",
                   }}
                   onClick={() =>
-                    getServiceProviders(1, paginationConfig.limit, filter.keyword)
+                    getUsers(1, paginationConfig.limit, filter.keyword)
                   }
                 />
               }
               onPressEnter={(e) =>
-                getServiceProviders(1, paginationConfig.limit, filter.keyword)
+                getUsers(1, paginationConfig.limit, filter.keyword)
               }
             />
             &emsp;
@@ -403,7 +429,7 @@ function FeedbackManagement() {
           ) : (
             <Table
               className="styledTable"
-              dataSource={serviceProviders}
+              dataSource={users}
               columns={columns}
               pagination={false}
             />
@@ -477,14 +503,14 @@ function FeedbackManagement() {
           height={120}
         />
         <Typography.Title level={4} style={{ fontSize: "25px" }}>
-          {selectedUser?.isActive ? "Deactivate" : "Activate"}
+          {selectedUser?.status == "ACTIVE" ? "Deactivate" : "Activate"}
         </Typography.Title>
         <Typography.Text style={{ fontSize: 16 }}>
-        Do You Want To  {selectedUser?.isActive ? "Deactivate" : "Activate"} This Service Provider?
+        Do You Want To  {selectedUser?.status == "ACTIVE" ? "Deactivate" : "Activate"} This User?
         </Typography.Text>
       </Modal>
     </Layout>
   );
 }
 
-export default FeedbackManagement;
+export default UserManagement;

@@ -23,7 +23,7 @@ import dayjs from "dayjs";
 import { UserOutlined, InfoCircleOutlined } from "@ant-design/icons";
 import { FaCaretDown, FaFilter, FaArrowLeft } from "react-icons/fa";
 import { Get } from "../../config/api/get";
-import { UPLOADS_URL, NEWS , CONTENT_TYPE } from "../../config/constants";
+import { UPLOADS_URL, HISTORIES , CONTENT_TYPE } from "../../config/constants";
 import swal from "sweetalert";
 import { useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -32,7 +32,7 @@ import { Post } from "../../config/api/post";
 import { UploadOutlined } from "@ant-design/icons";
 import { message, Upload } from "antd";
 
-function NewsDetails() {
+function HistoryDetails() {
   const { TextArea } = Input;
   const navigate = useNavigate();
   const token = useSelector((state) => state.user.userToken);
@@ -45,12 +45,12 @@ function NewsDetails() {
 
 
   useEffect(() => {
-    getNews();
+    getHistory();
   }, []);
 
-  const getNews = async () => {
+  const getHistory = async () => {
     setLoading(true);
-    const response = await Get(`${NEWS.getNewsById}${id}`, token);
+    const response = await Get(`${HISTORIES.getHistoryById}${id}`, token);
     if(response?.status){
       setNews(response?.data?.news);
     }
@@ -63,13 +63,13 @@ function NewsDetails() {
   };
 
 
-  const deleteNews = () => {
+  const deleteHistory = () => {
 
-    Post(NEWS.deleteNews+id, {},token)
+    Post(HISTORIES.deleteHistory+id, {},token)
       .then((response) => {
         setLoading(false);
         if (response?.data?.status) {
-          swal("Success","News deleted successfully","success");
+          swal("Success","History deleted successfully","success");
           navigate(-1)
         } else {
           swal("Oops!", response?.data?.message || response?.response?.data?.message, "error");
@@ -82,12 +82,12 @@ function NewsDetails() {
   };
 
   const onFinish = (values) => {
-    Post(NEWS.updateNews+id, values,token)
+    Post(HISTORIES.updateHistory+id, values,token)
       .then((response) => {
         setLoading(false);
         console.log("response",response)
         if (response?.data?.status) {
-          swal("Success","News updated successfully","success");
+          swal("Success","History updated successfully","success");
           navigate(-1)
         } else {
           swal("Oops!", response?.data?.message || response?.response?.data?.message, "error");
@@ -114,7 +114,7 @@ function NewsDetails() {
             />
             &emsp;
             <h1 className="pageTitle" style={{ margin: 0 }}>
-              {editMode ? "Edit" : "View"} News
+              {editMode ? "Edit" : "View"} History
             </h1>
           </Col>
         </Row>
@@ -156,7 +156,7 @@ function NewsDetails() {
                         >
                           <Input
                             size="large"
-                            placeholder="Enter News Title"
+                            placeholder="Enter History Title"
                             style={{
                               borderRadius: "5px",
                               background: "white",
@@ -179,7 +179,7 @@ function NewsDetails() {
                         >
                           <Input
                             size="large"
-                            placeholder="Enter News Description"
+                            placeholder="Enter History Description"
                             style={{
                               borderRadius: "5px",
                               background: "white",
@@ -227,7 +227,7 @@ function NewsDetails() {
                         >
                           <DatePicker
                             size="large"
-                            placeholder="Enter News Date"
+                            placeholder="Enter History Date"
                             style={{
                               borderRadius: "5px",
                               background: "white",
@@ -332,7 +332,7 @@ function NewsDetails() {
                             className="mainButton graden-bg"
                             onClick={() => setEditMode(true)}
                           >
-                            Edit News
+                            Edit History
                           </Button>
                           &emsp;
                           <Button
@@ -343,7 +343,7 @@ function NewsDetails() {
                           
                             onClick={() => handleDeleteButtonClick()}
                           >
-                            Delete News
+                            Delete History
                           </Button>
                         </Row>
                       </>
@@ -360,7 +360,7 @@ function NewsDetails() {
 
         <Modal
         open={modalOpen}
-        onOk={() => deleteNews()}
+        onOk={() => deleteHistory()}
         onCancel={() => setModalOpen(false)}
         okText="Yes"
         className="StyledModal"
@@ -389,11 +389,11 @@ function NewsDetails() {
         System Message!
         </Typography.Title>
         <Typography.Text style={{ fontSize: 16 }}>
-        Are You Sure You Want To Delete This News?
+        Are You Sure You Want To Delete This History?
         </Typography.Text>
       </Modal>
       </div>
     </Layout>
   );
 }
-export default NewsDetails;
+export default HistoryDetails;

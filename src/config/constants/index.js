@@ -1,13 +1,15 @@
 export const SITE_NAME = "National Reparations League"
 
-// export const BASE_URL = "http://localhost:3002/api"
-// export const UPLOADS_URL = "http://localhost:3002/Uploads"
-// export const UPLOADS_URL2 = "http://localhost:3002/"
+export const BASE_URL = "http://localhost:3003/api"
+export const UPLOADS_URL = "http://localhost:3003/Uploads"
+export const UPLOADS_URL2 = "http://localhost:3003/"
+export const SOCKET_URL = "http://localhost:3003"
 
 
-export const BASE_URL = "https://secure.demo243.webhostlabs.net:3003/api"
-export const UPLOADS_URL = "https://secure.demo243.webhostlabs.net:3003/Uploads"
-export const UPLOADS_URL2 = "https://secure.demo243.webhostlabs.net:3003/"
+// export const BASE_URL = "https://secure.demo243.webhostlabs.net:3003/api"
+// export const UPLOADS_URL = "https://secure.demo243.webhostlabs.net:3003/Uploads"
+// export const UPLOADS_URL2 = "https://secure.demo243.webhostlabs.net:3003/"
+// export const SOCKET_URL = "https://secure.demo243.webhostlabs.net:3003"
 
 
 
@@ -17,6 +19,12 @@ export const AUTH = {
   emailCode:"/admin/auth/emailVerificationCode",
   verifyCode:"/admin/auth/verifyRecoverCode",
   resetPassword:"/admin/auth/resetPassword",
+}
+
+export const ADMIN = {
+  getStats: "/admin/user/getStats",
+  getDonationChart:"/admin/user/getDonationChart",
+  getOrdersChart:"/admin/user/getOrdersChart"
 }
 
 export const STATES = {
@@ -74,11 +82,11 @@ export const NEWS = {
 
 
 export const HISTORIES = {
-  addHistory:"/histories/addHistory",
-  getAllHistories: "/histories/getAllHistories",
-  getHistoryById: "/histories/getHistoryById/",
-  updateNews:"/histories/updateHistory/",
-  deleteHistory:"/histories/deleteHistory/",
+  addHistory:"/history/addHistory",
+  getAllHistorys: "/history/getAllHistorys",
+  getHistoryById: "/history/getHistoryById/",
+  updateNews:"/history/updateHistory/",
+  deleteHistory:"/history/deleteHistory/",
 };
 
 
@@ -166,14 +174,15 @@ export const BOOK = {
   };
 
   export const NOTIFICATION = {
-    get: "/notification/getAllAlertsAndNotifications",
+    get: "/notification/getAllAdminNotifications",
+    getUnreadAdminNotifications:"/notification/getUnreadAdminNotifications",
     getOne: "/notification/notificationDetail/",
     create: "/notification/createAlertOrAnnoucement",
   };
   
   export const QUERY = {
-    get: "/query",
-    getOne: "/query/queryById/",
+    getAllQueries: "/query/getAllQueries",
+    getQueryById: "/query/getQueryById/",
   };
 
   export const ARTICLE = {

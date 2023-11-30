@@ -1,10 +1,10 @@
-import React, { useState, lazy, Suspense } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Col,
   Row,
   Typography,
   List,
-  Form,
+  message,
   Input,
   Button,
   Layout,
@@ -26,8 +26,9 @@ import {
   Legend,
 } from "chart.js";
 import { Line } from "react-chartjs-2";
-
-import ClientLayout from "../../components/ClientLayout";
+import { Get } from "../../config/api/get";
+import { ADMIN } from "../../config/constants";
+import { useSelector } from "react-redux";
 import { ImUsers } from "react-icons/im";
 import { BiSolidDonateHeart } from "react-icons/bi";
 import { RiMoneyDollarCircleFill } from "react-icons/ri";
@@ -42,59 +43,167 @@ ChartJS.register(LinearScale);
 ChartJS.register(PointElement);
 ChartJS.register(LineElement);
 
-const data = {
-  labels: [
-    "Nov 2015",
-    "March 2016",
-    "July 2017",
-    "August 2018",
-    "Sep 2019",
-    "Oct 2020",
-    "July 2021",
-  ],
-  datasets: [
-    {
-      label: "Users",
-      data: [30000, 20000, 30000, 25000, 35000, 49000, 40000],
-      fill: true,
-      backgroundColor: "rgba(157,98,245,0.2)",
-      borderColor: "#000",
-      pointRadius: 3,
-    },
-  ],
-};
 
-const options = {
-  maintainAspectRatio: false,
-  responsive: true,
-  scales: {
-    y: {
-      title: {
-        display: true,
-        text: "Users",
-        color: "#000000",
-      },
-      min: 0,
-      max: 50000,
-    },
-    x: {
-      title: {
-        display: true,
-        text: "Months",
-        color: "#000000",
-      },
-    },
-  },
-  plugins: {
-    legend: {
-      display: false,
-    },
-  },
-};
 
 
 
 export default function Home() {
+  const token = useSelector((state) => state.user.userToken);
+  const [stats, setStats] = useState({
+    userCount: 0,
+    productCount: 0,
+    donationSum: 0,
+    orderSum: 0,
+  });
+
+  const [donations, setDonations] = useState([]);
+  const [orders, setOrders] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const Months = [ "Jan", "Feb", "Mar", "Apr",
+  "May", "Jun", "Jul", "Aug",
+  "Sep", "Oct", "Nov", "Dec"]
+
+  const data = {
+    labels: orders.map(item => Months[parseInt(item.month.split("-")[1]) -1] + " " + item.month.split("-")[0]),
+    datasets: [
+      {
+        label: "Total Sales",
+        data: orders.map(item => item.totalAmount), 
+        fill: true,
+        backgroundColor: "rgba(157,98,245,0.2)",
+        borderColor: "#000",
+        pointRadius: 3,
+      },
+    ],
+  };
+  
+  const options = {
+    maintainAspectRatio: false,
+    responsive: true,
+    scales: {
+      y: {
+        title: {
+          display: true,
+          text: "Total Sales",
+          color: "#000000",
+        },
+      },
+      x: {
+        title: {
+          display: true,
+          text: "Months",
+          color: "#000000",
+        },
+      },
+    },
+    plugins: {
+      legend: {
+        display: false,
+      },
+    },
+  };
+
+  const data2 = {
+    labels: donations.map(item => Months[parseInt(item.month.split("-")[1]) -1] + " " + item.month.split("-")[0]),
+    datasets: [
+      {
+        label: "Users",
+        data: donations.map(item => item.totalAmount),
+        fill: true,
+        backgroundColor: "rgba(157,98,245,0.2)",
+        borderColor: "#000",
+        pointRadius: 3,
+      },
+    ],
+  };
+  
+  const options2 = {
+    maintainAspectRatio: false,
+    responsive: true,
+    scales: {
+      y: {
+        title: {
+          display: true,
+          text: "Total Donation",
+          color: "#000000",
+        },
+      },
+      x: {
+        title: {
+          display: true,
+          text: "Months",
+          color: "#000000",
+        },
+      },
+    },
+    plugins: {
+      legend: {
+        display: false,
+      },
+    },
+  };
+
+
+  useEffect(() => {
+    getStats();
+    getDonationChart();
+    getOrdersChart();
+  }, []);
+
+  
+  const getStats = async () => {
+    setLoading(true);
+    try {
+      const response = await Get(ADMIN.getStats, token);
+      setLoading(false);
+
+      if (response?.status) {
+        setStats(response?.data);
+      } else {
+        // message.error("Something went wrong 3333!");
+        console.log("error====>", response);
+      }
+    } catch (error) {
+      console.log(error.message);
+      setLoading(false);
+    }
+  };
+
+  const getDonationChart = async () => {
+    setLoading(true);
+    try {
+      const response = await Get(ADMIN.getDonationChart, token);
+      setLoading(false);
+      if (response?.status) {
+        setDonations(response?.data);
+      } else {
+        console.log("error====>", response);
+      }
+    } catch (error) {
+      console.log(error.message);
+      setLoading(false);
+    }
+  };
+
+
+  const getOrdersChart = async () => {
+    setLoading(true);
+    try {
+      const response = await Get(ADMIN.getOrdersChart, token);
+      setLoading(false);
+      console.log("response", response);
+      if (response?.status) {
+        setOrders(response?.data);
+      } else {
+        console.log("error====>", response);
+      }
+    } catch (error) {
+      console.log(error.message);
+      setLoading(false);
+    }
+  };
+
+
   return (
     <Layout className="configuration">
       {/* ================================ROW ONE START========================================= */}
@@ -111,7 +220,7 @@ export default function Home() {
               </Col>
               <Col xs={15} md={16}>
                 <h6 class="analyticsText" style={{ margin: 0 }}>
-                  1375K
+                  {stats?.userCount}
                 </h6>
                 <h6 class="gray analyticsTextSmall" style={{ margin: 0 }}>
                 Total Users
@@ -132,7 +241,7 @@ export default function Home() {
               </Col>
               <Col xs={15} md={16}>
                 <h6 class="analyticsText" style={{ margin: 0 }}>
-                1375
+                {stats?.productCount}
                 </h6>
                 <h6 class="gray analyticsTextSmall" style={{ margin: 0 }}>
                 Total Products
@@ -153,7 +262,7 @@ export default function Home() {
               </Col>
               <Col xs={15} md={16}>
                 <h6 class="analyticsText" style={{ margin: 0 }}>
-               $ 1375
+               $     {stats?.orderSum}
                 </h6>
                 <h6 class="gray analyticsTextSmall" style={{ margin: 0 }}>
                 Total Sales
@@ -174,7 +283,7 @@ export default function Home() {
               </Col>
               <Col xs={15} md={16}>
                 <h6 class="analyticsText" style={{ margin: 0 }}>
-                  $ 1375
+                  $ {stats?.donationSum > 1000 ? stats?.donationSum / 1000 + 'K' : stats?.donationSum}
                 </h6>
                 <h6 class="gray analyticsTextSmall" style={{ margin: 0 }}>
                 Total Donations
@@ -195,9 +304,9 @@ export default function Home() {
               style={{ width: "100%", display: "flex", alignItems: "center" }}
             >
               <Col xs={24} md={12}>
-                <h5 class="sectionTitle">Earnings</h5>
+                <h5 class="sectionTitle">Orders</h5>
               </Col>
-              <Col xs={24} md={12} style={{ textAlign: "right" }}>
+              {/* <Col xs={24} md={12} style={{ textAlign: "right" }}>
                 <Select
                   size={"large"}
                   className="chartSelectBox"
@@ -213,7 +322,7 @@ export default function Home() {
                     { value: "yearly", label: "Yearly" },
                   ]}
                 />
-              </Col>
+              </Col> */}
             </Row>
             <Row style={{ minHeight: "400px", overflowX: "auto" }}>
               <div style={{ minWidth: "600px", width: "100%" }}>
@@ -224,6 +333,43 @@ export default function Home() {
         </Col>
       </Row>
 
+      <br />
+      {/* ================================ROW TWO START========================================= */}
+      <Row gutter={[20, 10]}>
+        <Col xs={24}>
+          <div class="boxDetails" style={{ padding: "30px" }}>
+            <Row
+              style={{ width: "100%", display: "flex", alignItems: "center" }}
+            >
+              <Col xs={24} md={12}>
+                <h5 class="sectionTitle">Donations</h5>
+              </Col>
+              {/* <Col xs={24} md={12} style={{ textAlign: "right" }}>
+                <Select
+                  size={"large"}
+                  className="chartSelectBox"
+                  defaultValue="monthly"
+                  // onChange={handleChange}
+                  style={{
+                    width: 200,
+                    textAlign: "left",
+                  }}
+                  options={[
+                    { value: "monthly", label: "Monthly" },
+                    { value: "halfYearly", label: "6 Months" },
+                    { value: "yearly", label: "Yearly" },
+                  ]}
+                />
+              </Col> */}
+            </Row>
+            <Row style={{ minHeight: "400px", overflowX: "auto" }}>
+              <div style={{ minWidth: "600px", width: "100%" }}>
+                <Line options={options2} data={data2} />
+              </div>
+            </Row>
+          </div>
+        </Col>
+      </Row>
       {/* ================================ROW TWO END========================================= */}
       <br />
 

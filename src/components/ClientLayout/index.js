@@ -41,75 +41,75 @@ const sideNavItems = [
   { key: 1, icon: <RxDashboard style={{fontSize:"18px"}}/>, label: "Dashboard", path: "/" },
   {
     key: 2,
+    icon: <FaRegUser style={{fontSize:"18px"}}/>,
+    label: "Users",
+    path: "/users",
+  },
+  {
+    key: 3,
     icon: <FaFlagUsa style={{fontSize:"18px"}}/>,
     label: "States",
     path: "/states",
   },
   {
-    key: 3,
+    key: 4,
     icon: <MdOutlineLeaderboard style={{fontSize:"18px"}}/>,
     label: "Positions",
     path: "/positions",
   },
   {
-    key: 4,
+    key: 5,
     icon: <FaRegUser style={{fontSize:"18px"}}/>,
     label: "Representatives",
     path: "/representatives",
   },
   {
-    key: 5,
+    key: 6,
     icon: <BiDonateHeart style={{fontSize:"18px"}}/>,
     label: "Dontaions",
     path: "/Donations",
   },
   {
-    key: 6,
+    key: 7,
     icon: <BiCategory style={{fontSize:"18px"}}/>,
     label: "Categories",
     path: "/categories",
   },
   {
-    key: 7,
+    key: 8,
     icon: <BsBox style={{fontSize:"18px"}}/>,
     label: "Products",
     path: "/product-management",
   },
   {
-    key: 8,
+    key: 9,
     icon: <LiaCashRegisterSolid style={{fontSize:"20px"}}/>,
     label: "Orders",
     path: "/orders",
   },
   {
-    key: 9,
+    key: 10,
     icon: <IoCashOutline style={{fontSize:"18px"}}/>,
     label: "Payments",
     path: "/payments",
   },
   {
-    key: 10,
+    key: 11,
     icon: <IoNewspaperOutline style={{fontSize:"18px"}}/>,
     label: "News",
     path: "/news",
   },
   {
-    key: 11,
+    key: 12,
     icon: <MdOndemandVideo style={{fontSize:"18px"}}/>,
     label: "Histories",
     path: "/histories",
   },
   {
-    key: 12,
+    key: 13,
     icon: <MdOutlineEventNote style={{fontSize:"20px"}}/>,
     label: "Events",
     path: "/events",
-  },
-  {
-    key: 13,
-    icon: <BsQuestionSquare style={{fontSize:"18px"}}/>,
-    label: "Queries",
-    path: "/queries",
   },
 ]
 
@@ -286,15 +286,19 @@ const ClientLayout = ({ children, head, }) => {
   const [visible2, setVisible2] = useState(false);
   const [selectedItem, setSelectedItem] = useState("1");
   const navigate = useNavigate();
+  const path = window.location.pathname;
+
 
   useLayoutEffect(() => {
     // get the path and set selected item to key of the path that matches
-    const path = window.location.pathname;
+
     const item = sideNavItems.find((item) => item.path == path);
     if (item) {
       setSelectedItem(item.key.toString());
+    }else{
+      setSelectedItem();
     }
-  }, []);
+  }, [path]);
 
   let title = head?.title ? head?.title : "";
   if (title) {

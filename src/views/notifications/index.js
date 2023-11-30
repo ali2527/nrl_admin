@@ -179,13 +179,13 @@ function Notifications() {
       });
       setLoading(false);
       console.log("response", response);
-      if (response?.docs) {
-        setUsers(response?.docs);
+      if (response?.status) {
+        setUsers(response?.data?.docs);
         setPaginationConfig({
-          pageNumber: response?.page,
-          limit: response?.limit,
-          totalDocs: response?.totalDocs,
-          totalPages: response?.totalPages,
+          pageNumber: response?.data?.page,
+          limit: response?.data?.limit,
+          totalDocs: response?.data?.totalDocs,
+          totalPages: response?.data?.totalPages,
         });
       } else {
         message.error("Something went wrong!");
@@ -324,26 +324,7 @@ function Notifications() {
           >
             <h1 className="pageTitle">Notifications</h1>
           </Col>
-          <Col
-            xs={24}
-            md={12}
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "flex-end",
-            }}
-          >
-            <Button
-              type="primary"
-              shape="round"
-              size={"large"}
-              style={{ padding: "12px 40px", height: "auto" }}
-              className="mainButton primaryButton"
-              onClick={() => navigate("/notifications/add")}
-            >
-              Post New Notification
-            </Button>
-          </Col>
+
         </Row>
         <Row style={{ padding: "10px 20px" }}>
           <Col xs={24} md={12}>
@@ -385,7 +366,7 @@ function Notifications() {
               suffix={
                 <FaSearch
                   style={{
-                    color: "#3c5a92",
+                    color: "#000",
                     fontSize: 16,
                     cursor: "pointer",
                   }}
@@ -411,7 +392,7 @@ function Notifications() {
                 style={{
                   padding: "10px 15px",
                   height: "auto",
-                  backgroundColor: "#3c5a92",
+                  backgroundColor: "#000",
                 }}
               >
                 <FaFilter style={{ fontSize: "16px", color: "white" }} />

@@ -313,7 +313,7 @@ function EventsManagement() {
             md={12}
             style={{ display: "flex", alignItems: "center" }}
           >
-           <h1 className="pageTitle">Events Management</h1>
+           <h1 className="pageTitle">Events</h1>
           </Col>
           <Col
             xs={24}

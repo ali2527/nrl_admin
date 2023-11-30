@@ -63,7 +63,7 @@ function Donations() {
   const message = `Showing records ${endIndex} of ${paginationConfig.totalDocs}`;
 
   useEffect(() => {
-    getAlDonations();
+    getAllDonations();
   }, []);
 
   
@@ -74,7 +74,7 @@ function Donations() {
       pageNumber: pageNumber,
     });
 
-    getAlDonations(pageNumber);
+    getAllDonations(pageNumber);
   };
 
   const handleSearch = (value) => {
@@ -98,7 +98,7 @@ function Donations() {
       from: null,
       to: null,
     });
-    getAlDonations(paginationConfig.pageNumber, paginationConfig.limit, "", true);
+    getAllDonations(paginationConfig.pageNumber, paginationConfig.limit, "", true);
   };
 
   const handleOpenChange = (newOpen) => {
@@ -126,7 +126,7 @@ function Donations() {
       current: 1,
     });
 
-    getAlDonations(1, pageSize);
+    getAllDonations(1, pageSize);
   };
 
   const handleStatus = async () => {
@@ -152,7 +152,7 @@ function Donations() {
   console.log("donations", donations.map(item => item.isActive))
 
 
-  const getAlDonations = async (pageNumber, pageSize, search, reset = false) => {
+  const getAllDonations = async (pageNumber, pageSize, search, reset = false) => {
     setLoading(true);
     try {
       const response = await Get(DONATIONS.getAllDonations, token, {
@@ -218,8 +218,8 @@ function Donations() {
     },
     {
       title: "Date",
-      dataIndex: "date",
-      key: "date",
+      dataIndex: "createdAt",
+      key: "createdAt",
       render: (item) => <span>{dayjs(item).format("M/D/YYYY")}</span>,
     },
     {
@@ -278,7 +278,7 @@ function Donations() {
           size={"large"}
           style={{ marginBottom: "10px" }}
           className="mainButton primaryButton"
-          onClick={() => getAlDonations()}
+          onClick={() => getAllDonations()}
         >
           Apply
         </Button>
@@ -348,12 +348,12 @@ function Donations() {
                     cursor: "pointer",
                   }}
                   onClick={() =>
-                    getAlDonations(1, paginationConfig.limit, filter.keyword)
+                    getAllDonations(1, paginationConfig.limit, filter.keyword)
                   }
                 />
               }
               onPressEnter={(e) =>
-                getAlDonations(1, paginationConfig.limit, filter.keyword)
+                getAllDonations(1, paginationConfig.limit, filter.keyword)
               }
             />
             &emsp;

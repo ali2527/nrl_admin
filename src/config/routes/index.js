@@ -6,8 +6,8 @@ import ForgotPassword from "../../views/forget-password-1";
 import ForgotPassword2 from "../../views/forget-password-2";
 import ForgotPassword3 from "../../views/forget-password-3";
 import Dashboard from "../../views/dashboard";
-import UserManagement from "../../views/user-management";
-import UserDetails from "../../views/user-management/userDetails";
+import Users from "../../views/users";
+import UserDetails from "../../views/users/userDetails";
 import Library from "../../views/books";
 import ViewLibrary from "../../views/books/viewBook";
 import AddLibrary from "../../views/books/addNewBook";
@@ -24,8 +24,6 @@ import NonmasonicCommunity from "../../views/non-masonic-community";
 import MasonicArticles from "../../views/masonic-articles";
 import NonMasonicArticles from "../../views/non-masonic-articles";
 import ReligiousArticles from "../../views/religious-articles";
-import FeedbackManagement from "../../views/feedback-management";
-import FeedbackDetails from "../../views/feedback-management/feedbackDetails";
 import LiveStreaming from "../../views/live-streaming";
 import InventoryManagement from "../../views/products";
 import OnlineServices from "../../views/online-services"
@@ -95,30 +93,30 @@ const MyRouter = () => {
           }
         />
         <Route
-          path="/user-management"
+          path="/users"
           activeTab="test"
           index
           element={
             <UserAuthCheck>
               <ClientLayout
                 head={{
-                  title: "User Management",
+                  title: "Users",
                   description: "Some Description.",
                 }}
               >
-                <UserManagement />
+                <Users />
               </ClientLayout>
             </UserAuthCheck>
           }
         />
         <Route
-          path="/user-management/:id"
+          path="/users/:id"
           index
           element={
             <UserAuthCheck>
               <ClientLayout
                 head={{
-                  title: "User Management",
+                  title: "User Details",
                   description: "Some Description.",
                 }}
               >
@@ -529,38 +527,7 @@ const MyRouter = () => {
             </UserAuthCheck>
           }
         />
-        <Route
-          path="/feedback-management"
-          index
-          element={
-            <UserAuthCheck>
-              <ClientLayout
-                head={{
-                  title: "User Management",
-                  description: "Some Description.",
-                }}
-              >
-                <FeedbackManagement />
-              </ClientLayout>
-            </UserAuthCheck>
-          }
-        />
-        <Route
-          path="/feedback-management/:id"
-          index
-          element={
-            <UserAuthCheck>
-              <ClientLayout
-                head={{
-                  title: "feedback Details",
-                  description: "Some Description.",
-                }}
-              >
-                <FeedbackDetails />
-              </ClientLayout>
-            </UserAuthCheck>
-          }
-        />
+        
         
         <Route
           path="/live-streaming"
