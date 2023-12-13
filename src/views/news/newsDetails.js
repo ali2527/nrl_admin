@@ -19,6 +19,8 @@ import {
   Skeleton,
   DatePicker,
 } from "antd";
+import ReactPlayer from 'react-player/youtube'
+
 import dayjs from "dayjs";
 import { UserOutlined, InfoCircleOutlined } from "@ant-design/icons";
 import { FaCaretDown, FaFilter, FaArrowLeft } from "react-icons/fa";
@@ -128,143 +130,13 @@ function NewsDetails() {
           <Row style={{ padding: "20px" }}>
             <Col xs={24} md={16}>
               <Row style={{ padding: "10px" }}>
-                <Col xs={24} md={11}>
-                  <Form
-                    layout="vertical"
-                    name="basic"
-                    labelCol={{
-                      span: 0,
-                    }}
-                    wrapperCol={{
-                      span: 24,
-                    }}
-                    onFinish={onFinish}
-                  >
-                    {editMode ? (
-                      <>
-                        <Form.Item
-                          label="Title"
-                          name="title"
-                          initialValue={news?.title}
-                          rules={[
-                           
-                            {
-                              required: true,
-                              message: "Please input news title!",
-                            },
-                          ]}
-                        >
-                          <Input
-                            size="large"
-                            placeholder="Enter News Title"
-                            style={{
-                              borderRadius: "5px",
-                              background: "white",
-                              fontSize: "14px",
-                              padding: "10px 20px",
-                            }}
-                          />
-                        </Form.Item>
-                        <Form.Item
-                          label="Description"
-                          name="description"
-                          initialValue={news?.description}
-                          rules={[
-                           
-                            {
-                              required: true,
-                              message: "Please input news description!",
-                            },
-                          ]}
-                        >
-                          <Input
-                            size="large"
-                            placeholder="Enter News Description"
-                            style={{
-                              borderRadius: "5px",
-                              background: "white",
-                              fontSize: "14px",
-                              padding: "10px 20px",
-                            }}
-                          />
-                        </Form.Item>
-
-                        <Form.Item
-                          label="Iframe Id"
-                          name="iframeID"
-                          initialValue={news?.iframeID}
-                          rules={[
-                           
-                            {
-                              required: true,
-                              message: "Please input video iframe Id!",
-                            },
-                          ]}
-                        >
-                          <Input
-                            size="large"
-                            placeholder="Enter Video iframe Id"
-                            style={{
-                              borderRadius: "5px",
-                              background: "white",
-                              fontSize: "14px",
-                              padding: "10px 20px",
-                            }}
-                          />
-                        </Form.Item>
-
-                        <Form.Item
-                          label="Date"
-                          name="date"
-                          initialValue={dayjs(news?.date) || null}
-                          rules={[
-                           
-                            {
-                              required: true,
-                              message: "Please input video date!",
-                            },
-                          ]}
-                        >
-                          <DatePicker
-                            size="large"
-                            placeholder="Enter News Date"
-                            style={{
-                              borderRadius: "5px",
-                              background: "white",
-                              fontSize: "14px",
-                              width:"100%",
-                              padding: "10px 20px",
-                            }}
-                          />
-                        </Form.Item>
+                <Col xs={24} >
+                 
+    
+                      <Row style={{ padding: "10px" }}>
+                      <ReactPlayer url={`https://www.youtube.com/watch?v=${news?.videoID}`} />
+                        </Row>
                         <br />
-                        <Row justify="">
-                          <Form.Item>
-                            <Button
-                              type="button"
-                              htmlType="submit"
-                              size={"large"}
-                              style={{ padding: "12px 40px", height: "auto" }}
-                              className="mainButton graden-bg"
-                            >
-                              Update
-                            </Button>
-                          </Form.Item>
-&emsp;
-                          <Button
-                              type="button"
-                              htmlType="button"
-                              ghost
-                              style={{ padding: "10px 40px", height: "43px", borderColor:"#aeafaf", color:"#aeafaf" }}
-                              className="mainButton "
-                              onClick={() => setEditMode(false)}
-                            >
-                              Cancel
-                            </Button>
-                        </Row>{" "}
-                      </>
-                    ) : (
-                      <>
                         <Row style={{ padding: "10px" }}>
                           <Col>
                             <Typography.Title
@@ -292,6 +164,9 @@ function NewsDetails() {
                             </Typography.Text>
                           </Col>
                         </Row>
+
+                      
+
                         
                         <br />
                         <Row style={{ padding: "10px" }}>
@@ -300,13 +175,15 @@ function NewsDetails() {
                               level={4}
                               style={{ fontSize: "18px" }}
                             >
-                              Iframe ID
+                              Channel
                             </Typography.Title>
                             <Typography.Text style={{ fontSize: "16px" }}>
-                              {news?.iframeID}
+                              {news?.channel}
                             </Typography.Text>
                           </Col>
                         </Row>
+
+                      
                         <br />
                         <Row style={{ padding: "10px" }}>
                           <Col>
@@ -323,32 +200,7 @@ function NewsDetails() {
                           </Col>
                         </Row>
                         <br />
-                        <Row style={{ padding: "10px" }}>
-                          <Button
-                            type="button"
-                            htmlType="button"
-                            size={"large"}
-                            style={{ padding: "12px 40px", height: "auto" }}
-                            className="mainButton graden-bg"
-                            onClick={() => setEditMode(true)}
-                          >
-                            Edit News
-                          </Button>
-                          &emsp;
-                          <Button
-                            type="button"
-                            htmlType="button"
-                            size={"large"}
-                            style={{ padding: "10px 40px", height: "auto", background:"#b2001b", color:'white' }}
-                          
-                            onClick={() => handleDeleteButtonClick()}
-                          >
-                            Delete News
-                          </Button>
-                        </Row>
-                      </>
-                    )}
-                  </Form>
+                       
                 </Col>
               </Row>
             </Col>

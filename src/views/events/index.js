@@ -383,7 +383,7 @@ function EventsManagement() {
               suffix={
                 <FaSearch
                   style={{
-                    color: "#3c5a92",
+                    color: "#000",
                     fontSize: 16,
                     cursor: "pointer",
                   }}

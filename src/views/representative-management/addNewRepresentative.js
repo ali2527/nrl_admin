@@ -295,19 +295,19 @@ function AddRepresentative() {
 
                         <Col xs={12}>
                           <Form.Item
-                           label="Teacher"
+                           label="Evaluator"
                            name="teacher"
                            initialValue={representative?.reportCard?.teacher}
                             rules={[
                               {
                                 required: true,
-                                message: "Please input teacher name!",
+                                message: "Please input evaluator name!",
                               },
                             ]}
                           >
                             <Input
                               size="large"
-                              placeholder="Enter teacher Name"
+                              placeholder="Enter evaluator Name"
                               style={{
                                 borderRadius: "5px",
                                 background: "white",
@@ -320,7 +320,7 @@ function AddRepresentative() {
 
                         <Col xs={12}>
                           <Form.Item
-                            label="Term"
+                            label="Updated"
                             name="term"
                             initialValue={representative?.reportCard?.term}
                             rules={[

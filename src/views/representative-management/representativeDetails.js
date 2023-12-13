@@ -320,19 +320,19 @@ function RepresentativeDetail() {
                         <Col xs={12} />
                         <Col xs={12}>
                           <Form.Item
-                            label="Student Name"
+                            label="Evaluatee"
                             name="name"
                             initialValue={representative?.name}
                             rules={[
                               {
                                 required: true,
-                                message: "Please input representative name!",
+                                message: "Please input evaluatee name!",
                               },
                             ]}
                           >
                             <Input
                               size="large"
-                              placeholder="Enter representative Name"
+                              placeholder="Enter evaluatee Name"
                               style={{
                                 borderRadius: "5px",
                                 background: "white",
@@ -345,19 +345,19 @@ function RepresentativeDetail() {
 
                         <Col xs={12}>
                           <Form.Item
-                           label="Teacher"
+                           label="Evaluator"
                            name="teacher"
                            initialValue={representative?.reportCard?.teacher}
                             rules={[
                               {
                                 required: true,
-                                message: "Please input teacher name!",
+                                message: "Please input evaluator name!",
                               },
                             ]}
                           >
                             <Input
                               size="large"
-                              placeholder="Enter teacher Name"
+                              placeholder="Enter evaluator Name"
                               style={{
                                 borderRadius: "5px",
                                 background: "white",
@@ -370,7 +370,7 @@ function RepresentativeDetail() {
 
                         <Col xs={12}>
                           <Form.Item
-                            label="Term"
+                            label="Updated"
                             name="term"
                             initialValue={representative?.reportCard?.term}
                             rules={[
@@ -756,7 +756,7 @@ function RepresentativeDetail() {
                                     style={{ fontSize: "20px" }}
                                     className="fontFamily3"
                                   >
-                                    Student Name
+                                    Evaluatee
                                   </Typography.Text>
                                 </Col>
                                 <Col xs={24} md={12}>
@@ -775,7 +775,7 @@ function RepresentativeDetail() {
                                     style={{ fontSize: "20px" }}
                                     className="fontFamily3"
                                   >
-                                    Grade
+                                    Position
                                   </Typography.Text>
                                 </Col>
                                 <Col xs={24} md={12}>
@@ -783,7 +783,7 @@ function RepresentativeDetail() {
                                     className="fontFamily3"
                                     level={4}
                                   >
-                                    {representative?.reportCard?.grade}
+                                    {representative?.position?.type}
                                   </Typography.Title>
                                 </Col>
                               </Row>
@@ -794,7 +794,7 @@ function RepresentativeDetail() {
                                     style={{ fontSize: "20px" }}
                                     className="fontFamily3"
                                   >
-                                    Term
+                                    Updated
                                   </Typography.Text>
                                 </Col>
                                 <Col xs={24} md={12}>
@@ -834,7 +834,7 @@ function RepresentativeDetail() {
                                     style={{ fontSize: "20px" }}
                                     className="fontFamily3"
                                   >
-                                    Teacher
+                                    Evaluator
                                   </Typography.Text>
                                 </Col>
                                 <Col xs={24} md={12}>
@@ -886,7 +886,7 @@ function RepresentativeDetail() {
                                 </Col>
                               </Row>
 
-                              <Row style={{ margin: "10px 0" }}>
+                              {/* <Row style={{ margin: "10px 0" }}>
                                 <Col xs={24} md={12}>
                                   <Typography.Text
                                     style={{ fontSize: "20px" }}
@@ -903,7 +903,7 @@ function RepresentativeDetail() {
                                     {representative?.position?.type}
                                   </Typography.Title>
                                 </Col>
-                              </Row>
+                              </Row> */}
                             </Col>
                           </Row>
 

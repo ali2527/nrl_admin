@@ -19,6 +19,8 @@ import {
   Skeleton,
   DatePicker,
 } from "antd";
+import ReactPlayer from 'react-player/youtube'
+
 import dayjs from "dayjs";
 import { UserOutlined, InfoCircleOutlined } from "@ant-design/icons";
 import { FaCaretDown, FaFilter, FaArrowLeft } from "react-icons/fa";
@@ -41,7 +43,7 @@ function HistoryDetails() {
   const { id } = useParams();
   const [editMode, setEditMode] = useState(false);
   const [user, setUser] = useState({});
-  const [news, setNews] = useState({});
+  const [history, setHistory] = useState({});
 
 
   useEffect(() => {
@@ -52,7 +54,7 @@ function HistoryDetails() {
     setLoading(true);
     const response = await Get(`${HISTORIES.getHistoryById}${id}`, token);
     if(response?.status){
-      setNews(response?.data?.news);
+      setHistory(response?.data?.history);
     }
     setLoading(false);
   };
@@ -101,299 +103,149 @@ function HistoryDetails() {
 
   return (
     <Layout className="configuration">
-      <div className="boxDetails">
-        <Row style={{ padding: "10px 20px" }}>
-          <Col
-            xs={24}
-            md={12}
-            style={{ display: "flex", alignItems: "center" }}
-          >
-            <FaArrowLeft
-              style={{ fontWeight: "bold", fontSize: "20px" }}
-              onClick={() => navigate(-1)}
-            />
-            &emsp;
-            <h1 className="pageTitle" style={{ margin: 0 }}>
-              {editMode ? "Edit" : "View"} History
-            </h1>
+    <div className="boxDetails">
+      <Row style={{ padding: "10px 20px" }}>
+        <Col
+          xs={24}
+          md={12}
+          style={{ display: "flex", alignItems: "center" }}
+        >
+          <FaArrowLeft
+            style={{ fontWeight: "bold", fontSize: "20px" }}
+            onClick={() => navigate(-1)}
+          />
+          &emsp;
+          <h1 className="pageTitle" style={{ margin: 0 }}>
+            {editMode ? "Edit" : "View"} History
+          </h1>
+        </Col>
+      </Row>
+      <br />
+      {loading ? (
+        <div style={{ padding: "30px" }}>
+          <Skeleton active /> <br />
+          <br /> <Skeleton.Button active />
+        </div>
+      ) : (
+        <Row style={{ padding: "20px" }}>
+          <Col xs={24} md={16}>
+            <Row style={{ padding: "10px" }}>
+              <Col xs={24} >
+               
+  
+                    <Row style={{ padding: "10px" }}>
+                    <ReactPlayer url={`https://www.youtube.com/watch?v=${history?.videoID}`} />
+                      </Row>
+                      <br />
+                      <Row style={{ padding: "10px" }}>
+                        <Col>
+                          <Typography.Title
+                            level={4}
+                            style={{ fontSize: "18px" }}
+                          >
+                            Title
+                          </Typography.Title>
+                          <Typography.Text style={{ fontSize: "16px" }}>
+                            {history?.title}
+                          </Typography.Text>
+                        </Col>
+                      </Row>
+                      <br />
+                      <Row style={{ padding: "10px" }}>
+                        <Col>
+                          <Typography.Title
+                            level={4}
+                            style={{ fontSize: "18px" }}
+                          >
+                            Description
+                          </Typography.Title>
+                          <Typography.Text style={{ fontSize: "16px" }}>
+                            {history?.description}
+                          </Typography.Text>
+                        </Col>
+                      </Row>
+
+                    
+
+                      
+                      <br />
+                      <Row style={{ padding: "10px" }}>
+                        <Col>
+                          <Typography.Title
+                            level={4}
+                            style={{ fontSize: "18px" }}
+                          >
+                            Channel
+                          </Typography.Title>
+                          <Typography.Text style={{ fontSize: "16px" }}>
+                            {history?.channel}
+                          </Typography.Text>
+                        </Col>
+                      </Row>
+
+                    
+                      <br />
+                      <Row style={{ padding: "10px" }}>
+                        <Col>
+                          <Typography.Title
+                            level={4}
+                            style={{ fontSize: "18px" }}
+                          >
+                            Date
+                          </Typography.Title>
+                          <Typography.Text style={{ fontSize: "16px" }}>
+                          
+                            {dayjs(history?.date).format("M/D/YYYY")}
+                          </Typography.Text>
+                        </Col>
+                      </Row>
+                      <br />
+                     
+              </Col>
+            </Row>
           </Col>
         </Row>
-        <br />
-        {loading ? (
-          <div style={{ padding: "30px" }}>
-            <Skeleton active /> <br />
-            <br /> <Skeleton.Button active />
-          </div>
-        ) : (
-          <Row style={{ padding: "20px" }}>
-            <Col xs={24} md={16}>
-              <Row style={{ padding: "10px" }}>
-                <Col xs={24} md={11}>
-                  <Form
-                    layout="vertical"
-                    name="basic"
-                    labelCol={{
-                      span: 0,
-                    }}
-                    wrapperCol={{
-                      span: 24,
-                    }}
-                    onFinish={onFinish}
-                  >
-                    {editMode ? (
-                      <>
-                        <Form.Item
-                          label="Title"
-                          name="title"
-                          initialValue={news?.title}
-                          rules={[
-                           
-                            {
-                              required: true,
-                              message: "Please input news title!",
-                            },
-                          ]}
-                        >
-                          <Input
-                            size="large"
-                            placeholder="Enter History Title"
-                            style={{
-                              borderRadius: "5px",
-                              background: "white",
-                              fontSize: "14px",
-                              padding: "10px 20px",
-                            }}
-                          />
-                        </Form.Item>
-                        <Form.Item
-                          label="Description"
-                          name="description"
-                          initialValue={news?.description}
-                          rules={[
-                           
-                            {
-                              required: true,
-                              message: "Please input news description!",
-                            },
-                          ]}
-                        >
-                          <Input
-                            size="large"
-                            placeholder="Enter History Description"
-                            style={{
-                              borderRadius: "5px",
-                              background: "white",
-                              fontSize: "14px",
-                              padding: "10px 20px",
-                            }}
-                          />
-                        </Form.Item>
+      )}
 
-                        <Form.Item
-                          label="Iframe Id"
-                          name="iframeID"
-                          initialValue={news?.iframeID}
-                          rules={[
-                           
-                            {
-                              required: true,
-                              message: "Please input video iframe Id!",
-                            },
-                          ]}
-                        >
-                          <Input
-                            size="large"
-                            placeholder="Enter Video iframe Id"
-                            style={{
-                              borderRadius: "5px",
-                              background: "white",
-                              fontSize: "14px",
-                              padding: "10px 20px",
-                            }}
-                          />
-                        </Form.Item>
+      <br />
+      <br />
 
-                        <Form.Item
-                          label="Date"
-                          name="date"
-                          initialValue={dayjs(news?.date) || null}
-                          rules={[
-                           
-                            {
-                              required: true,
-                              message: "Please input video date!",
-                            },
-                          ]}
-                        >
-                          <DatePicker
-                            size="large"
-                            placeholder="Enter History Date"
-                            style={{
-                              borderRadius: "5px",
-                              background: "white",
-                              fontSize: "14px",
-                              width:"100%",
-                              padding: "10px 20px",
-                            }}
-                          />
-                        </Form.Item>
-                        <br />
-                        <Row justify="">
-                          <Form.Item>
-                            <Button
-                              type="button"
-                              htmlType="submit"
-                              size={"large"}
-                              style={{ padding: "12px 40px", height: "auto" }}
-                              className="mainButton graden-bg"
-                            >
-                              Update
-                            </Button>
-                          </Form.Item>
-&emsp;
-                          <Button
-                              type="button"
-                              htmlType="button"
-                              ghost
-                              style={{ padding: "10px 40px", height: "43px", borderColor:"#aeafaf", color:"#aeafaf" }}
-                              className="mainButton "
-                              onClick={() => setEditMode(false)}
-                            >
-                              Cancel
-                            </Button>
-                        </Row>{" "}
-                      </>
-                    ) : (
-                      <>
-                        <Row style={{ padding: "10px" }}>
-                          <Col>
-                            <Typography.Title
-                              level={4}
-                              style={{ fontSize: "18px" }}
-                            >
-                              Title
-                            </Typography.Title>
-                            <Typography.Text style={{ fontSize: "16px" }}>
-                              {news?.title}
-                            </Typography.Text>
-                          </Col>
-                        </Row>
-                        <br />
-                        <Row style={{ padding: "10px" }}>
-                          <Col>
-                            <Typography.Title
-                              level={4}
-                              style={{ fontSize: "18px" }}
-                            >
-                              Description
-                            </Typography.Title>
-                            <Typography.Text style={{ fontSize: "16px" }}>
-                              {news?.description}
-                            </Typography.Text>
-                          </Col>
-                        </Row>
-                        
-                        <br />
-                        <Row style={{ padding: "10px" }}>
-                          <Col>
-                            <Typography.Title
-                              level={4}
-                              style={{ fontSize: "18px" }}
-                            >
-                              Iframe ID
-                            </Typography.Title>
-                            <Typography.Text style={{ fontSize: "16px" }}>
-                              {news?.iframeID}
-                            </Typography.Text>
-                          </Col>
-                        </Row>
-                        <br />
-                        <Row style={{ padding: "10px" }}>
-                          <Col>
-                            <Typography.Title
-                              level={4}
-                              style={{ fontSize: "18px" }}
-                            >
-                              Date
-                            </Typography.Title>
-                            <Typography.Text style={{ fontSize: "16px" }}>
-                            
-                              {dayjs(news?.date).format("M/D/YYYY")}
-                            </Typography.Text>
-                          </Col>
-                        </Row>
-                        <br />
-                        <Row style={{ padding: "10px" }}>
-                          <Button
-                            type="button"
-                            htmlType="button"
-                            size={"large"}
-                            style={{ padding: "12px 40px", height: "auto" }}
-                            className="mainButton graden-bg"
-                            onClick={() => setEditMode(true)}
-                          >
-                            Edit History
-                          </Button>
-                          &emsp;
-                          <Button
-                            type="button"
-                            htmlType="button"
-                            size={"large"}
-                            style={{ padding: "10px 40px", height: "auto", background:"#b2001b", color:'white' }}
-                          
-                            onClick={() => handleDeleteButtonClick()}
-                          >
-                            Delete History
-                          </Button>
-                        </Row>
-                      </>
-                    )}
-                  </Form>
-                </Col>
-              </Row>
-            </Col>
-          </Row>
-        )}
-
-        <br />
-        <br />
-
-        <Modal
-        open={modalOpen}
-        onOk={() => deleteHistory()}
-        onCancel={() => setModalOpen(false)}
-        okText="Yes"
-        className="StyledModal"
-        style={{
-          left: 0,
-          right: 0,
-          marginLeft: "auto",
-          marginRight: "auto",
-          textAlign: "center",
-        }}
-        cancelText="No"
-        cancelButtonProps={{
-          className: "no-btn",
-        }}
-        okButtonProps={{
-          className: "yes-btn",
-        }}
-      >
-        <Image
-          src="../images/question.png"
-          preview={false}
-          width={74}
-          height={74}
-        />
-        <Typography.Title level={4} style={{ fontSize: "25px" }}>
-        System Message!
-        </Typography.Title>
-        <Typography.Text style={{ fontSize: 16 }}>
-        Are You Sure You Want To Delete This History?
-        </Typography.Text>
-      </Modal>
-      </div>
-    </Layout>
+      <Modal
+      open={modalOpen}
+      onOk={() => deleteHistory()}
+      onCancel={() => setModalOpen(false)}
+      okText="Yes"
+      className="StyledModal"
+      style={{
+        left: 0,
+        right: 0,
+        marginLeft: "auto",
+        marginRight: "auto",
+        textAlign: "center",
+      }}
+      cancelText="No"
+      cancelButtonProps={{
+        className: "no-btn",
+      }}
+      okButtonProps={{
+        className: "yes-btn",
+      }}
+    >
+      <Image
+        src="../images/question.png"
+        preview={false}
+        width={74}
+        height={74}
+      />
+      <Typography.Title level={4} style={{ fontSize: "25px" }}>
+      System Message!
+      </Typography.Title>
+      <Typography.Text style={{ fontSize: 16 }}>
+      Are You Sure You Want To Delete This News?
+      </Typography.Text>
+    </Modal>
+    </div>
+  </Layout>
   );
 }
 export default HistoryDetails;

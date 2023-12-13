@@ -36,7 +36,7 @@ function Notifications() {
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(null);
   const [selectedUser, setSelectedUser] = useState(null);
-  const [users, setUsers] = useState([]);
+  const [notifications, setNotifications] = useState([]);
   const [paginationConfig, setPaginationConfig] = useState({
     pageNumber: 1,
     limit: 10,
@@ -132,29 +132,29 @@ function Notifications() {
 
   const handleStatus = async () => {
     try {
-      const index = users.findIndex((user) => user._id == selectedUser._id);
+      const index = notifications.findIndex((user) => user._id == selectedUser._id);
 
       console.log(index);
       const response = await Get(
-        NOTIFICATION.toggleStatus + "/" + selectedUser._id,
+        NOTIFICATION.toggleNotification + "/" + selectedUser._id,
         token,
         {}
       );
-      const newUsers = [...users];
+      const newUsers = [...notifications];
 
       console.log(">>>>", newUsers[index].isActive);
       console.log(">>>>", selectedUser.isActive);
       newUsers[index].isActive = !selectedUser.isActive;
       setModalOpen(false);
-      setUsers(newUsers);
+      setNotifications(newUsers);
     } catch (error) {
       console.log(error.message);
     }
   };
 
   console.log(
-    "users",
-    users.map((item) => item.isActive)
+    "notifications",
+    notifications.map((item) => item.isActive)
   );
 
   const getNotifications = async (
@@ -165,7 +165,7 @@ function Notifications() {
   ) => {
     setLoading(true);
     try {
-      const response = await Get(NOTIFICATION.get, token, {
+      const response = await Get(NOTIFICATION.getAllNotifications, token, {
         page: pageNumber
           ? pageNumber.toString()
           : paginationConfig.pageNumber.toString(),
@@ -180,7 +180,7 @@ function Notifications() {
       setLoading(false);
       console.log("response", response);
       if (response?.status) {
-        setUsers(response?.data?.docs);
+        setNotifications(response?.data?.docs);
         setPaginationConfig({
           pageNumber: response?.data?.page,
           limit: response?.data?.limit,
@@ -241,7 +241,7 @@ function Notifications() {
       render: (item) => (
         <FaEye
           style={{ fontSize: "16px", color: "#000000", cursor: "pointer" }}
-          onClick={() => navigate("/notifications/edit/" + item)}
+          onClick={() => navigate("/notifications/" + item)}
         />
       ),
     },
@@ -417,7 +417,7 @@ function Notifications() {
           ) : (
             <Table
               className="styledTable"
-              dataSource={users}
+              dataSource={notifications}
               columns={columns}
               pagination={false}
             />

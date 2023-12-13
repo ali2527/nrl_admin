@@ -25,7 +25,7 @@ import { UserOutlined, InfoCircleOutlined } from "@ant-design/icons";
 import { FaSearch, FaFilter, FaCaretDown, FaEye } from "react-icons/fa";
 import ClientLayout from "../../components/ClientLayout";
 import { Get } from "../../config/api/get";
-import { USERS } from "../../config/constants";
+import { ADMIN } from "../../config/constants";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
@@ -132,7 +132,7 @@ function UserManagement() {
       const index = users.findIndex((user) => user._id == selectedUser._id);
 
       console.log(index)
-      const response = await Get(USERS.toggleStatus + "/" + selectedUser._id , token,{});
+      const response = await Get(ADMIN.toggleStatus + "/" + selectedUser._id , token,{});
       const newUsers = [...users];
 
       newUsers[index].status = newUsers[index].status == "ACTIVE" ? "INACTIVE" : "ACTIVE";
@@ -151,7 +151,7 @@ function UserManagement() {
   const getUsers = async (pageNumber, pageSize, search, reset = false) => {
     setLoading(true);
     try {
-      const response = await Get(USERS.getAllUsers, token, {
+      const response = await Get(ADMIN.getAllUsers, token, {
         page: pageNumber
           ? pageNumber.toString()
           : paginationConfig.pageNumber.toString(),
@@ -377,7 +377,7 @@ function UserManagement() {
               suffix={
                 <FaSearch
                   style={{
-                    color: "#3c5a92",
+                    color: "#000",
                     fontSize: 16,
                     cursor: "pointer",
                   }}

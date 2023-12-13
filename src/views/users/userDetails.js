@@ -12,7 +12,7 @@ import {
 import { UserOutlined } from "@ant-design/icons";
 import { FaCaretDown, FaArrowLeft } from "react-icons/fa";
 import { Get } from "../../config/api/get";
-import { UPLOADS_URL, USERS } from "../../config/constants";
+import { UPLOADS_URL, ADMIN } from "../../config/constants";
 import { useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import dayjs from "dayjs";
@@ -35,14 +35,14 @@ function UserDetails() {
 
   const getUser = async () => {
     setLoading(true);
-    const response = await Get(`${USERS.getOne}${id}`, token);
+    const response = await Get(`${ADMIN.getUserById}${id}`, token);
     setUser(response.data);
     setLoading(false);
   };
 
   const handleStatus = async () => {
     try {
-      const response = await Get(USERS.toggleStatus + "/" + user._id , token,{});
+      const response = await Get(ADMIN.toggleStatus + "/" + user._id , token,{});
       const _user = {...user};
 
       _user.status = _user.status == "ACTIVE" ? "INACTIVE" : "ACTIVE";
@@ -58,7 +58,7 @@ function UserDetails() {
   const handleDelete = async () => {
     try {
       const response = await Get(
-        USERS.deleteUser + user._id,
+        ADMIN.deleteUser + user._id,
         token,
         {}
       );

@@ -209,15 +209,10 @@ function Histories() {
       dataIndex: "title",
       key: "title",
     },
-    {
-        title: "Short Description",
-        dataIndex: "description",
-        key: "description",
-      },
       {
-        title: "iframeID",
-        dataIndex: "iframeID",
-        key: "iframeID",
+        title: "Channel",
+        dataIndex: "channel",
+        key: "channel",
       },
       
 
@@ -236,7 +231,7 @@ function Histories() {
           style={{ fontSize: "16px", color: "#000",  cursor: "pointer" }}
              onClick={() => navigate("/histories/" + item)}
         />
-        // <div style={{color:'black'}} className="view-link" onClick={() => navigate("/histories/" + item )}>edit</div>
+        // <div style={{color:'black'}} className="view-link" onClick={() => navigate("/news/" + item )}>edit</div>
       ),
     },
   ];
@@ -318,7 +313,7 @@ function Histories() {
           >
            <h1 className="pageTitle">Histories</h1>
           </Col>
-          <Col
+          {/* <Col
             xs={24}
             md={12}
             style={{
@@ -340,7 +335,7 @@ function Histories() {
             </Button>
 
 
-          </Col>
+          </Col> */}
         </Row>
         {/* <Row style={{ padding: "10px 20px" }}>
           <h1 className="pageTitle">Movies</h1>
@@ -386,7 +381,7 @@ function Histories() {
               suffix={
                 <FaSearch
                   style={{
-                    color: "#3c5a92",
+                    color: "#000",
                     fontSize: 16,
                     cursor: "pointer",
                   }}

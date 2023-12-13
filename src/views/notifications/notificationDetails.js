@@ -55,7 +55,7 @@ function NotificationDetails() {
 
   const getNotificationDetails = async () => {
     setLoading(true);
-    const notification = await Get(`${NOTIFICATION.getOne}${id}`, token);
+    const notification = await Get(`${NOTIFICATION.getNotificationById}${id}`, token);
 
     setNotification(notification);
     setLoading(false);
@@ -63,7 +63,7 @@ function NotificationDetails() {
 
   const addNotification = async () => {
     try {
-      const response = await Post(NOTIFICATION.create,notification, token);
+      const response = await Post(NOTIFICATION.getNotificationById,notification, token);
 
       if(response.status === 200){
         message.success("Notification Created Successfully");

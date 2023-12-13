@@ -19,7 +19,7 @@ export const fetchNotifications = createAsyncThunk(
       }
   
       try {
-        const response = await Get(NOTIFICATION.getUnreadAdminNotifications, token);
+        const response = await Get(NOTIFICATION.getAllUnreadNotifications, token);
         console.log("response>>ss>>>>", response);
   
         if (response?.status) {

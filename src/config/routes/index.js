@@ -8,37 +8,19 @@ import ForgotPassword3 from "../../views/forget-password-3";
 import Dashboard from "../../views/dashboard";
 import Users from "../../views/users";
 import UserDetails from "../../views/users/userDetails";
-import Library from "../../views/books";
-import ViewLibrary from "../../views/books/viewBook";
-import AddLibrary from "../../views/books/addNewBook";
-import EditLibrary from "../../views/books/editBook";
-import Donations from "../../views/donations"
+import Donations from "../../views/donations";
 
 import Profile from "../../views/profile";
 import ChangePass from "../../views/profile/changePass";
 // import EditProfile from "../../views/profile/editProfile";
 
 import PaymentLogs from "../../views/payment-logs";
-import MemberCommunity from "../../views/member-community";
-import NonmasonicCommunity from "../../views/non-masonic-community";
-import MasonicArticles from "../../views/masonic-articles";
-import NonMasonicArticles from "../../views/non-masonic-articles";
-import ReligiousArticles from "../../views/religious-articles";
-import LiveStreaming from "../../views/live-streaming";
 import InventoryManagement from "../../views/products";
-import OnlineServices from "../../views/online-services"
 import ViewProduct from "../../views/products/viewProduct";
 import Productadd from "../../views/products/addNewProduct";
 import EditProduct from "../../views/products/editProduct";
-import OrderManagement from "../../views/order-management";
-import OrderDetails from "../../views/order-management/orderDetail";
 import Categories from "../../views/categories";
-import AdsManagement from "../../views/ads-management";
-import AdDetails from "../../views/ads-management/adDetails";
 import Notifications from "../../views/notifications";
-import EditService from "../../views/online-services/editService";
-import ViewService from "../../views/online-services/viewService";
-import AddService from "../../views/online-services/addNewService"
 import Events from "../../views/events/index";
 import ViewEvent from "../../views/events/viewEvent";
 import AddEvent from "../../views/events/addNewEvent";
@@ -50,8 +32,6 @@ import NewsDetails from "../../views/news/newsDetails";
 import Histories from "../../views/histories";
 import AddHistory from "../../views/histories/addNewHistory";
 import HistoryDetails from "../../views/histories/historyDetails";
-
-// import CategoryDetails from "../../views/categories/viewCategory";
 import States from "../../views/state-management";
 import StateDetails from "../../views/state-management/stateDetails";
 import AddState from "../../views/state-management/addNewState";
@@ -61,13 +41,14 @@ import AddPosition from "../../views/position-management/addNewPosition";
 import Representatives from "../../views/representative-management";
 import RepresentativeDetails from "../../views/representative-management/representativeDetails";
 import AddRepresentative from "../../views/representative-management/addNewRepresentative";
-import Orders from "../../views/orders"
-import ViewOrder from "../../views/orders/orderDetails"
+import Orders from "../../views/orders";
+import ViewOrder from "../../views/orders/orderDetails";
 //components imports
 import UserAuthCheck from "../../components/AuthCheck/UserAuthCheck";
 // import AdminAuthCheck from "../../components/AuthCheck/AdminAuthCheck";
 import ClientLayout from "../../components/ClientLayout";
 import CategoryDetails from "../../views/categories/categoryDetails";
+import NotificationDetails from "../../views/notifications/notificationDetails";
 
 const MyRouter = () => {
   return (
@@ -125,8 +106,7 @@ const MyRouter = () => {
             </UserAuthCheck>
           }
         />
-
-<Route
+        <Route
           path="/donations"
           activeTab="donations"
           index
@@ -138,14 +118,13 @@ const MyRouter = () => {
                   description: "Some Description.",
                 }}
               >
-                <Donations/>
+                <Donations />
               </ClientLayout>
             </UserAuthCheck>
           }
         />
 
-
-<Route
+        <Route
           path="/states"
           activeTab="state"
           index
@@ -163,7 +142,7 @@ const MyRouter = () => {
           }
         />
 
-<Route
+        <Route
           path="/states/:id"
           activeTab="state"
           index
@@ -181,8 +160,7 @@ const MyRouter = () => {
           }
         />
 
-
-<Route
+        <Route
           path="/states/addState"
           activeTab="state"
           index
@@ -200,8 +178,7 @@ const MyRouter = () => {
           }
         />
 
-
-<Route
+        <Route
           path="/representatives"
           activeTab="representatives"
           index
@@ -219,7 +196,7 @@ const MyRouter = () => {
           }
         />
 
-<Route
+        <Route
           path="/representatives/:id"
           activeTab="representatives"
           index
@@ -237,8 +214,7 @@ const MyRouter = () => {
           }
         />
 
-
-<Route
+        <Route
           path="/representatives/addRepresentative"
           activeTab="representatives"
           index
@@ -256,7 +232,7 @@ const MyRouter = () => {
           }
         />
 
-<Route
+        <Route
           path="/positions"
           activeTab="positions"
           index
@@ -274,7 +250,7 @@ const MyRouter = () => {
           }
         />
 
-<Route
+        <Route
           path="/positions/:id"
           activeTab="positions"
           index
@@ -292,8 +268,7 @@ const MyRouter = () => {
           }
         />
 
-
-<Route
+        <Route
           path="/positions/addPosition"
           activeTab="positions"
           index
@@ -311,110 +286,6 @@ const MyRouter = () => {
           }
         />
 
-
-        <Route
-          path="/library"
-          index
-          element={
-            <UserAuthCheck>
-              <ClientLayout
-                head={{
-                  title: "library",
-                  description: "Some Description.",
-                }}
-              >
-                <Library />
-              </ClientLayout>
-            </UserAuthCheck>
-          }
-        />
-
-
-<Route
-          path="/library/:id"
-          index
-          element={
-            <UserAuthCheck>
-              <ClientLayout
-                head={{
-                  title: "View Library",
-                  description: "Some Description.",
-                }}
-              >
-                <ViewLibrary/>
-              </ClientLayout>
-            </UserAuthCheck>
-          }
-        />
-
-
-        <Route
-          path="/library/addNewLibrary"
-          index
-          element={
-            <UserAuthCheck>
-              <ClientLayout
-                head={{
-                  title: "Library add",
-                  description: "Some Description.",
-                }}
-              >
-                <AddLibrary/>
-              </ClientLayout>
-            </UserAuthCheck>
-          }
-        />
-        <Route
-          path="/library/editLibrary/:id"
-          index
-          element={
-            <UserAuthCheck>
-              <ClientLayout
-                head={{
-                  title: "edit Library",
-                  description: "Some Description.",
-                }}
-              >
-                <EditLibrary/>
-              </ClientLayout>
-            </UserAuthCheck>
-          }
-        />
-
-
-        {/* <Route
-          path="/Library/:id"
-          index
-          element={
-            <UserAuthCheck>
-              <ClientLayout
-                head={{
-                  title: "Library",
-                  description: "Some Description.",
-                }}
-              >
-                <LibraryDetails/>
-              </ClientLayout>
-            </UserAuthCheck>
-          }
-        />
-        <Route
-          path="/Library/addBook"
-          index
-          element={
-            <UserAuthCheck>
-              <ClientLayout
-                head={{
-                  title: "Library",
-                  description: "Some Description.",
-                }}
-              >
-                <Libraryadd/>
-              </ClientLayout>
-            </UserAuthCheck>
-          }
-        /> */}
-        
         <Route
           path="/payments"
           index
@@ -431,120 +302,7 @@ const MyRouter = () => {
             </UserAuthCheck>
           }
         />
-        <Route
-          path="/masonic-community"
-          index
-          element={
-            <UserAuthCheck>
-              <ClientLayout
-                head={{
-                  title: "Member Community",
-                  description: "Some Description.",
-                }}
-              >
-                <MemberCommunity />
-              </ClientLayout>
-            </UserAuthCheck>
-          }
-        />
-        <Route
-          path="/non-masonic-community"
-          index
-          element={
-            <UserAuthCheck>
-              <ClientLayout
-                head={{
-                  title: "Non masonic Community",
-                  description: "Some Description.",
-                }}
-              >
-                <NonmasonicCommunity />
-              </ClientLayout>
-            </UserAuthCheck>
-          }
-        />
-        <Route
-          path="/non-masonic-community"
-          index
-          element={
-            <UserAuthCheck>
-              <ClientLayout
-                head={{
-                  title: "Member Community",
-                  description: "Some Description.",
-                }}
-              >
-                <MemberCommunity />
-              </ClientLayout>
-            </UserAuthCheck>
-          }
-        />
-        <Route
-          path="/masonic-articles"
-          index
-          element={
-            <UserAuthCheck>
-              <ClientLayout
-                head={{
-                  title: "Masonic Articles",
-                  description: "Some Description.",
-                }}
-              >
-                <MasonicArticles />
-              </ClientLayout>
-            </UserAuthCheck>
-          }
-        />
-        <Route
-          path="/non-masonic-articles"
-          index
-          element={
-            <UserAuthCheck>
-              <ClientLayout
-                head={{
-                  title: "non Masonic Articles",
-                  description: "Some Description.",
-                }}
-              >
-                <NonMasonicArticles />
-              </ClientLayout>
-            </UserAuthCheck>
-          }
-        />
-        <Route
-          path="/religious-articles"
-          index
-          element={
-            <UserAuthCheck>
-              <ClientLayout
-                head={{
-                  title: "Religious Articles",
-                  description: "Some Description.",
-                }}
-              >
-                <ReligiousArticles />
-              </ClientLayout>
-            </UserAuthCheck>
-          }
-        />
-        
-        
-        <Route
-          path="/live-streaming"
-          index
-          element={
-            <UserAuthCheck>
-              <ClientLayout
-                head={{
-                  title: "Live Streaming",
-                  description: "Some Description.",
-                }}
-              >
-                <LiveStreaming/>
-              </ClientLayout>
-            </UserAuthCheck>
-          }
-        />
+       
         <Route
           path="/product-management"
           index
@@ -556,82 +314,13 @@ const MyRouter = () => {
                   description: "Some Description.",
                 }}
               >
-                <InventoryManagement/>
+                <InventoryManagement />
               </ClientLayout>
             </UserAuthCheck>
           }
         />
-
-<Route
-          path="/online-services"
-          index
-          element={
-            <UserAuthCheck>
-              <ClientLayout
-                head={{
-                  title: "Online Services",
-                  description: "Some Description.",
-                }}
-              >
-                <OnlineServices/>
-              </ClientLayout>
-            </UserAuthCheck>
-          }
-        />
-
-<Route
-          path="/online-services/:id"
-          index
-          element={
-            <UserAuthCheck>
-              <ClientLayout
-                head={{
-                  title: "View Service",
-                  description: "Some Description.",
-                }}
-              >
-                <ViewService/>
-              </ClientLayout>
-            </UserAuthCheck>
-          }
-        />
-
 
         <Route
-          path="/online-services/addNewService"
-          index
-          element={
-            <UserAuthCheck>
-              <ClientLayout
-                head={{
-                  title: "Service add",
-                  description: "Some Description.",
-                }}
-              >
-                <AddService/>
-              </ClientLayout>
-            </UserAuthCheck>
-          }
-        />
-        <Route
-          path="/online-services/editService/:id"
-          index
-          element={
-            <UserAuthCheck>
-              <ClientLayout
-                head={{
-                  title: "edit Service",
-                  description: "Some Description.",
-                }}
-              >
-                <EditService/>
-              </ClientLayout>
-            </UserAuthCheck>
-          }
-        />
-
-
-<Route
           path="/events"
           index
           element={
@@ -642,14 +331,13 @@ const MyRouter = () => {
                   description: "Some Description.",
                 }}
               >
-                <Events/>
+                <Events />
               </ClientLayout>
             </UserAuthCheck>
           }
         />
-      
 
-<Route
+        <Route
           path="/events/:id"
           index
           element={
@@ -660,12 +348,11 @@ const MyRouter = () => {
                   description: "Some Description.",
                 }}
               >
-                <ViewEvent/>
+                <ViewEvent />
               </ClientLayout>
             </UserAuthCheck>
           }
         />
-
 
         <Route
           path="/events/addNewEvent"
@@ -678,7 +365,7 @@ const MyRouter = () => {
                   description: "Some Description.",
                 }}
               >
-                <AddEvent/>
+                <AddEvent />
               </ClientLayout>
             </UserAuthCheck>
           }
@@ -694,15 +381,13 @@ const MyRouter = () => {
                   description: "Some Description.",
                 }}
               >
-                <EditEvent/>
+                <EditEvent />
               </ClientLayout>
             </UserAuthCheck>
           }
         />
 
-
-
-<Route
+        <Route
           path="/orders"
           index
           element={
@@ -713,14 +398,13 @@ const MyRouter = () => {
                   description: "Some Description.",
                 }}
               >
-                <Orders/>
+                <Orders />
               </ClientLayout>
             </UserAuthCheck>
           }
         />
-      
 
-<Route
+        <Route
           path="/orders/:id"
           index
           element={
@@ -731,12 +415,11 @@ const MyRouter = () => {
                   description: "Some Description.",
                 }}
               >
-                <ViewOrder/>
+                <ViewOrder />
               </ClientLayout>
             </UserAuthCheck>
           }
         />
-
 
         <Route
           path="/product-management/:id"
@@ -749,7 +432,7 @@ const MyRouter = () => {
                   description: "Some Description.",
                 }}
               >
-                <ViewProduct/>
+                <ViewProduct />
               </ClientLayout>
             </UserAuthCheck>
           }
@@ -765,7 +448,7 @@ const MyRouter = () => {
                   description: "Some Description.",
                 }}
               >
-                <Productadd/>
+                <Productadd />
               </ClientLayout>
             </UserAuthCheck>
           }
@@ -781,43 +464,12 @@ const MyRouter = () => {
                   description: "Some Description.",
                 }}
               >
-                <EditProduct/>
+                <EditProduct />
               </ClientLayout>
             </UserAuthCheck>
           }
         />
-        <Route
-          path="/order-management"
-          index
-          element={
-            <UserAuthCheck>
-              <ClientLayout
-                head={{
-                  title: "Order Management",
-                  description: "Some Description.",
-                }}
-              >
-                <OrderManagement/>
-              </ClientLayout>
-            </UserAuthCheck>
-          }
-        />
-        <Route
-          path="/order-management/:id"
-          index
-          element={
-            <UserAuthCheck>
-              <ClientLayout
-                head={{
-                  title: "Order Detail",
-                  description: "Some Description.",
-                }}
-              >
-                <OrderDetails/>
-              </ClientLayout>
-            </UserAuthCheck>
-          }
-        />
+   
         <Route
           path="/categories"
           index
@@ -829,7 +481,7 @@ const MyRouter = () => {
                   description: "Some Description.",
                 }}
               >
-                <Categories/>
+                <Categories />
               </ClientLayout>
             </UserAuthCheck>
           }
@@ -845,13 +497,13 @@ const MyRouter = () => {
                   description: "Some Description.",
                 }}
               >
-                <AddCategory/>
+                <AddCategory />
               </ClientLayout>
             </UserAuthCheck>
           }
         />
 
-<Route
+        <Route
           path="/categories/:id"
           index
           element={
@@ -862,14 +514,13 @@ const MyRouter = () => {
                   description: "Some Description.",
                 }}
               >
-                <CategoryDetails/>
+                <CategoryDetails />
               </ClientLayout>
             </UserAuthCheck>
           }
         />
 
-
-<Route
+        <Route
           path="/news"
           index
           element={
@@ -880,7 +531,7 @@ const MyRouter = () => {
                   description: "Some Description.",
                 }}
               >
-                <News/>
+                <News />
               </ClientLayout>
             </UserAuthCheck>
           }
@@ -896,13 +547,13 @@ const MyRouter = () => {
                   description: "Some Description.",
                 }}
               >
-                <AddNews/>
+                <AddNews />
               </ClientLayout>
             </UserAuthCheck>
           }
         />
 
-<Route
+        <Route
           path="/news/:id"
           index
           element={
@@ -913,13 +564,13 @@ const MyRouter = () => {
                   description: "Some Description.",
                 }}
               >
-                <NewsDetails/>
+                <NewsDetails />
               </ClientLayout>
             </UserAuthCheck>
           }
         />
 
-<Route
+        <Route
           path="/histories"
           index
           element={
@@ -930,7 +581,7 @@ const MyRouter = () => {
                   description: "Some Description.",
                 }}
               >
-                <Histories/>
+                <Histories />
               </ClientLayout>
             </UserAuthCheck>
           }
@@ -946,13 +597,13 @@ const MyRouter = () => {
                   description: "Some Description.",
                 }}
               >
-                <AddHistory/>
+                <AddHistory />
               </ClientLayout>
             </UserAuthCheck>
           }
         />
 
-<Route
+        <Route
           path="/histories/:id"
           index
           element={
@@ -963,47 +614,12 @@ const MyRouter = () => {
                   description: "Some Description.",
                 }}
               >
-                <HistoryDetails/>
+                <HistoryDetails />
               </ClientLayout>
             </UserAuthCheck>
           }
         />
 
-
-
-
-        <Route
-          path="/ads-management/"
-          index
-          element={
-            <UserAuthCheck>
-              <ClientLayout
-                head={{
-                  title: "Ads Management",
-                  description: "Some Description.",
-                }}
-              >
-                <AdsManagement/>
-              </ClientLayout>
-            </UserAuthCheck>
-          }
-        />
-        <Route
-          path="/ads-management/:id"
-          index
-          element={
-            <UserAuthCheck>
-              <ClientLayout
-                head={{
-                  title: "Ad Details",
-                  description: "Some Description.",
-                }}
-              >
-                <AdDetails/>
-              </ClientLayout>
-            </UserAuthCheck>
-          }
-        />
         <Route
           path="/profile"
           index
@@ -1015,27 +631,12 @@ const MyRouter = () => {
                   description: "Some Description.",
                 }}
               >
-                <Profile/>
+                <Profile />
               </ClientLayout>
             </UserAuthCheck>
           }
         />
-          {/* <Route
-            path="/profile/editProfile"
-            index
-            element={
-              <UserAuthCheck>
-                <ClientLayout
-                  head={{
-                    title: "EditProfile",
-                    description: "Some Description.",
-                  }}
-                >
-                  <EditProfile/>
-                </ClientLayout>
-              </UserAuthCheck>
-            }
-          /> */}
+      
         <Route
           path="/profile/changePass"
           index
@@ -1047,7 +648,7 @@ const MyRouter = () => {
                   description: "Some Description.",
                 }}
               >
-                <ChangePass/>
+                <ChangePass />
               </ClientLayout>
             </UserAuthCheck>
           }
@@ -1069,7 +670,22 @@ const MyRouter = () => {
             </UserAuthCheck>
           }
         />
-
+        <Route
+          path="/notifications/:id"
+          index
+          element={
+            <UserAuthCheck>
+              <ClientLayout
+                head={{
+                  title: "Notification Details",
+                  description: "Some Description.",
+                }}
+              >
+                <NotificationDetails />
+              </ClientLayout>
+            </UserAuthCheck>
+          }
+        />
       </Routes>
     </BrowserRouter>
   );

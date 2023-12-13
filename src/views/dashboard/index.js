@@ -87,6 +87,7 @@ export default function Home() {
           text: "Total Sales",
           color: "#000000",
         },
+        min: 0,
       },
       x: {
         title: {
@@ -127,6 +128,7 @@ export default function Home() {
           text: "Total Donation",
           color: "#000000",
         },
+        min: 0,
       },
       x: {
         title: {
@@ -215,7 +217,7 @@ export default function Home() {
             >
               <Col xs={7} md={8}>
                 <div class="analyticsIcon">
-                <ImUsers style={{fontSize:"60px"}} />
+                <ImUsers style={{fontSize:"60px", color:'black'}} />
                 </div>
               </Col>
               <Col xs={15} md={16}>
@@ -236,7 +238,7 @@ export default function Home() {
             >
               <Col xs={7} md={8}>
                 <div class="analyticsIcon">
-                  <FaBoxOpen style={{fontSize:"60px"}} />
+                  <FaBoxOpen style={{fontSize:"60px", color:'black'}} />
                 </div>
               </Col>
               <Col xs={15} md={16}>
@@ -257,7 +259,7 @@ export default function Home() {
             >
               <Col xs={7} md={8}>
                 <div class="analyticsIcon">
-                  <RiMoneyDollarCircleFill style={{fontSize:"60px"}} />
+                  <RiMoneyDollarCircleFill style={{fontSize:"60px", color:'black'}} />
                 </div>
               </Col>
               <Col xs={15} md={16}>
@@ -278,7 +280,7 @@ export default function Home() {
             >
               <Col xs={7} md={8}>
                 <div class="analyticsIcon">
-                  <BiSolidDonateHeart style={{fontSize:"60px"}} />
+                  <BiSolidDonateHeart style={{fontSize:"60px", color:'black'}} />
                 </div>
               </Col>
               <Col xs={15} md={16}>

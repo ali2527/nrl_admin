@@ -158,7 +158,7 @@ const ClientHeader = ({ visible, setVisible, visible2, setVisible2 }) => {
       />
       <div style={{ height: "250px", overflow: "auto" }}>
         {latestNotifications && latestNotifications.length > 0 && latestNotifications.map(item => {
-          return(<div style={{ padding: 10,minHeight:"100px", borderBottom:"1px solid #dadada", marginBottom:"5px" }}>
+          return(<div style={{ padding: 10,minHeight:"80px", borderBottom:"1px solid #dadada", marginBottom:"5px" }}>
             <Row
               style={{ flexDirection: "row", justifyContent: "space-between" }}
             >

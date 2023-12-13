@@ -80,7 +80,6 @@ function AddState() {
       abbreviation: values.abbreviation,
       stateNo: values.stateNo
     };
-
        
     const formObject = new FormData();
 
