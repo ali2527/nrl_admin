@@ -145,7 +145,7 @@ const ClientHeader = ({ visible, setVisible, visible2, setVisible2 }) => {
         <Alert
           message={`${notificationsCount} New`}
           type="success"
-          style={{ fontSize: "12px", padding: "2px 10px", color: "green" }}
+          style={{ fontSize: "12px", padding: "2px 10px", color: "black" }}
         />
       </div>
       <hr
@@ -162,7 +162,7 @@ const ClientHeader = ({ visible, setVisible, visible2, setVisible2 }) => {
             <Row
               style={{ flexDirection: "row", justifyContent: "space-between" }}
             >
-              <Col xs={4}>
+              <Col xs={3}>
                 <div
                   style={{
                     // padding: "10px 10px 10px 10px",
@@ -172,14 +172,14 @@ const ClientHeader = ({ visible, setVisible, visible2, setVisible2 }) => {
                     justifyContent:'center',
                     alignItems:"center",
                     height:'40px',
-                    backgroundColor: "#385790",
+                    backgroundColor: "#000",
                     borderRadius: "5px",
                   }}
                 >
                  <GoBellFill style={{ fontSize: "20px",color:"white", }} />
                 </div>
               </Col>
-              <Col xs={18}>
+              <Col xs={19}>
               <Typography.Title
                     className="fontFamily1"
                     style={{ fontSize: "14px", color: "black",margin:0 }}
@@ -304,8 +304,8 @@ const ClientHeader = ({ visible, setVisible, visible2, setVisible2 }) => {
         <Col xs={24} md={0}>
           <Header
             style={{
-              height: "10vh",
-              backgroundColor: "white",
+              height: "15vh",
+              backgroundColor: "black",
               display: "flex",
               alignItems: "center",
               padding: "15px 35px",
@@ -326,7 +326,7 @@ const ClientHeader = ({ visible, setVisible, visible2, setVisible2 }) => {
                 }}
               >
                 <FaEllipsisV
-                  style={{ fontSize: 22, color: "#000000" }}
+                  style={{ fontSize: 22, color: "white" }}
                   onClick={() => setVisible2(!visible2)}
                 />
               </Col>
@@ -347,7 +347,7 @@ const ClientHeader = ({ visible, setVisible, visible2, setVisible2 }) => {
                 }}
               >
                 <FaBars
-                  style={{ fontSize: 22, color: "#000000" }}
+                  style={{ fontSize: 22, color: "white" }}
                   onClick={() => setVisible(!visible)}
                 />
               </Col>
@@ -355,6 +355,83 @@ const ClientHeader = ({ visible, setVisible, visible2, setVisible2 }) => {
           </Header>
         </Col>
       </Row>
+
+      {visible2 && (
+            <div
+              style={{
+                width: "100%",
+                position: "absolute",
+                top: "15vh",
+                left: 0,
+                zIndex:5
+              }}
+            >
+              <Row style={{ alignItems: "flex-end" }}>
+                <Col xs={24} md={0}>
+                  <div
+                    style={{
+                      backgroundColor: "grey",
+                      padding: "18px",
+                      display: "flex",
+                      zIndex:5,
+                      justifyContent: "flex-end",
+                      transition: "all 0.5s ease-in-out",
+                    }}
+                  >
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        alignItems: "center",
+                        justifyContent:'space-between',
+                        width:'100%'
+                      }}
+                    >
+                         <Popover
+                content={content}
+                placement="bottomRight"
+                arrow={false}
+                className="headerPopover"
+              >
+                <Badge count={notificationsCount} style={{ backgroundColor: "red" }}>
+                  <FiBell style={{ fontSize: "25px",color:'silver' }} />
+                </Badge>
+              </Popover>
+              &emsp; &emsp;
+              <div style={{display:'flex',justifyContent:'center',alignItems:'center'}}>
+              <Avatar
+                size={40}
+                src={
+                  !user.image ? avatar : UPLOADS_URL + "/" + user.image
+                }
+              />
+              <Dropdown
+                menu={{
+                  items,
+                }}
+                trigger={["hover"]}
+                placement="bottomRight"
+              >
+                <p
+                  style={{
+                    marginLeft: 10,
+                    fontSize: "16px",
+                    textTransform: "capitalize",
+                    fontWeight:"bold",
+                    color:'white',
+                    cursor:'pointer'
+                  }}
+                >
+                  {user?.firstName + " " +user?.lastName} <AiFillCaretDown fontSize={12} />{" "}
+                </p>
+              </Dropdown>
+              </div>
+                    </div>
+                  </div>
+                </Col>
+              </Row>
+            </div>
+          )}
 
       <Modal
         visible={logoutModal}

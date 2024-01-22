@@ -6,10 +6,10 @@ export const UPLOADS_URL2 = "https://api.nationalreparationsleague.com/";
 export const SOCKET_URL = "https://api.nationalreparationsleague.com";
 
 
-// export const BASE_URL = "http://localhost:3003/api";
-// export const UPLOADS_URL = "http://localhost:3003/Uploads";
-// export const UPLOADS_URL2 = "http://localhost:3003/";
-// export const SOCKET_URL = "http://localhost:3003";
+// export const BASE_URL = "http://localhost:7001/api";
+// export const UPLOADS_URL = "http://localhost:7001/Uploads";
+// export const UPLOADS_URL2 = "http://localhost:7001/";
+// export const SOCKET_URL = "http://localhost:7001";
 
 
 

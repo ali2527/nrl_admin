@@ -13,7 +13,6 @@ import { FaBars, FaEllipsisV, FaUser, FaSignOutAlt } from "react-icons/fa";
 import { FiBell } from "react-icons/fi";
 import { SITE_NAME } from "../../config/constants";
 // import "../../styles/Home.module.css";
-import ClientHeader from "./ClientHeader";
 const { Header, Content, Sider } = Layout;
 
 const sideNavItems = [
@@ -307,7 +306,7 @@ const ClientLayout = ({ children, head }) => {
   return (
     <Layout style={{ backgroundColor: "white", scrollBehavior: "smooth" }}>
      
-     <Layout style={{ height: "100vh" }}>
+     <Layout>
        
      {children}
       </Layout>

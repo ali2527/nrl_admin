@@ -321,7 +321,7 @@ const ClientLayout = ({ children, head, }) => {
   };
 
   return (
-    <Layout style={{ backgroundColor: "white", scrollBehavior: "smooth",height:"100vh" }}>
+    <Layout style={{ backgroundColor: "white", scrollBehavior: "smooth",height: "100vh" }}>
      
       <ClientHeader
         visible={visible}
@@ -330,7 +330,7 @@ const ClientLayout = ({ children, head, }) => {
         setVisible2={setVisible2} 
       />
 
-      <Layout style={{ height: "90vh" }}>
+      <Layout style={{}}>
         <Row
           style={{
             background: "#000",
@@ -379,22 +379,24 @@ const ClientLayout = ({ children, head, }) => {
             outline: "none",
           }}
         >
-          {visible2 && (
+          {/* {visible2 && (
             <div
               style={{
                 width: "100%",
                 position: "absolute",
                 top: 0,
                 left: 0,
+                zIndex:5
               }}
             >
               <Row style={{ alignItems: "flex-end" }}>
                 <Col xs={24} md={0}>
                   <div
                     style={{
-                      backgroundColor: "#000000",
+                      backgroundColor: "grey",
                       padding: "18px",
                       display: "flex",
+                      zIndex:5,
                       justifyContent: "flex-end",
                       transition: "all 0.5s ease-in-out",
                     }}
@@ -442,7 +444,7 @@ const ClientLayout = ({ children, head, }) => {
                 </Col>
               </Row>
             </div>
-          )}
+          )} */}
 
           {children}
 
